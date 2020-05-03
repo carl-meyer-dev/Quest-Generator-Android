@@ -1,8 +1,10 @@
-package com.example.questgenerator;
+package com.example.questgenerator.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.questgenerator.R;
 
 public class MainActivity extends AppCompatActivity {
 
