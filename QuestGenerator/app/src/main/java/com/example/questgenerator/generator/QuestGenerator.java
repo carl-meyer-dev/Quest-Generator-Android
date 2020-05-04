@@ -19,9 +19,11 @@ import com.example.questgenerator.models.Location;
 import com.example.questgenerator.models.NPC;
 import com.example.questgenerator.models.Quest;
 import com.example.questgenerator.models.StoryFragment;
-import com.example.questgenerator.utils.Constants;
+import com.example.questgenerator.utils.Actions;
+import com.example.questgenerator.utils.Motives;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -82,23 +84,28 @@ public class QuestGenerator {
         StoryFragment storyFragment = new StoryFragment();
         Random random = new Random();
 
-        if(motive.equals(Constants.KNOWLEDGE)){
-            storyFragment = activity.knowledgeStoryFragments.get(
-                    random.nextInt(activity.knowledgeStoryFragments.size())
-            );
-        }else if(motive.equals(Constants.COMFORT)){
-            storyFragment = activity.comfortStoryFragments.get(
-                    random.nextInt(activity.comfortStoryFragments.size())
-            );
-        }else if (motive.equals(Constants.JUSTICE)){
-            storyFragment = activity.justiceStoryFragments.get(
-                    random.nextInt(activity.justiceStoryFragments.size())
-            );
-        }else {
-            // Not implemented
+        switch (motive) {
+            case Motives.KNOWLEDGE:
+                storyFragment = activity.knowledgeStoryFragments.get(
+                        random.nextInt(activity.knowledgeStoryFragments.size())
+                );
+                break;
+            case Motives.COMFORT:
+                storyFragment = activity.comfortStoryFragments.get(
+                        random.nextInt(activity.comfortStoryFragments.size())
+                );
+                break;
+            case Motives.JUSTICE:
+                storyFragment = activity.justiceStoryFragments.get(
+                        random.nextInt(activity.justiceStoryFragments.size())
+                );
+                break;
+            default:
+                // Not implemented
+                break;
         }
 
-        List<Action> rootActions = assignActions(new ArrayList<>(storyFragment.actions));
+        List<Action> rootActions = assignActions(storyFragment.actions);
 
         Subquest root = new Subquest(rootActions);
 
@@ -109,10 +116,12 @@ public class QuestGenerator {
     }
 
     // Turns a string action plan into into a list of Actions with appropriate data
-    public List<Action> assignActions(List<String> actions){
+    public List<Action> assignActions(String[] actions){
         // reverse the list so the plan can be made regressively
-        List<String> reversedActions = new ArrayList<>(actions);
+        List<String> reversedActions = Arrays.asList(actions);
         Collections.reverse(reversedActions);
+
+        // Todo: This might have to be reworked to include previous NPC, ENEMY, ITEM to maintain coherence or context
 
         NPC npcToReportTo = null;
         Enemy enemyToAttack = null;
@@ -123,47 +132,47 @@ public class QuestGenerator {
 
         for (String action : reversedActions) {
             switch (action) {
-                case Constants.GET:
+                case Actions.GET:
                     if (itemToUse != null) {
-                        rootActions.add(new Get(itemToUse));
+                        rootActions.add(new Get(itemToUse, activity));
                         itemToUse = null;
                     } else {
-                        rootActions.add(new Get(getItem()));
+                        rootActions.add(new Get(getItem(), activity));
                     }
                     break;
-                case Constants.GOTO:
+                case Actions.GOTO:
                     if (npcToReportTo != null) {
                         // An npc was selected to report to, go to them
-                        rootActions.add(new Goto(npcToReportTo));
+                        rootActions.add(new Goto(npcToReportTo, activity));
                         npcToReportTo = null;
                     } else if (enemyToAttack != null) {
                         // An enemy was selected to attack, get his location
-                        rootActions.add(new Goto(enemyToAttack));
+                        rootActions.add(new Goto(enemyToAttack, activity));
                         enemyToAttack = null;
                     } else {
                         // Default to a random location
-                        rootActions.add(new Goto(getLocation()));
+                        rootActions.add(new Goto(getLocation(), activity));
                     }
                     break;
-                case Constants.USE:
+                case Actions.USE:
                     itemToUse = getItem();
-                    rootActions.add(new Use(itemToUse));
+                    rootActions.add(new Use(itemToUse, activity));
                     break;
-                case Constants.STEAL:
-                    rootActions.add(new Steal(getItem(), getEnemy()));
+                case Actions.STEAL:
+                    rootActions.add(new Steal(getItem(), getEnemy(), activity));
                     break;
-                case Constants.LEARN:
-                    rootActions.add(new Learn(getNPC()));
+                case Actions.LEARN:
+                    rootActions.add(new Learn(getNPC(), activity));
                     break;
-                case Constants.REPORT:
+                case Actions.REPORT:
                     npcToReportTo = getNPC();
                     rootActions.add(new Report(npcToReportTo));
                     break;
-                case Constants.KILL:
+                case Actions.KILL:
                     enemyToAttack = getEnemy();
                     rootActions.add(new Kill(enemyToAttack));
                     break;
-                case Constants.LISTEN:
+                case Actions.LISTEN:
                     rootActions.add(new Listen(getNPC()));
                     break;
             }
@@ -172,19 +181,18 @@ public class QuestGenerator {
         // reverse root actions list that was built backwards
         Collections.reverse(rootActions);
 
-        return rootActions;
+        return rootActions; // might have to change type back to String[] just be mindful
 
     }
 
     // Get random enemy
-    private Enemy getEnemy() {
+    public Enemy getEnemy() {
         int index = random.nextInt(enemies.size() -1);
-        Enemy randomEnemy = enemies.get(index);
-        return randomEnemy;
+        return enemies.get(index);
     }
 
     // Get enemy with specific item
-    private Enemy getEnemy(Item item){
+    public Enemy getEnemy(Item item){
         Enemy enemy = null;
 
         // Search All Enemies for one that has this item
@@ -206,24 +214,27 @@ public class QuestGenerator {
     }
 
     // Get random location
-    private Location getLocation() {
+    public Location getLocation() {
         int index = random.nextInt(locations.size() -1);
-        Location randomLocation = locations.get(index);
-        return randomLocation;
+        return locations.get(index);
     }
 
+    // Todo: getLocation(Item item)
+    // get location of item
+    // maybe add location field to item
+    // an items location is where it is in the game world
+    // if an enemy has the item. the item location is the location of the enemy that has the item
+
     // Get random item
-    private Item getItem() {
+    public Item getItem() {
         int index = random.nextInt(items.size() - 1);
-        Item randomItem = items.get(index);
-        return randomItem;
+        return items.get(index);
     }
 
     // Get random NPC
-    private NPC getNPC(){
+    public NPC getNPC(){
         int index = random.nextInt(npcs.size() -1);
-        NPC randomNPC = npcs.get(index);
-        return randomNPC;
+        return npcs.get(index);
     }
 
 

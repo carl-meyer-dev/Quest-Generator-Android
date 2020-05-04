@@ -1,43 +1,122 @@
 package com.example.questgenerator.actions;
 
+import com.example.questgenerator.R;
+import com.example.questgenerator.activities.MainActivity;
+import com.example.questgenerator.generator.QuestGenerator;
 import com.example.questgenerator.models.Action;
 import com.example.questgenerator.models.Enemy;
 import com.example.questgenerator.models.Location;
 import com.example.questgenerator.models.NPC;
+import com.example.questgenerator.utils.Actions;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Learn extends Action {
 
-    public Learn(NPC npc){
+    private MainActivity activity;
+    private Random random = new Random();
+    private QuestGenerator questGenerator;
+
+    /**
+     * Learn about a npc
+     * @param npc - NPC to learn about
+     * @param activity - reference to main activity
+     */
+    public Learn(NPC npc, MainActivity activity){
+        this.activity = activity;
         this.actionText = "Learn about " + npc.name;
         this.subActions = new ArrayList<>();
+        questGenerator =  QuestGenerator.getInstance(activity);
         initialize(npc);
 
     }
 
-    public Learn(Enemy enemy){
+    /**
+     * Learn about an enemy
+     * @param enemy - enemy to learn about
+     * @param activity - reference to main activity
+     */
+    public Learn(Enemy enemy, MainActivity activity){
+        this.activity = activity;
         this.actionText = "Learn about " + enemy.name;
         this.subActions = new ArrayList<>();
         initialize(enemy);
     }
 
-    public Learn(Location location){
+    /**
+     * Learn about a location
+     * @param location - location to learn about
+     * @param activity - reference to main activity
+     */
+    public Learn(Location location, MainActivity activity){
+        this.activity = activity;
         this.actionText = "Learn about " + location.name;
         this.subActions = new ArrayList<>();
         initialize(location);
     }
 
+    /**
+     * Get random questPattern and assign subActions
+     *
+     * @param npc
+     * the npc that you learn info from.
+     * Note this might need to be reworked since npc isn't actually used.
+     */
     public void initialize(NPC npc){
-        // Todo: Quest Generator
+
+        String[] randomlySelectedPattern = getRandomQuestPattern();
+
+        this.subActions = questGenerator.assignActions(randomlySelectedPattern);
+
     }
 
+    /**
+     * Get random questPattern and assign subActions
+     *
+     * @param enemy
+     * the enemy that you learn info from.
+     * Note this might need to be reworked since enemy isn't actually used.
+     */
     public void initialize(Enemy enemy){
-        // Todo: Quest Generator
+        String[] randomlySelectedPattern = getRandomQuestPattern();
+
+        this.subActions = questGenerator.assignActions(randomlySelectedPattern);
     }
 
+    /**
+     * Get random questPattern and assign subActions
+     *
+     * @param location
+     * the location that you learn info from.
+     * Note this might need to be reworked since location isn't actually used.
+     */
     public void initialize(Location location){
-        // Todo: Quest Generator
+        String[] randomlySelectedPattern = getRandomQuestPattern();
+
+        this.subActions = questGenerator.assignActions(randomlySelectedPattern);
+    }
+
+    /**
+     * Since the patterns are the same regardless of NPC, Enemy and Location use this method to
+     * get random questPattern
+     * @return randomlySelectedPattern
+     */
+    private String[] getRandomQuestPattern(){
+        // Todo: Might have to rework this as listen actions doesn't make sense after learning location
+
+        // Add all the different ways the quest can go
+        List<String[]> questPatterns = new ArrayList<>();
+        // After Learning npc get a quest to kill a random enemy loot the item the enemy has and use it
+        questPatterns.add(new String[]{Actions.KILL, Actions.LOOT, Actions.USE});
+        // After learning npc get a quest to get a random item and use it
+        questPatterns.add(new String[]{Actions.GET, Actions.USE});
+        // After learning npc listen to them
+        questPatterns.add(new String[]{Actions.LISTEN});
+
+        String[] randomlySelectedPattern = questPatterns.get(random.nextInt(questPatterns.size()));
+        return randomlySelectedPattern;
     }
 
 }

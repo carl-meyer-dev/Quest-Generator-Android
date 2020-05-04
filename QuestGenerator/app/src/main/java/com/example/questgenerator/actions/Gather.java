@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class Gather extends Action {
 
+    /**
+     * Gather the item
+     * @param item - item to gather
+     */
     public Gather(Item item){
         this.actionText = "Gather " + item.name;
         this.subActions = new ArrayList<>();

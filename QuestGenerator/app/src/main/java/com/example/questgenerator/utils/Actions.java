@@ -1,10 +1,6 @@
 package com.example.questgenerator.utils;
 
-public class Constants {
-    // Motivations
-    public static final String KNOWLEDGE = "knowledge";
-    public static final String COMFORT = "comfort";
-    public static final String JUSTICE = "justice";
+public class Actions {
     // Actions
     public static final String GET = "get";
     public static final String GOTO = "goto";
@@ -14,4 +10,6 @@ public class Constants {
     public static final String REPORT = "report";
     public static final String KILL = "kill";
     public static final String LISTEN = "listen";
+    public static final String GATHER = "gather";
+    public static final String LOOT = "loot";
 }
