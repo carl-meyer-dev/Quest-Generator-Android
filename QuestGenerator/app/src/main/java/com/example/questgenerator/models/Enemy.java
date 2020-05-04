@@ -6,6 +6,12 @@ public class Enemy {
 
     public String name;
     public Location location;
-    public List<Item> loot;
+    public Item[] loot;
+
+    public Enemy(String name, Location location, Item[] loot){
+        this.name = name;
+        this.location = location;
+        this.loot = loot;
+    }
 
 }

@@ -14,15 +14,15 @@ public class QuestReader {
     private int stepCount = 0;
     private String indent = "   ";
 
-    public void ReadQuest(Quest quest){
+    public void readQuest(Quest quest){
         questMotivationText = "Motivation: " + quest.motivation;
         questDescriptionText = "Description: " + quest.description;
 
-        ReadSubActions(quest.root, 0);
+        readSubActions(quest.root, 0);
 
     }
 
-    private void ReadSubActions(Action action, int depth) {
+    private void readSubActions(Action action, int depth) {
 
         questStepsText = "\n";
 
@@ -38,7 +38,7 @@ public class QuestReader {
             questSteps.add(action);
             questStepsText += action.actionText;
             for (Action a : action.subActions){
-                ReadSubActions(a, depth + 1);
+                readSubActions(a, depth + 1);
             }
             stepCount++;
         }
