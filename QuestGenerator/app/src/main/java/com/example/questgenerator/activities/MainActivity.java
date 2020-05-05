@@ -1,41 +1,31 @@
 package com.example.questgenerator.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.questgenerator.R;
 import com.example.questgenerator.generator.QuestGenerator;
 import com.example.questgenerator.generator.QuestReader;
 import com.example.questgenerator.models.Action;
-import com.example.questgenerator.models.Enemy;
-import com.example.questgenerator.models.Item;
-import com.example.questgenerator.models.Location;
-import com.example.questgenerator.models.NPC;
 import com.example.questgenerator.models.Quest;
-import com.example.questgenerator.models.StoryFragment;
+import com.example.questgenerator.utils.Data;
 import com.example.questgenerator.utils.Motives;
+import com.example.questgenerator.utils.StoryFragments;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    public List<Location> locations;
-    public List<NPC> npcs;
-    public List<Enemy> enemies;
-    public List<Item> items;
 
-    public List<StoryFragment> knowledgeStoryFragments;
-    public List<StoryFragment> comfortStoryFragments;
-    public List<StoryFragment> justiceStoryFragments;
-
-    String[] motivations = new String[]{ Motives.KNOWLEDGE, Motives.COMFORT, Motives.JUSTICE };
+    String[] motivations = new String[]{Motives.KNOWLEDGE, Motives.COMFORT, Motives.JUSTICE};
 
     int minimumComplexity = 8;
 
@@ -74,37 +64,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void generateQuest() {
 
-        questGenerator = QuestGenerator.getInstance(this);
+        questGenerator = QuestGenerator.getInstance();
 
         Quest quest = null;
 
         // get a random quest motivation
         String questMotivation = motivations[random.nextInt(motivations.length - 1)];
 
-        if(questMotivation.equals(Motives.KNOWLEDGE)){
-            // Generate Knowledge Quest
-            quest = questGenerator.getQuest(Motives.KNOWLEDGE, minimumComplexity);
-        }else if (questMotivation.equals(Motives.COMFORT)){
-            // Generate comfort quest
-            quest = questGenerator.getQuest(Motives.COMFORT, minimumComplexity);
-        }else if(questMotivation.equals(Motives.JUSTICE)){
-            // Generate Justice Quest
-            quest = questGenerator.getQuest(Motives.JUSTICE, minimumComplexity);
+        switch (questMotivation) {
+            case Motives.KNOWLEDGE:
+                // Generate Knowledge Quest
+                quest = questGenerator.getQuest(Motives.KNOWLEDGE, minimumComplexity);
+                break;
+            case Motives.COMFORT:
+                // Generate comfort quest
+                quest = questGenerator.getQuest(Motives.COMFORT, minimumComplexity);
+                break;
+            case Motives.JUSTICE:
+                // Generate Justice Quest
+                quest = questGenerator.getQuest(Motives.JUSTICE, minimumComplexity);
+                break;
         }
 
         questReader = new QuestReader();
         // Read the quest using the Quest Reader
-        questReader.readQuest(quest);
+        if (quest != null) {
+            questReader.readQuest(quest);
+            questDescriptionText = questReader.getQuestDescriptionText();
+            questMotivationText = questReader.getQuestMotivationText();
+            questStepsText = questReader.getQuestStepsText();
+            questSteps = questReader.getQuestSteps();
 
-        questDescriptionText = questReader.getQuestDescriptionText();
-        questMotivationText = questReader.getQuestMotivationText();
-        questStepsText = questReader.getQuestStepsText();
-        questSteps = questReader.getQuestSteps();
+            tvMotivation.setText("Motivation : " + questMotivationText);
+            tvDescription.setText("Description : " + questDescriptionText);
+            tvQuest.setText(questStepsText);
 
-        tvMotivation.setText("Motivation : " + questMotivationText);
-        tvMotivation.setText("Description : " + questDescriptionText);
-        tvMotivation.setText(questMotivationText);
+        }else{
+            tvQuest.setText("Error! Quest is null!");
+
+        }
+
+
     }
 }

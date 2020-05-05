@@ -12,9 +12,10 @@ public class Kill extends Action {
 
     /**
      * Kill an enemy
+     *
      * @param enemy - enemy to kill
      */
-    public Kill(Enemy enemy){
+    public Kill(Enemy enemy) {
         this.actionText = "Kill " + enemy.name;
         this.subActions = new ArrayList<>();
         initialize(enemy);
@@ -22,9 +23,10 @@ public class Kill extends Action {
 
     /**
      * Get random questPattern and assign subActions
+     *
      * @param enemy - enemy to kill
      */
-    public void initialize(Enemy enemy){
+    public void initialize(Enemy enemy) {
         // Add all the different ways the quest can go
         List<String[]> questPatterns = new ArrayList<>();
         // Listen to the enemy first before killing him
@@ -35,7 +37,7 @@ public class Kill extends Action {
         Random random = new Random();
 
         for (String action : questPatterns.get(random.nextInt(questPatterns.size()))) {
-            if(action.equals(Actions.LISTEN)){
+            if (action.equals(Actions.LISTEN)) {
                 subActions.add(new Listen(enemy));
             }
         }

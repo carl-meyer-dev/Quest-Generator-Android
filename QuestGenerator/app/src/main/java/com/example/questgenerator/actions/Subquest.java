@@ -7,17 +7,17 @@ import java.util.List;
 
 public class Subquest extends Action {
 
-    public Subquest(List<Action> subActions){
+    public Subquest(List<Action> subActions) {
         this.actionText = "Subquest complete";
         this.subActions = subActions;
     }
 
-    public Subquest(){
+    public Subquest() {
         this.actionText = "Subquest complete";
         this.subActions = new ArrayList<>();
     }
 
-    public void initialize(){
+    public void initialize() {
 
     }
 

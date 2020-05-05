@@ -1,6 +1,5 @@
 package com.example.questgenerator.actions;
 
-import com.example.questgenerator.activities.MainActivity;
 import com.example.questgenerator.models.Action;
 import com.example.questgenerator.models.Enemy;
 import com.example.questgenerator.models.Location;
@@ -13,15 +12,13 @@ import java.util.Random;
 
 public class Goto extends Action {
 
-    MainActivity activity;
 
     /**
      * Go to npc location
+     *
      * @param npc - npc you need to go to
-     * @param activity - reference to main activity
      */
-    public Goto(NPC npc, MainActivity activity){
-        this.activity = activity;
+    public Goto(NPC npc) {
         this.actionText = "Go to " + npc.location.name;
         this.subActions = new ArrayList<>();
         initialize(npc);
@@ -29,11 +26,10 @@ public class Goto extends Action {
 
     /**
      * Go to enemy location
+     *
      * @param enemy - enemy to go to
-     * @param activity - reference to main activity
      */
-    public Goto(Enemy enemy, MainActivity activity){
-        this.activity = activity;
+    public Goto(Enemy enemy) {
         this.actionText = "Go to " + enemy.location.name;
         this.subActions = new ArrayList<>();
         initialize(enemy);
@@ -41,11 +37,10 @@ public class Goto extends Action {
 
     /**
      * Go to location
+     *
      * @param location - location to go to
-     * @param activity - reference to main activity
      */
-    public Goto(Location location, MainActivity activity){
-        this.activity = activity;
+    public Goto(Location location) {
         this.actionText = "Goto " + location.name;
         this.subActions = new ArrayList<>();
         // No initialize for location since you simply need to goto the location
@@ -53,9 +48,10 @@ public class Goto extends Action {
 
     /**
      * Add any possible sub actions before going to npc
+     *
      * @param npc - npc to go to
      */
-    public void initialize(NPC npc){
+    public void initialize(NPC npc) {
         // Add all the different ways the quest can go with an NPC
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about npc first before Goto npc
@@ -65,9 +61,9 @@ public class Goto extends Action {
 
         Random random = new Random();
         // Choose a random questPattern and add subActions
-        for (String action : questPatterns.get(random.nextInt(questPatterns.size()))){
-            if(action.equals(Actions.LEARN)){
-                subActions.add(new Learn(npc, activity));
+        for (String action : questPatterns.get(random.nextInt(questPatterns.size()))) {
+            if (action.equals(Actions.LEARN)) {
+                subActions.add(new Learn(npc));
             }
         }
 
@@ -76,9 +72,10 @@ public class Goto extends Action {
 
     /**
      * Add any sub quests before going to enemy
+     *
      * @param enemy
      */
-    public void initialize(Enemy enemy){
+    public void initialize(Enemy enemy) {
         // Add all the different ways the quest can go with an Enemy
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about enemy first before Goto enemy
@@ -88,9 +85,9 @@ public class Goto extends Action {
 
         Random random = new Random();
         // Choose a random questPattern and add subActions
-        for (String action : questPatterns.get(random.nextInt(questPatterns.size()))){
-            if(action.equals(Actions.LEARN)){
-                subActions.add(new Learn(enemy, activity));
+        for (String action : questPatterns.get(random.nextInt(questPatterns.size()))) {
+            if (action.equals(Actions.LEARN)) {
+                subActions.add(new Learn(enemy));
             }
         }
     }

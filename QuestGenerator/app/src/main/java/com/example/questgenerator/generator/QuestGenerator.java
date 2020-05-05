@@ -11,7 +11,6 @@ import com.example.questgenerator.actions.Report;
 import com.example.questgenerator.actions.Steal;
 import com.example.questgenerator.actions.Subquest;
 import com.example.questgenerator.actions.Use;
-import com.example.questgenerator.activities.MainActivity;
 import com.example.questgenerator.models.Action;
 import com.example.questgenerator.models.Enemy;
 import com.example.questgenerator.models.Item;
@@ -20,7 +19,9 @@ import com.example.questgenerator.models.NPC;
 import com.example.questgenerator.models.Quest;
 import com.example.questgenerator.models.StoryFragment;
 import com.example.questgenerator.utils.Actions;
+import com.example.questgenerator.utils.Data;
 import com.example.questgenerator.utils.Motives;
+import com.example.questgenerator.utils.StoryFragments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,27 +31,36 @@ import java.util.Random;
 
 public class QuestGenerator {
 
-    // Reference to main activity
-    MainActivity activity;
+    private Random random = new Random();
+    private StoryFragments storyFragments = new StoryFragments();
 
     // Local copies of all data
-    List<Location> locations;
-    List<NPC> npcs;
-    List<Enemy> enemies;
-    List<Item> items;
-    Random random = new Random();
+    private List<Location> locations;
+    private List<NPC> npcs;
+    private List<Enemy> enemies;
+    private List<Item> items;
+    // load available story fragments
+    private List<StoryFragment> knowledgeStoryFragments = storyFragments.getKnowledgeStoryFragments();
+    private List<StoryFragment> comfortStoryFragments = storyFragments.getComfortFragments();
+    private List<StoryFragment> justiceStoryFragments = storyFragments.getJusticeStoryFragments();
+
 
     private static QuestGenerator instance;
 
-    public static QuestGenerator getInstance(MainActivity activity) {
+    public static QuestGenerator getInstance() {
         if (instance == null) {
-            instance = new QuestGenerator(activity);
+            instance = new QuestGenerator();
         }
         return instance;
     }
 
-    private QuestGenerator(MainActivity activity) {
-        this.activity = activity;
+    private QuestGenerator() {
+        // load the list of available npcs, enemies and locations
+        Data data = new Data();
+        locations = data.getLocations();
+        npcs = data.getNpcs();
+        enemies = data.getEnemies();
+        items = data.getItems();
     }
 
     public Quest getQuest(String motive, int minimumComplexity) {
@@ -74,30 +84,26 @@ public class QuestGenerator {
     }
 
     // Get the appropriate actions for the subquest based on motive
-    public Subquest getActions(String motive) {
-        // load the list of available npcs, enemies and locations
-        locations = activity.locations;
-        npcs = activity.npcs;
-        enemies = activity.enemies;
-        items = activity.items;
+    private Subquest getActions(String motive) {
+
 
         StoryFragment storyFragment = new StoryFragment();
         Random random = new Random();
 
         switch (motive) {
             case Motives.KNOWLEDGE:
-                storyFragment = activity.knowledgeStoryFragments.get(
-                        random.nextInt(activity.knowledgeStoryFragments.size())
+                storyFragment = knowledgeStoryFragments.get(
+                        random.nextInt(knowledgeStoryFragments.size())
                 );
                 break;
             case Motives.COMFORT:
-                storyFragment = activity.comfortStoryFragments.get(
-                        random.nextInt(activity.comfortStoryFragments.size())
+                storyFragment = comfortStoryFragments.get(
+                        random.nextInt(comfortStoryFragments.size())
                 );
                 break;
             case Motives.JUSTICE:
-                storyFragment = activity.justiceStoryFragments.get(
-                        random.nextInt(activity.justiceStoryFragments.size())
+                storyFragment = justiceStoryFragments.get(
+                        random.nextInt(justiceStoryFragments.size())
                 );
                 break;
             default:
@@ -116,7 +122,7 @@ public class QuestGenerator {
     }
 
     // Turns a string action plan into into a list of Actions with appropriate data
-    public List<Action> assignActions(String[] actions){
+    public List<Action> assignActions(String[] actions) {
         // reverse the list so the plan can be made regressively
         List<String> reversedActions = Arrays.asList(actions);
         Collections.reverse(reversedActions);
@@ -134,35 +140,35 @@ public class QuestGenerator {
             switch (action) {
                 case Actions.GET:
                     if (itemToUse != null) {
-                        rootActions.add(new Get(itemToUse, activity));
+                        rootActions.add(new Get(itemToUse));
                         itemToUse = null;
                     } else {
-                        rootActions.add(new Get(getItem(), activity));
+                        rootActions.add(new Get(getItem()));
                     }
                     break;
                 case Actions.GOTO:
                     if (npcToReportTo != null) {
                         // An npc was selected to report to, go to them
-                        rootActions.add(new Goto(npcToReportTo, activity));
+                        rootActions.add(new Goto(npcToReportTo));
                         npcToReportTo = null;
                     } else if (enemyToAttack != null) {
                         // An enemy was selected to attack, get his location
-                        rootActions.add(new Goto(enemyToAttack, activity));
+                        rootActions.add(new Goto(enemyToAttack));
                         enemyToAttack = null;
                     } else {
                         // Default to a random location
-                        rootActions.add(new Goto(getLocation(), activity));
+                        rootActions.add(new Goto(getLocation()));
                     }
                     break;
                 case Actions.USE:
                     itemToUse = getItem();
-                    rootActions.add(new Use(itemToUse, activity));
+                    rootActions.add(new Use(itemToUse));
                     break;
                 case Actions.STEAL:
-                    rootActions.add(new Steal(getItem(), getEnemy(), activity));
+                    rootActions.add(new Steal(getItem(), getEnemy()));
                     break;
                 case Actions.LEARN:
-                    rootActions.add(new Learn(getNPC(), activity));
+                    rootActions.add(new Learn(getNPC()));
                     break;
                 case Actions.REPORT:
                     npcToReportTo = getNPC();
@@ -187,18 +193,18 @@ public class QuestGenerator {
 
     // Get random enemy
     public Enemy getEnemy() {
-        int index = random.nextInt(enemies.size() -1);
+        int index = random.nextInt(enemies.size() - 1);
         return enemies.get(index);
     }
 
     // Get enemy with specific item
-    public Enemy getEnemy(Item item){
+    public Enemy getEnemy(Item item) {
         Enemy enemy = null;
 
         // Search All Enemies for one that has this item
         for (Enemy e : enemies) {
             for (Item i : items) {
-                if (i.name.equals(item.name)){
+                if (i.name.equals(item.name)) {
                     enemy = e;
                     break;
                 }
@@ -206,7 +212,7 @@ public class QuestGenerator {
         }
 
         // If no enemy has the item, get a random one.
-        if(enemy == null){
+        if (enemy == null) {
             enemy = getEnemy();
         }
 
@@ -215,7 +221,7 @@ public class QuestGenerator {
 
     // Get random location
     public Location getLocation() {
-        int index = random.nextInt(locations.size() -1);
+        int index = random.nextInt(locations.size() - 1);
         return locations.get(index);
     }
 
@@ -232,8 +238,8 @@ public class QuestGenerator {
     }
 
     // Get random NPC
-    public NPC getNPC(){
-        int index = random.nextInt(npcs.size() -1);
+    public NPC getNPC() {
+        int index = random.nextInt(npcs.size() - 1);
         return npcs.get(index);
     }
 

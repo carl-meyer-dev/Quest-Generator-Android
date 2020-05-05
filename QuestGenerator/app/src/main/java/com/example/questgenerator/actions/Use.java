@@ -1,6 +1,5 @@
 package com.example.questgenerator.actions;
 
-import com.example.questgenerator.activities.MainActivity;
 import com.example.questgenerator.generator.QuestGenerator;
 import com.example.questgenerator.models.Action;
 import com.example.questgenerator.models.Item;
@@ -10,17 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Use extends Action  {
+public class Use extends Action {
 
-    private MainActivity activity;
 
     /**
      * Use an item
+     *
      * @param item - item to use
-     * @param activity - reference to main activity
      */
-    public Use(Item item, MainActivity activity){
-        this.activity = activity;
+    public Use(Item item) {
         this.actionText = "Use " + item.name;
         this.subActions = new ArrayList<>();
         initialize(item);
@@ -28,10 +25,11 @@ public class Use extends Action  {
 
     /**
      * Add any sub quests before using item
+     *
      * @param item
      */
-    public void initialize(Item item){
-        QuestGenerator questGenerator = QuestGenerator.getInstance(activity);
+    public void initialize(Item item) {
+        QuestGenerator questGenerator = QuestGenerator.getInstance();
         // Add possible ways this quest can go
         List<String[]> questPatterns = new ArrayList<>();
         // Kill an the enemy that has the item and loot that item before using it
@@ -41,14 +39,18 @@ public class Use extends Action  {
 
         Random random = new Random();
 
-        for (String action : questPatterns.get(random.nextInt())){
+        for (String action : questPatterns.get(random.nextInt(questPatterns.size()))) {
             // TODO: This needs to be fixed, no goto in quest patterns
-            if(action.equals(Actions.GOTO)){
-                subActions.add(new Goto(questGenerator.getLocation(), activity));
-            }else if(action.equals(Actions.LOOT)){
-                subActions.add(new Loot(item));
-            }else if(action.equals(Actions.KILL)){
-                subActions.add(new Kill(questGenerator.getEnemy(item)));
+            switch (action) {
+                case Actions.GOTO:
+                    subActions.add(new Goto(questGenerator.getLocation()));
+                    break;
+                case Actions.LOOT:
+                    subActions.add(new Loot(item));
+                    break;
+                case Actions.KILL:
+                    subActions.add(new Kill(questGenerator.getEnemy(item)));
+                    break;
             }
         }
 
