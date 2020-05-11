@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             questReader.readQuest(quest);
             questDescriptionText = questReader.getQuestDescriptionText();
             questMotivationText = questReader.getQuestMotivationText();
-            questStepsText = questReader.getQuestStepsText();
+            questStepsText = questReader.getQuestStepsToString();
             questSteps = questReader.getQuestSteps();
 
             tvMotivation.setText("Motivation : " + questMotivationText);

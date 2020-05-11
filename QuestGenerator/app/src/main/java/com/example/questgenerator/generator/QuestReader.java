@@ -62,9 +62,9 @@ public class QuestReader {
         int count = 0;
         for (Action action : questSteps){
             if(count == 0){
-                steps.append("Main Quest: ").append(action.actionText).append("\n");
+                steps.append("Main Quest: ").append(action.actionText).append("\n").append("\n");
             }else{
-                steps.append(count).append(". ").append(action.actionText).append("\n");
+                steps.append(count).append(".   ").append(action.actionText).append("\n");
             }
             count++;
         }
