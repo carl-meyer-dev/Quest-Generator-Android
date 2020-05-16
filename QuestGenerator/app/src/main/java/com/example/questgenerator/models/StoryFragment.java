@@ -1,10 +1,12 @@
 package com.example.questgenerator.models;
 
-public class StoryFragment {
+import io.realm.RealmObject;
 
-    public String motive;
-    public String description;
-    public String[] actions;
+public class StoryFragment extends RealmObject {
+
+    private String motive;
+    private String description;
+    private String[] actions;
 
     public StoryFragment(String motive, String description, String[] actions){
         this.motive = motive;
@@ -16,4 +18,27 @@ public class StoryFragment {
 
     }
 
+    public String getMotive() {
+        return motive;
+    }
+
+    public void setMotive(String motive) {
+        this.motive = motive;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String[] getActions() {
+        return actions;
+    }
+
+    public void setActions(String[] actions) {
+        this.actions = actions;
+    }
 }

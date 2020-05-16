@@ -1,6 +1,7 @@
 package com.example.questgenerator.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.example.questgenerator.utils.StoryFragments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,10 +48,19 @@ public class MainActivity extends AppCompatActivity {
     TextView tvQuest;
     Button btnGenerateQuest;
 
+    Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize Realm DB
+        InitializeDB(this);
+        // Get the default instance of the realm DB. (We don't wont to create a new instance each time)
+        realm = Realm.getDefaultInstance();
+
+
         random = new Random();
 
         tvMotivation = findViewById(R.id.tvMotivation);
@@ -106,7 +119,21 @@ public class MainActivity extends AppCompatActivity {
             tvQuest.setText("Error! Quest is null!");
 
         }
+    }
 
+    /**
+     * Initializes Realm DB with default configurations
+     * @param context - application context
+     */
+    private void InitializeDB(Context context){
+        Realm.init(context);
+        RealmConfiguration config = new RealmConfiguration.Builder().name("questgenerator.realm").build();
+        Realm.setDefaultConfiguration(config);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close(); // Make sure we close our Realm instance so we don't have memory leaks
     }
 }

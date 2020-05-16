@@ -20,7 +20,7 @@ public class Steal extends Action {
      * @param enemy - enemy to steal the item from
      */
     public Steal(Item item, Enemy enemy) {
-        this.actionText = "Steal " + item.name + " from " + enemy.name;
+        this.actionText = "Steal " + item.getName() + " from " + enemy.getName();
         this.subActions = new ArrayList<>();
         initialize(item, enemy);
     }
@@ -44,7 +44,7 @@ public class Steal extends Action {
 
         for (String action : questPatterns.get(random.nextInt(questPatterns.size()))) {
             if (action.equals(Actions.GOTO)) {
-                subActions.add(new Goto(enemy.location));
+                subActions.add(new Goto(enemy.getLocation()));
             }
         }
 

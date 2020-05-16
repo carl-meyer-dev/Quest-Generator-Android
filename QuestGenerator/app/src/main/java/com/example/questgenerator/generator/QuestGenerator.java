@@ -204,7 +204,7 @@ public class QuestGenerator {
         // Search All Enemies for one that has this item
         for (Enemy e : enemies) {
             for (Item i : items) {
-                if (i.name.equals(item.name)) {
+                if (i.getName().equals(item.getName())) {
                     enemy = e;
                     break;
                 }

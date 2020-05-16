@@ -13,7 +13,7 @@ public class Gather extends Action {
      * @param item - item to gather
      */
     public Gather(Item item) {
-        this.actionText = "Gather " + item.name;
+        this.actionText = "Gather " + item.getName();
         this.subActions = new ArrayList<>();
         initialize();
     }
