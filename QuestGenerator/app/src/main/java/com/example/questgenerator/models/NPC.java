@@ -7,11 +7,15 @@ import io.realm.annotations.Required;
 public class NPC extends RealmObject {
 
     @PrimaryKey
-    @Required
+    private int id;
     // Name of the NPC. Primary Key may not be null
     private String name;
     // Location the NPC is in. One to one relationship in realm db
     private Location location;
+
+    public NPC(){
+
+    }
 
     public NPC(String name, Location location){
         this.name = name;

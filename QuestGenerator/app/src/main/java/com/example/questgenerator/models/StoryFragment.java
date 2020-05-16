@@ -1,9 +1,11 @@
 package com.example.questgenerator.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class StoryFragment extends RealmObject {
+public class StoryFragment {
 
+    private int id;
     private String motive;
     private String description;
     private String[] actions;

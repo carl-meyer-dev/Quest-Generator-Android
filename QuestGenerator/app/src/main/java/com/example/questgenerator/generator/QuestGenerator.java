@@ -111,11 +111,11 @@ public class QuestGenerator {
                 break;
         }
 
-        List<Action> rootActions = assignActions(storyFragment.actions);
+        List<Action> rootActions = assignActions(storyFragment.getActions());
 
         Subquest root = new Subquest(rootActions);
 
-        root.actionText = storyFragment.description;
+        root.actionText = storyFragment.getDescription();
 
         return root;
 

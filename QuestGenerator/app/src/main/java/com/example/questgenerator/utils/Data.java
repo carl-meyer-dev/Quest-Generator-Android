@@ -10,28 +10,45 @@ import java.util.List;
 
 public class Data {
 
-    List<Enemy> enemies = new ArrayList<>();
-    List<NPC> npcs = new ArrayList<>();
-    List<Item> items = new ArrayList<>();
-    List<Item> weapons = new ArrayList<>();
-    List<Item> armors = new ArrayList<>();
-    List<Item> potions = new ArrayList<>();
-    List<Item> scrolls = new ArrayList<>();
-    List<Item> wands = new ArrayList<>();
-    List<Item> rings = new ArrayList<>();
-    List<Item> seeds = new ArrayList<>();
-    List<Item> food = new ArrayList<>();
-    List<Item> keys = new ArrayList<>();
-    List<Item> bags = new ArrayList<>();
-    List<Item> otherItems = new ArrayList<>();
-    List<Location> locations = new ArrayList<>();
+    /*
+    The Data class represents all the Locations, Enemies, NPCs and Items that is present
+    in Pixel Dungeon. I wanted to use this data set for my Quest Generator Demo to get an accurate
+    representation of the types of quests that can be generated for Pixel Dungeon.
+     */
+
+    /*
+    I made this Data class in my initial version of my Quest Generator Demo App and hardcoded the data
+    since I did not initially think I would need to use a DB. But since I have decided to expand the
+    demo app further and include a DB to perform CRUD operations, I will use this data class in order
+    to load initial data into the application when the DB is created for the first time or reset.
+
+    I could have alternatively used a JSON file and import the data into the DB using GSON but since
+    I had this Data Class that I have made already, I decided to use this Data Class instead in order
+    to save time.
+     */
+
+    private List<Enemy> enemies = new ArrayList<>();
+    private List<NPC> npcs = new ArrayList<>();
+    private List<Item> items = new ArrayList<>();
+    private List<Item> weapons = new ArrayList<>();
+    private List<Item> armors = new ArrayList<>();
+    private List<Item> potions = new ArrayList<>();
+    private List<Item> scrolls = new ArrayList<>();
+    private List<Item> wands = new ArrayList<>();
+    private List<Item> rings = new ArrayList<>();
+    private List<Item> seeds = new ArrayList<>();
+    private List<Item> food = new ArrayList<>();
+    private List<Item> keys = new ArrayList<>();
+    private List<Item> bags = new ArrayList<>();
+    private List<Item> otherItems = new ArrayList<>();
+    private List<Location> locations = new ArrayList<>();
 
     /* Locations */
-    Location sewers = new Location("Sewers");
-    Location caves = new Location("Caves");
-    Location dwarvenCity = new Location("Dwarven City");
-    Location demonHalls = new Location("Demon Halls");
-    Location town = new Location("Town");
+    private Location sewers = new Location("Sewers");
+    private Location caves = new Location("Caves");
+    private Location dwarvenCity = new Location("Dwarven City");
+    private Location demonHalls = new Location("Demon Halls");
+    private Location town = new Location("Town");
 
     public List<Location> getLocations() {
         locations.add(sewers);
@@ -45,24 +62,24 @@ public class Data {
     /* Items */
 
     // Weapons
-    Item shortSword = new Item("Short Sword");
-    Item dagger = new Item("Dagger");
-    Item knuckleBuster = new Item("KnuckleBuster");
-    Item quarterstaff = new Item("Quarterstaff");
-    Item spear = new Item("Spear");
-    Item mace = new Item("Mace");
-    Item sword = new Item("Sword");
-    Item longsword = new Item("Longsword");
-    Item battleAxe = new Item("Battle Axe");
-    Item warHammer = new Item("War Hammer");
-    Item glaive = new Item("Glaive");
-    Item pickAxe = new Item("Pickaxe");
-    Item dart = new Item("Dart");
-    Item shuriken = new Item("Shuriken");
-    Item javelin = new Item("Javelin");
-    Item tomohawk = new Item("Tomohawk");
-    Item boomerang = new Item("Boomerang");
-    Item bomb = new Item("Bomb");
+    private Item shortSword = new Item("Short Sword");
+    private Item dagger = new Item("Dagger");
+    private Item knuckleBuster = new Item("KnuckleBuster");
+    private Item quarterstaff = new Item("Quarterstaff");
+    private Item spear = new Item("Spear");
+    private Item mace = new Item("Mace");
+    private Item sword = new Item("Sword");
+    private Item longsword = new Item("Longsword");
+    private Item battleAxe = new Item("Battle Axe");
+    private Item warHammer = new Item("War Hammer");
+    private Item glaive = new Item("Glaive");
+    private Item pickAxe = new Item("Pickaxe");
+    private Item dart = new Item("Dart");
+    private Item shuriken = new Item("Shuriken");
+    private Item javelin = new Item("Javelin");
+    private Item tomohawk = new Item("Tomohawk");
+    private Item boomerang = new Item("Boomerang");
+    private Item bomb = new Item("Bomb");
 
     public List<Item> getWeapons() {
         weapons.add(shortSword);
@@ -87,11 +104,11 @@ public class Data {
     }
 
     // Armors
-    Item clothArmor = new Item("Cloth Armor");
-    Item leatherArmor = new Item("Leather Armor");
-    Item mailArmor = new Item("Mail Armor");
-    Item scaleArmor = new Item("Scale Armor");
-    Item plateArmor = new Item("Plate Armor");
+    private Item clothArmor = new Item("Cloth Armor");
+    private Item leatherArmor = new Item("Leather Armor");
+    private Item mailArmor = new Item("Mail Armor");
+    private Item scaleArmor = new Item("Scale Armor");
+    private Item plateArmor = new Item("Plate Armor");
 
     public List<Item> getArmors() {
         armors.add(clothArmor);
@@ -103,18 +120,18 @@ public class Data {
     }
 
     // Potions
-    Item potionOfHealing = new Item("Potion of Healing");
-    Item potionOfExperience = new Item("Potion of Experience");
-    Item potionOfToxicGas = new Item("Potion of Toxic Gas");
-    Item potionOfParalyticGas = new Item("Potion of Paralytic Gas");
-    Item potionOfLiquidFlame = new Item("Potion of Liquid Flame");
-    Item potionOfLevitation = new Item("Potion of Levitation");
-    Item potionOfStrength = new Item("Potion of Strength");
-    Item potionOfMindVision = new Item("Potion of Mind Vision");
-    Item potionOfPurification = new Item("Potion of Purification");
-    Item potionOfInvisibility = new Item("Potion of Invisibility");
-    Item potionOfMight = new Item("Potion of Might");
-    Item potionOfFrost = new Item("Potion of Frost");
+    private Item potionOfHealing = new Item("Potion of Healing");
+    private Item potionOfExperience = new Item("Potion of Experience");
+    private Item potionOfToxicGas = new Item("Potion of Toxic Gas");
+    private Item potionOfParalyticGas = new Item("Potion of Paralytic Gas");
+    private Item potionOfLiquidFlame = new Item("Potion of Liquid Flame");
+    private Item potionOfLevitation = new Item("Potion of Levitation");
+    private Item potionOfStrength = new Item("Potion of Strength");
+    private Item potionOfMindVision = new Item("Potion of Mind Vision");
+    private Item potionOfPurification = new Item("Potion of Purification");
+    private Item potionOfInvisibility = new Item("Potion of Invisibility");
+    private Item potionOfMight = new Item("Potion of Might");
+    private Item potionOfFrost = new Item("Potion of Frost");
 
     public List<Item> getPotions() {
         potions.add(potionOfHealing);
@@ -133,18 +150,18 @@ public class Data {
     }
 
     // Scrolls
-    Item scrollOfIdentity = new Item("Scroll of Identity");
-    Item scrollOfTeleportation = new Item("Scroll of Teleportation");
-    Item scrollOfRemoveCurse = new Item("Scroll of Remove Curse");
-    Item scrollOfRecharging = new Item("Scroll of Recharging");
-    Item scrollOfMagicMapping = new Item("Scroll of Magic Mapping");
-    Item scrollOfChallenge = new Item("Scroll of Challenge");
-    Item scrollOfTerror = new Item("Scroll of Terror");
-    Item scrollOfLullaby = new Item("Scroll of Lullaby");
-    Item scrollOfPsyonicBlast = new Item("Scroll of Psyonic Blast");
-    Item scrollOfMirrorImage = new Item("Scroll of Mirror Image");
-    Item scrollOfUpgrade = new Item("Scroll of Upgrade");
-    Item scrollOfEnchantment = new Item("Scroll of Enchantment");
+    private Item scrollOfIdentity = new Item("Scroll of Identity");
+    private Item scrollOfTeleportation = new Item("Scroll of Teleportation");
+    private Item scrollOfRemoveCurse = new Item("Scroll of Remove Curse");
+    private Item scrollOfRecharging = new Item("Scroll of Recharging");
+    private Item scrollOfMagicMapping = new Item("Scroll of Magic Mapping");
+    private Item scrollOfChallenge = new Item("Scroll of Challenge");
+    private Item scrollOfTerror = new Item("Scroll of Terror");
+    private Item scrollOfLullaby = new Item("Scroll of Lullaby");
+    private Item scrollOfPsyonicBlast = new Item("Scroll of Psyonic Blast");
+    private Item scrollOfMirrorImage = new Item("Scroll of Mirror Image");
+    private Item scrollOfUpgrade = new Item("Scroll of Upgrade");
+    private Item scrollOfEnchantment = new Item("Scroll of Enchantment");
 
     public List<Item> getScrolls() {
         scrolls.add(scrollOfIdentity);
@@ -163,19 +180,19 @@ public class Data {
     }
 
     // Wands
-    Item wandOfAvalanche = new Item("Wand of Avalanche");
-    Item wandOfDisintegration = new Item("Wand of Disintegration");
-    Item wandOfMagicMissile = new Item("Wand of Magic Missile");
-    Item wandOfFirebolt = new Item("Wand of Firebolt");
-    Item wandOfLightning = new Item("Wand of Lightning");
-    Item wandOfPoison = new Item("Wand of Poison");
-    Item wandOfAmok = new Item("Wand of Amok");
-    Item wandOfBlink = new Item("Wand of Blink");
-    Item wandOfFlock = new Item("Wand of Flock");
-    Item wandOfRegrowth = new Item("Wand of Regrowth");
-    Item wandOfSlowness = new Item("Wand of Slowness");
-    Item wandOfTeleportation = new Item("Wand of Teleportation");
-    Item wandOfReach = new Item("Wand of Reach");
+    private Item wandOfAvalanche = new Item("Wand of Avalanche");
+    private Item wandOfDisintegration = new Item("Wand of Disintegration");
+    private Item wandOfMagicMissile = new Item("Wand of Magic Missile");
+    private Item wandOfFirebolt = new Item("Wand of Firebolt");
+    private Item wandOfLightning = new Item("Wand of Lightning");
+    private Item wandOfPoison = new Item("Wand of Poison");
+    private Item wandOfAmok = new Item("Wand of Amok");
+    private Item wandOfBlink = new Item("Wand of Blink");
+    private Item wandOfFlock = new Item("Wand of Flock");
+    private Item wandOfRegrowth = new Item("Wand of Regrowth");
+    private Item wandOfSlowness = new Item("Wand of Slowness");
+    private Item wandOfTeleportation = new Item("Wand of Teleportation");
+    private Item wandOfReach = new Item("Wand of Reach");
 
     public List<Item> getWands() {
         wands.add(wandOfAvalanche);
@@ -195,21 +212,21 @@ public class Data {
     }
 
     // Rings
-    Item ringOfAccuracy = new Item("Ring of Accuracy");
-    Item ringOfDetection = new Item("Ring of Detection");
-    Item ringOfElements = new Item("Ring of Elements");
-    Item ringOfEvasion = new Item("Ring of Evasion");
-    Item ringOfHaggler = new Item("Ring of Haggler");
-    Item ringOfHaste = new Item("Ring of Haste");
-    Item ringOfHerbalism = new Item("Ring of Herbalism");
-    Item ringOfMending = new Item("Ring of Mending");
-    Item ringOfPower = new Item("Ring of Power");
-    Item ringOfSatiety = new Item("Ring of Satiety");
-    Item ringOfShadows = new Item("Ring of Shadows");
-    Item ringOfThorns = new Item("Ring of Thorns");
-    Item ringOfCleansing = new Item("Ring of Cleansing");
-    Item ringOfEnergy = new Item("Ring of Energy");
-    Item ringOfResistance = new Item("Ring of Resistance");
+    private Item ringOfAccuracy = new Item("Ring of Accuracy");
+    private Item ringOfDetection = new Item("Ring of Detection");
+    private Item ringOfElements = new Item("Ring of Elements");
+    private Item ringOfEvasion = new Item("Ring of Evasion");
+    private Item ringOfHaggler = new Item("Ring of Haggler");
+    private Item ringOfHaste = new Item("Ring of Haste");
+    private Item ringOfHerbalism = new Item("Ring of Herbalism");
+    private Item ringOfMending = new Item("Ring of Mending");
+    private Item ringOfPower = new Item("Ring of Power");
+    private Item ringOfSatiety = new Item("Ring of Satiety");
+    private Item ringOfShadows = new Item("Ring of Shadows");
+    private Item ringOfThorns = new Item("Ring of Thorns");
+    private Item ringOfCleansing = new Item("Ring of Cleansing");
+    private Item ringOfEnergy = new Item("Ring of Energy");
+    private Item ringOfResistance = new Item("Ring of Resistance");
 
     public List<Item> getRings() {
         rings.add(ringOfAccuracy);
@@ -231,14 +248,14 @@ public class Data {
     }
 
     // Seeds
-    Item seedOfFirebloom = new Item("Seed of Firebloom");
-    Item seedOfIcecap = new Item("Seed of Icecap");
-    Item seedOfSorrowmoss = new Item("Seed of Sorrowmoss");
-    Item seedOfDreamweed = new Item("Seed of Dreamweed");
-    Item seedOfSungrass = new Item("Seed of Sungrass");
-    Item seedOfEarthroot = new Item("Seed of Earthroot");
-    Item seedOfFadeleaf = new Item("Seed of Fadeleaf");
-    Item seedOfRotberry = new Item("Seed of Rotberry");
+    private Item seedOfFirebloom = new Item("Seed of Firebloom");
+    private Item seedOfIcecap = new Item("Seed of Icecap");
+    private Item seedOfSorrowmoss = new Item("Seed of Sorrowmoss");
+    private Item seedOfDreamweed = new Item("Seed of Dreamweed");
+    private Item seedOfSungrass = new Item("Seed of Sungrass");
+    private Item seedOfEarthroot = new Item("Seed of Earthroot");
+    private Item seedOfFadeleaf = new Item("Seed of Fadeleaf");
+    private Item seedOfRotberry = new Item("Seed of Rotberry");
 
     public List<Item> getSeeds() {
         seeds.add(seedOfFirebloom);
@@ -253,12 +270,12 @@ public class Data {
     }
 
     // Food
-    Item rationOfFood = new Item("Ration of Food");
-    Item pasty = new Item("Pasty");
-    Item overpricedFoodRation = new Item("Overpriced Food");
-    Item mysteryMeat = new Item("Mystery Meat");
-    Item chargrilledMeat = new Item("Char grilled Meat");
-    Item frozenCarpaccio = new Item("Frozen Carpaccio");
+    private Item rationOfFood = new Item("Ration of Food");
+    private Item pasty = new Item("Pasty");
+    private Item overpricedFoodRation = new Item("Overpriced Food");
+    private Item mysteryMeat = new Item("Mystery Meat");
+    private Item chargrilledMeat = new Item("Char grilled Meat");
+    private Item frozenCarpaccio = new Item("Frozen Carpaccio");
 
     public List<Item> getFood() {
         food.add(rationOfFood);
@@ -271,9 +288,9 @@ public class Data {
     }
 
     // Keys
-    Item ironKey = new Item("Iron key");
-    Item goldenKey = new Item("Golden key");
-    Item skeletonKey = new Item("Skeleton key");
+    private Item ironKey = new Item("Iron key");
+    private Item goldenKey = new Item("Golden key");
+    private Item skeletonKey = new Item("Skeleton key");
 
     public List<Item> getKeys() {
         keys.add(ironKey);
@@ -283,10 +300,10 @@ public class Data {
     }
 
     // Bags
-    Item seedPouch = new Item("Seed pouch");
-    Item scrollHolder = new Item("Scroll holder");
-    Item wandHolster = new Item("Wand holster");
-    Item keyRing = new Item("Key ring");
+    private Item seedPouch = new Item("Seed pouch");
+    private Item scrollHolder = new Item("Scroll holder");
+    private Item wandHolster = new Item("Wand holster");
+    private Item keyRing = new Item("Key ring");
 
     public List<Item> getBags() {
         bags.add(seedPouch);
@@ -297,25 +314,25 @@ public class Data {
     }
 
     // Other
-    Item dewdrop = new Item("Dewdrop");
-    Item driedRose = new Item("Dried rose");
-    Item giantRat = new Item("Giant rat");
-    Item skull = new Item("Skull");
-    Item corpseDust = new Item("Corpse dust");
-    Item phantomFish = new Item("Phantom fish");
-    Item darkGold = new Item("Dark gold");
-    Item ore = new Item("Ore");
-    Item dwarfToken = new Item("Dwarf token");
-    Item gold = new Item("Gold");
-    Item dewVial = new Item("Dew vial");
-    Item honeypot = new Item("Honeypot");
-    Item weightstone = new Item("Weightstone");
-    Item ankh = new Item("Ankh");
-    Item torch = new Item("Torch");
-    Item lloydsBeacon = new Item("Lloyd's Beacon");
-    Item tomeOfMastery = new Item("Tome of Mastery");
-    Item armorKit = new Item("Armor kit");
-    Item amuletOfYendor = new Item("Amulot of Yendor");
+    private Item dewdrop = new Item("Dewdrop");
+    private Item driedRose = new Item("Dried rose");
+    private Item giantRat = new Item("Giant rat");
+    private Item skull = new Item("Skull");
+    private Item corpseDust = new Item("Corpse dust");
+    private Item phantomFish = new Item("Phantom fish");
+    private Item darkGold = new Item("Dark gold");
+    private Item ore = new Item("Ore");
+    private Item dwarfToken = new Item("Dwarf token");
+    private Item gold = new Item("Gold");
+    private Item dewVial = new Item("Dew vial");
+    private Item honeypot = new Item("Honeypot");
+    private Item weightstone = new Item("Weightstone");
+    private Item ankh = new Item("Ankh");
+    private Item torch = new Item("Torch");
+    private Item lloydsBeacon = new Item("Lloyd's Beacon");
+    private Item tomeOfMastery = new Item("Tome of Mastery");
+    private Item armorKit = new Item("Armor kit");
+    private Item amuletOfYendor = new Item("Amulot of Yendor");
 
     public List<Item> getOtherItems() {
         otherItems.add(dewdrop);
@@ -341,16 +358,21 @@ public class Data {
     }
 
     /* NPCs */
-    NPC townGaurd = new NPC("Town Gaurd", town);
-    NPC shopkeeper = new NPC("Shopkeeper", town);
-    NPC townsfolk = new NPC("Townsfolk", town);
-    NPC plagueDoctor = new NPC("Plague Doctor", town);
-    NPC priest = new NPC("Priest", town);
-    NPC employee = new NPC("Employee", town);
-    NPC blackCat = new NPC("Black Cat", town);
-    NPC fortuneTeller = new NPC("Fortune Teller", town);
-    NPC librarian = new NPC("Librarian", town);
+    private NPC townGaurd = new NPC("Town Gaurd", town);
+    private NPC shopkeeper = new NPC("Shopkeeper", town);
+    private NPC townsfolk = new NPC("Townsfolk", town);
+    private NPC plagueDoctor = new NPC("Plague Doctor", town);
+    private NPC priest = new NPC("Priest", town);
+    private NPC employee = new NPC("Employee", town);
+    private NPC blackCat = new NPC("Black Cat", town);
+    private NPC fortuneTeller = new NPC("Fortune Teller", town);
+    private NPC librarian = new NPC("Librarian", town);
 
+    /**
+     * Get all the npcs in Data
+     *
+     * @return npcs
+     */
     public List<NPC> getNpcs() {
         npcs.add(townGaurd);
         npcs.add(shopkeeper);
@@ -365,39 +387,44 @@ public class Data {
     }
 
     /* Enemies */
-    Enemy rat = new Enemy("Rat", sewers);
-    Enemy gnollScout = new Enemy("Gnoll Scout", sewers);
-    Enemy crab = new Enemy("Crab", sewers);
-    Enemy skeleton = new Enemy("Skeleton", sewers);
-    Enemy crazyThief = new Enemy("Crazy Thief", sewers);
-    Enemy swarmOfFlies = new Enemy("Swarm of Flies", sewers);
-    Enemy gnollShaman = new Enemy("Gnoll Shaman", sewers);
-    Enemy vampireBat = new Enemy("Vampire Bat", caves);
-    Enemy gnollBrute = new Enemy("Gnoll Brute", caves);
-    Enemy caveSpider = new Enemy("Cave Spider", caves);
-    Enemy fireElemental = new Enemy("Fire Elemental", dwarvenCity);
-    Enemy dwarfWarlock = new Enemy("Dwarf Warlock", dwarvenCity);
-    Enemy dwarfMonk = new Enemy("Dwarf Monk", dwarvenCity);
-    Enemy golem = new Enemy("Golem", dwarvenCity);
-    Enemy succubus = new Enemy("Succubus", demonHalls);
-    Enemy evilEye = new Enemy("Evil Eye", demonHalls);
-    Enemy scorpion = new Enemy("Scorpion", demonHalls);
-    Enemy acidScorpion = new Enemy("Acid Scorpion", demonHalls);
-    Enemy wraith = new Enemy("Wraith", "special");
-    Enemy animatedStatue = new Enemy("Animated Statue", "special");
-    Enemy giantPiranha = new Enemy("Giant Piranha", "special");
-    Enemy fetidRat = new Enemy("Fetid Rat", "special");
-    Enemy curseWraith = new Enemy("Cursed Wraith", "special");
-    Enemy mimic = new Enemy("Mimic", "special");
-    Enemy undeadDwarf = new Enemy("Undead Dwarf", "special");
-    Enemy rottingFist = new Enemy("Rotting Fist", "special");
-    Enemy burningFist = new Enemy("Burning Fist", "special");
-    Enemy goo = new Enemy("Goo", "boss");
-    Enemy tengu = new Enemy("Tengu", "boss");
-    Enemy tank = new Enemy("DM-300", "boss");
-    Enemy kingOfDwarf = new Enemy("Kinf of Dwarf", "boss");
-    Enemy eyeMonster = new Enemy("Yog-Dzewa", "boss");
+    private Enemy rat = new Enemy("Rat", sewers);
+    private Enemy gnollScout = new Enemy("Gnoll Scout", sewers);
+    private Enemy crab = new Enemy("Crab", sewers);
+    private Enemy skeleton = new Enemy("Skeleton", sewers);
+    private Enemy crazyThief = new Enemy("Crazy Thief", sewers);
+    private Enemy swarmOfFlies = new Enemy("Swarm of Flies", sewers);
+    private Enemy gnollShaman = new Enemy("Gnoll Shaman", sewers);
+    private Enemy vampireBat = new Enemy("Vampire Bat", caves);
+    private Enemy gnollBrute = new Enemy("Gnoll Brute", caves);
+    private Enemy caveSpider = new Enemy("Cave Spider", caves);
+    private Enemy fireElemental = new Enemy("Fire Elemental", dwarvenCity);
+    private Enemy dwarfWarlock = new Enemy("Dwarf Warlock", dwarvenCity);
+    private Enemy dwarfMonk = new Enemy("Dwarf Monk", dwarvenCity);
+    private Enemy golem = new Enemy("Golem", dwarvenCity);
+    private Enemy succubus = new Enemy("Succubus", demonHalls);
+    private Enemy evilEye = new Enemy("Evil Eye", demonHalls);
+    private Enemy scorpion = new Enemy("Scorpion", demonHalls);
+    private Enemy acidScorpion = new Enemy("Acid Scorpion", demonHalls);
+    private Enemy wraith = new Enemy("Wraith", "special");
+    private Enemy animatedStatue = new Enemy("Animated Statue", "special");
+    private Enemy giantPiranha = new Enemy("Giant Piranha", "special");
+    private Enemy fetidRat = new Enemy("Fetid Rat", "special");
+    private Enemy curseWraith = new Enemy("Cursed Wraith", "special");
+    private Enemy mimic = new Enemy("Mimic", "special");
+    private Enemy undeadDwarf = new Enemy("Undead Dwarf", "special");
+    private Enemy rottingFist = new Enemy("Rotting Fist", "special");
+    private Enemy burningFist = new Enemy("Burning Fist", "special");
+    private Enemy goo = new Enemy("Goo", "boss");
+    private Enemy tengu = new Enemy("Tengu", "boss");
+    private Enemy tank = new Enemy("DM-300", "boss");
+    private Enemy kingOfDwarf = new Enemy("Kinf of Dwarf", "boss");
+    private Enemy eyeMonster = new Enemy("Yog-Dzewa", "boss");
 
+    /**
+     * Get all the enemies in Data
+     *
+     * @return enemies
+     */
     public List<Enemy> getEnemies() {
         enemies.add(rat);
         enemies.add(gnollScout);
@@ -417,7 +444,7 @@ public class Data {
         enemies.add(evilEye);
         enemies.add(scorpion);
         enemies.add(acidScorpion);
-        /* These enemies don't have locations */
+        /* These enemies don't have locations which will cause null exceptions. I'll keep them commented for now */
 //        enemies.add(wraith);
 //        enemies.add(animatedStatue);
 //        enemies.add(giantPiranha);
@@ -435,6 +462,11 @@ public class Data {
         return enemies;
     }
 
+    /**
+     * Get all the items in Data
+     *
+     * @return items
+     */
     public List<Item> getItems() {
         items.add(shortSword);
         items.add(dagger);

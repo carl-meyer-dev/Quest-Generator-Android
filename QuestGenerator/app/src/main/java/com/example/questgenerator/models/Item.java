@@ -10,9 +10,13 @@ public class Item extends RealmObject {
         in order to find it and use it. */
 
     @PrimaryKey
-    @Required
+    private int id;
     // Name of the Item.
     private String name;
+
+    public Item(){
+
+    }
 
     public Item(String name) {
         this.name = name;

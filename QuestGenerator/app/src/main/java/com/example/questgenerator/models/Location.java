@@ -13,13 +13,17 @@ import io.realm.annotations.Required;
 public class Location extends RealmObject {
 
     @PrimaryKey
-    @Required
+    private int id;
     // Name of the location. Primary key and may not be null
     private String name;
     // List of enemies present in location. One to many relationship in realm db
     private RealmList<Enemy> enemies;
     // List of NPCs in location. One to many relationship in realm db
     private RealmList<NPC> npcs;
+
+    public Location(){
+
+    }
 
     public Location(String name) {
         this.name = name;

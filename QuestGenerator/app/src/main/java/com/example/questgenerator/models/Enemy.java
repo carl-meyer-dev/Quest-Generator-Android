@@ -10,8 +10,8 @@ public class Enemy extends RealmObject {
     /* The @PrimaryKey Annotation indicates the Primary Key field for this object and automatically
        indexes the field so we can run faster queries on that field */
     @PrimaryKey
-    @Required
-    // Name of the Enemy. Name is the Primary key for this RealmObject and can not be null
+    private int id;
+    // Name of the Enemy.
     private String name;
     // Location of the Enemy. One to one relationship in realm db.
     private Location location;
@@ -23,6 +23,10 @@ public class Enemy extends RealmObject {
     private boolean special = false;
 
     //TODO: Might not need constructors anymore since we will use Realm
+
+    public Enemy(){
+
+    }
 
     public Enemy(String name, Location location, RealmList<Item> loot){
         this.name = name;
