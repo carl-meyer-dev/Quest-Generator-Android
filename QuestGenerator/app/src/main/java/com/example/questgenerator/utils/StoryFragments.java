@@ -131,4 +131,18 @@ public class StoryFragments {
         return justiceStoryFragments;
     }
 
+    public List<StoryFragment> getAllStoryFragments(){
+        List<StoryFragment> storyFragments = new ArrayList<>();
+        storyFragments.add(deliverItem);
+        storyFragments.add(interviewNPC);
+        storyFragments.add(useItem);
+        storyFragments.add(gatherItems);
+        storyFragments.add(getLuxuries);
+        storyFragments.add(killPests);
+        storyFragments.add(getRevenge);
+        storyFragments.add(recoverStolenItems);
+        storyFragments.add(stealBackStolenItems);
+        return storyFragments;
+    }
+
 }

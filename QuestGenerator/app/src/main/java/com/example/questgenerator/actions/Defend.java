@@ -17,7 +17,7 @@ public class Defend extends Action {
      * @param duration  - duration to defend
      */
     public Defend(NPC npc, String condition, int duration) {
-        this.actionText = "Defend " + npc.name;
+        this.actionText = "Defend " + npc.getName();
         this.subActions = new ArrayList<>();
         initialize();
     }
