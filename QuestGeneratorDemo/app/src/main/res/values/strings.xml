@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Quest Generator</string>
-    <string name="title_activity_navigation">Navigation</string>
+    <string name="app_name">QuestGeneratorDemo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,4 +12,10 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    <string name="menu_quest_generator">Quest Generator</string>
+    <string name="menu_locations">Locations</string>
+    <string name="menu_items">Items</string>
+    <string name="menu_npcs">NPCs</string>
+    <string name="menu_enemies">Enemies</string>
+    <string name="menu_non_player_characters">Non Player Characters</string>
 </resources>

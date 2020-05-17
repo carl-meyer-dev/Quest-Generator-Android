@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_generator">
+
+    <fragment
+        android:id="@+id/nav_generator"
+        android:name="com.carlmeyer.questgeneratordemo.ui.questgenerator.QuestGeneratorFragment"
+        android:label="@string/menu_quest_generator"
+        tools:layout="@layout/fragment_quest_generator">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_locations"
+        android:name="com.carlmeyer.questgeneratordemo.ui.locations.LocationsFragment"
+        android:label="@string/menu_locations"
+        tools:layout="@layout/fragment_locations" />
+
+    <fragment
+        android:id="@+id/nav_items"
+        android:name="com.carlmeyer.questgeneratordemo.ui.items.ItemsFragment"
+        android:label="@string/menu_items"
+        tools:layout="@layout/fragment_items" />
+    <fragment
+        android:id="@+id/nav_enemies"
+        android:name="com.carlmeyer.questgeneratordemo.ui.enemies.EnemiesFragment"
+        android:label="@string/menu_enemies"
+        tools:layout="@layout/fragment_enemies" />
+    <fragment
+        android:id="@+id/nav_npcs"
+        android:name="com.carlmeyer.questgeneratordemo.ui.npcs.NPCsFragment"
+        android:label="@string/menu_npcs"
+        tools:layout="@layout/fragment_npcs" />
+</navigation>

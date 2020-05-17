@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_generator"
+            android:icon="@drawable/script_text"
+            android:title="@string/menu_quest_generator" />
+        <item
+            android:id="@+id/nav_locations"
+            android:icon="@drawable/google_maps"
+            android:title="@string/menu_locations" />
+        <item
+            android:id="@+id/nav_items"
+            android:icon="@drawable/sword_cross"
+            android:title="@string/menu_items" />
+        <item
+            android:id="@+id/nav_enemies"
+            android:icon="@drawable/skull"
+            android:title="@string/menu_enemies" />
+        <item
+            android:id="@+id/nav_npcs"
+            android:icon="@drawable/human_greeting"
+            android:title="@string/menu_non_player_characters" />
+    </group>
+</menu>
