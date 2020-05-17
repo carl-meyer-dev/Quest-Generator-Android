@@ -18,4 +18,9 @@
     <string name="menu_npcs">NPCs</string>
     <string name="menu_enemies">Enemies</string>
     <string name="menu_non_player_characters">Non Player Characters</string>
+    <string name="quest_generator">Quest Generator</string>
+    <string name="non_player_characters">Non Player Characters</string>
+    <string name="locations">Locations</string>
+    <string name="items">Items</string>
+    <string name="enemies">Enemies</string>
 </resources>

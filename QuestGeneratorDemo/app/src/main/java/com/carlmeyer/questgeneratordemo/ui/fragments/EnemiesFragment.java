@@ -1,4 +1,4 @@
-package com.carlmeyer.questgeneratordemo.ui.enemies;
+package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,20 +16,13 @@ import com.carlmeyer.questgeneratordemo.R;
 
 public class EnemiesFragment extends Fragment {
 
-    private EnemiesViewModel enemiesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        enemiesViewModel =
-                ViewModelProviders.of(this).get(EnemiesViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_enemies, container, false);
         final TextView textView = root.findViewById(R.id.text_enemies);
-        enemiesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText(R.string.enemies);
         return root;
     }
 }

@@ -1,4 +1,4 @@
-package com.carlmeyer.questgeneratordemo.ui.npcs;
+package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,20 +16,13 @@ import com.carlmeyer.questgeneratordemo.R;
 
 public class NPCsFragment extends Fragment {
 
-    private NPCsViewModel NPCsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        NPCsViewModel =
-                ViewModelProviders.of(this).get(NPCsViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_npcs, container, false);
         final TextView textView = root.findViewById(R.id.text_npcs);
-        NPCsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText(R.string.non_player_characters);
         return root;
     }
 }

@@ -1,4 +1,4 @@
-package com.carlmeyer.questgeneratordemo.questgenerator.utils;
+package com.carlmeyer.questgeneratordemo.questgenerator.data;
 
 public class Motives {
     // Motivations

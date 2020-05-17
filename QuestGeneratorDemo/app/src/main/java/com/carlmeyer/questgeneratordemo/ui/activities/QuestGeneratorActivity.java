@@ -1,4 +1,4 @@
-package com.carlmeyer.questgeneratordemo.questgenerator.activities;
+package com.carlmeyer.questgeneratordemo.ui.activities;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestGenerator;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
-import com.carlmeyer.questgeneratordemo.questgenerator.utils.Motives;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 
 import java.util.ArrayList;
 import java.util.List;

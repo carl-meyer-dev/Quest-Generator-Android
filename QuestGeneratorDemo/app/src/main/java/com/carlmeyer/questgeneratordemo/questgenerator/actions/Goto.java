@@ -5,7 +5,7 @@ import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
-import com.carlmeyer.questgeneratordemo.questgenerator.utils.Actions;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 
 import java.util.ArrayList;
 import java.util.List;

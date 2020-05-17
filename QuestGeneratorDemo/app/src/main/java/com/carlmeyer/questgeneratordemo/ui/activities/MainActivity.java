@@ -1,9 +1,10 @@
-package com.carlmeyer.questgeneratordemo;
+package com.carlmeyer.questgeneratordemo.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.carlmeyer.questgeneratordemo.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
