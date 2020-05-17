@@ -30,6 +30,6 @@
     <fragment
         android:id="@+id/nav_npcs"
         android:name="com.carlmeyer.questgeneratordemo.ui.npcs.NPCsFragment"
-        android:label="@string/menu_npcs"
+        android:label="@string/menu_non_player_characters"
         tools:layout="@layout/fragment_npcs" />
 </navigation>
