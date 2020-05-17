@@ -2,6 +2,7 @@ package com.example.questgenerator.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,28 +31,10 @@ import java.util.Random;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    String[] motivations = new String[]{Motives.KNOWLEDGE, Motives.COMFORT, Motives.JUSTICE};
-
-    int minimumComplexity = 8;
-
-    QuestGenerator questGenerator;
-    QuestReader questReader;
-
-    String questDescriptionText = "";
-    String questMotivationText = "";
-    String questStepsText = "";
-    List<Action> questSteps = new ArrayList<>();
-
-    Random random;
-
-    TextView tvMotivation;
-    TextView tvDescription;
-    TextView tvQuest;
-    Button btnGenerateQuest;
 
     Realm realm;
 
@@ -70,64 +53,6 @@ public class MainActivity extends AppCompatActivity {
             loadData();
         }
 
-        random = new Random();
-
-        tvMotivation = findViewById(R.id.tvMotivation);
-        tvDescription = findViewById(R.id.tvDescription);
-        tvQuest = findViewById(R.id.tvQuest);
-        btnGenerateQuest = findViewById(R.id.btnGenerateQuest);
-
-        btnGenerateQuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generateQuest();
-            }
-        });
-
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void generateQuest() {
-
-        questGenerator = QuestGenerator.getInstance();
-
-        Quest quest = null;
-
-        // get a random quest motivation
-        String questMotivation = motivations[random.nextInt(motivations.length - 1)];
-
-        switch (questMotivation) {
-            case Motives.KNOWLEDGE:
-                // Generate Knowledge Quest
-                quest = questGenerator.getQuest(Motives.KNOWLEDGE, minimumComplexity);
-                break;
-            case Motives.COMFORT:
-                // Generate comfort quest
-                quest = questGenerator.getQuest(Motives.COMFORT, minimumComplexity);
-                break;
-            case Motives.JUSTICE:
-                // Generate Justice Quest
-                quest = questGenerator.getQuest(Motives.JUSTICE, minimumComplexity);
-                break;
-        }
-
-        questReader = new QuestReader();
-        // Read the quest using the Quest Reader
-        if (quest != null) {
-            questReader.readQuest(quest);
-            questDescriptionText = questReader.getQuestDescriptionText();
-            questMotivationText = questReader.getQuestMotivationText();
-            questStepsText = questReader.getQuestStepsToString();
-            questSteps = questReader.getQuestSteps();
-
-            tvMotivation.setText("Motivation : " + questMotivationText);
-            tvDescription.setText("Description : " + questDescriptionText);
-            tvQuest.setText(questStepsText);
-
-        }else{
-            tvQuest.setText("Error! Quest is null!");
-
-        }
     }
 
     /**
@@ -167,35 +92,47 @@ public class MainActivity extends AppCompatActivity {
             //  will be thrown since 2 primary keys with the same name may not exist.
 
             // Add all the Locations from Data to the DB
-            for (int i = 0; i < data.getLocations().size(); i++){
-                Location l = data.getLocations().get(i);
-                Location location = r.createObject(Location.class, i + 1);
+            int idCounter = 1;
+            for (Location l : data.getLocations()){
+                Location location = r.createObject(Location.class, idCounter);
                 location.setName(l.getName());
+                idCounter++;
                 Log.d("LoadData", "Added Location to DB: " + l.getName());
             }
 
             // Add all the Items from Data to the DB
-            for (int j = 0; j < data.getItems().size(); j++){
-                Item i = data.getItems().get(j);
-                Item item = r.createObject(Item.class);
+            idCounter = 1;
+            for (Item i : data.getItems()){
+                Item item = r.createObject(Item.class, idCounter);
                 item.setName(i.getName());
+                idCounter++;
                 Log.d("LoadData", "Added Item to DB: " + i.getName());
             }
             // Add all the Enemies from Data to the DB
-            for (int k = 0; k < data.getEnemies().size(); k++){
-                Enemy e = data.getEnemies().get(k);
-                Enemy enemy = r.createObject(Enemy.class);
-                enemy.setName(e.getName());
-                enemy.setLocation(e.getLocation());
+            idCounter = 1;
+            for (Enemy e : data.getEnemies()){
                 Log.d("LoadData", "Added Enemy to DB: " + e.getName());
+                Enemy enemy = r.createObject(Enemy.class, idCounter);
+                enemy.setName(e.getName());
+                Location location = realm.where(Location.class).equalTo("name", e.getLocation().getName()).findFirst();
+                enemy.setLocation(location);
+                if (location != null) {
+                    location.getEnemies().add(enemy);
+                }
+                idCounter++;
 
             }
             // Add all the NPCs from Data to the DB
-            for (int l = 0; l < data.getNpcs().size(); l++){
-                NPC n = data.getNpcs().get(l);
-                NPC npc = r.createObject(NPC.class);
+            idCounter = 1;
+            for (NPC n : data.getNpcs()){
+                NPC npc = r.createObject(NPC.class, idCounter);
                 npc.setName(n.getName());
-                npc.setLocation(n.getLocation());
+                Location location = realm.where(Location.class).equalTo("name", n.getLocation().getName()).findFirst();
+                npc.setLocation(location);
+                if (location != null) {
+                    location.getNpcs().add(npc);
+                }
+                idCounter++;
                 Log.d("LoadData", "Added NPC to DB: " + n.getName());
             }
 
@@ -217,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+    }
 
-
-
+    private void queryData(){
 
     }
 
@@ -232,4 +169,18 @@ public class MainActivity extends AppCompatActivity {
         realm.close(); // Make sure we close our Realm instance so we don't have memory leaks
     }
 
+    public void gotoItems(View view) {
+    }
+
+    public void gotoLocations(View view) {
+    }
+
+    public void gotoNPCs(View view) {
+    }
+
+    public void gotoEnemies(View view) {
+    }
+
+    public void gotoQuestGenerator(View view) {
+    }
 }

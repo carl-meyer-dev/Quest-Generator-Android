@@ -14,6 +14,7 @@ public class Enemy extends RealmObject {
     // Name of the Enemy.
     private String name;
     // Location of the Enemy. One to one relationship in realm db.
+
     private Location location;
     // A list of Items that the enemy has on them. This is a one to many relationship in Realm
     private RealmList<Item> loot; //Note we have to use RealmList in order to map relationship
