@@ -98,7 +98,7 @@ public class QuestGeneratorActivity extends AppCompatActivity {
             tvDescription.setText("Description : " + questDescriptionText);
             tvQuest.setText(questStepsText);
 
-        }else{
+        } else {
             tvQuest.setText("Error! Quest is null!");
 
         }

@@ -12,13 +12,21 @@ public class NPC extends RealmObject {
     // Location the NPC is in. One to one relationship in realm db
     private Location location;
 
-    public NPC(){
+    public NPC() {
 
     }
 
-    public NPC(String name, Location location){
+    public NPC(String name, Location location) {
         this.name = name;
         this.location = location;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

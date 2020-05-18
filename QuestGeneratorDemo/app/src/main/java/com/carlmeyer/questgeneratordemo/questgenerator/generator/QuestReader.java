@@ -16,7 +16,7 @@ public class QuestReader {
     private int stepCount = 0;
     private String indent = "   ";
 
-    public void readQuest(Quest quest){
+    public void readQuest(Quest quest) {
         questMotivationText = quest.motivation;
         questDescriptionText = quest.description;
 
@@ -32,14 +32,14 @@ public class QuestReader {
             questStepsText.append(indent);
         }
 
-        if(action.subActions.size() == 0){
+        if (action.subActions.size() == 0) {
             questSteps.add(action);
             questStepsText.append(action.actionText);
             stepCount++;
-        }else{
+        } else {
             questSteps.add(action);
             questStepsText.append(action.actionText);
-            for (Action a : action.subActions){
+            for (Action a : action.subActions) {
                 readSubActions(a, depth + 1);
             }
             stepCount++;
@@ -58,13 +58,13 @@ public class QuestReader {
         return questSteps;
     }
 
-    public String getQuestStepsToString(){
+    public String getQuestStepsToString() {
         StringBuilder steps = new StringBuilder();
         int count = 0;
-        for (Action action : questSteps){
-            if(count == 0){
+        for (Action action : questSteps) {
+            if (count == 0) {
                 steps.append("Main Quest: ").append(action.actionText).append("\n").append("\n");
-            }else{
+            } else {
                 steps.append(count).append(".   ").append(action.actionText).append("\n");
             }
             count++;

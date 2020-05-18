@@ -25,26 +25,26 @@ public class Enemy extends RealmObject {
 
     //TODO: Might not need constructors anymore since we will use Realm
 
-    public Enemy(){
+    public Enemy() {
 
     }
 
-    public Enemy(String name, Location location, RealmList<Item> loot){
+    public Enemy(String name, Location location, RealmList<Item> loot) {
         this.name = name;
         this.location = location;
         this.loot = loot;
     }
 
-    public Enemy(String name, Location location){
+    public Enemy(String name, Location location) {
         this.name = name;
         this.location = location;
     }
 
-    public Enemy(String name, String type){
+    public Enemy(String name, String type) {
         this.name = name;
-        if(type.equals("special")){
+        if (type.equals("special")) {
             this.special = true;
-        }else if(type.equals("boss")){
+        } else if (type.equals("boss")) {
             this.special = true;
         }
     }

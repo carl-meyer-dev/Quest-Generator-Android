@@ -7,13 +7,13 @@ public class StoryFragment {
     private String description;
     private String[] actions;
 
-    public StoryFragment(String motive, String description, String[] actions){
+    public StoryFragment(String motive, String description, String[] actions) {
         this.motive = motive;
         this.description = description;
         this.actions = actions;
     }
 
-    public StoryFragment(){
+    public StoryFragment() {
 
     }
 
