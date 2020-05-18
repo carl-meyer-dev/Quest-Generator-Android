@@ -9,11 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
@@ -22,7 +18,6 @@ import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

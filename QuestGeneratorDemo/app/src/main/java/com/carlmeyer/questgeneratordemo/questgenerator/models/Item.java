@@ -17,6 +17,14 @@ public class Item extends RealmObject {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Item(String name) {
         this.name = name;
     }
