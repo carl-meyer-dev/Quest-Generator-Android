@@ -13,7 +13,7 @@ public class Item extends RealmObject {
     // Name of the Item.
     private String name;
 
-    public Item(){
+    public Item() {
 
     }
 

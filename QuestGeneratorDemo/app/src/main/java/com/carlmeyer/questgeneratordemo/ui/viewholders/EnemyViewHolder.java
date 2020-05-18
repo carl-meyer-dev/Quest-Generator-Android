@@ -12,7 +12,7 @@ import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 public class EnemyViewHolder extends RecyclerView.ViewHolder {
 
     public TextView tvEnemy;
-    public Enemy EnemyData;
+    public Enemy enemyData;
 
     public EnemyViewHolder(@NonNull View itemView) {
         super(itemView);

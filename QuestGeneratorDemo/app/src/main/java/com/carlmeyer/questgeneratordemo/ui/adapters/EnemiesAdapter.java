@@ -30,6 +30,7 @@ public class EnemiesAdapter extends RealmRecyclerViewAdapter<Enemy, EnemyViewHol
     @Override
     public void onBindViewHolder(@NonNull EnemyViewHolder holder, int position) {
         final Enemy enemy = getItem(position);
+        holder.enemyData = enemy;
         //noinspection ConstantConditions
         final int EnemyID = enemy.getId();
         holder.tvEnemy.setText(enemy.getName());

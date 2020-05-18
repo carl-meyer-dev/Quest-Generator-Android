@@ -42,7 +42,7 @@ public class StoryFragments {
             }
     );
 
-    public List<StoryFragment> getKnowledgeStoryFragments(){
+    public List<StoryFragment> getKnowledgeStoryFragments() {
         List<StoryFragment> knowledgeStoryFragments = new ArrayList<>();
         knowledgeStoryFragments.add(deliverItem);
         knowledgeStoryFragments.add(interviewNPC);
@@ -83,7 +83,7 @@ public class StoryFragments {
             }
     );
 
-    public List<StoryFragment> getComfortFragments(){
+    public List<StoryFragment> getComfortFragments() {
         List<StoryFragment> comfortStoryFragments = new ArrayList<>();
         comfortStoryFragments.add(gatherItems);
         comfortStoryFragments.add(getLuxuries);
@@ -123,7 +123,7 @@ public class StoryFragments {
             }
     );
 
-    public List<StoryFragment> getJusticeStoryFragments(){
+    public List<StoryFragment> getJusticeStoryFragments() {
         List<StoryFragment> justiceStoryFragments = new ArrayList<>();
         justiceStoryFragments.add(getRevenge);
         justiceStoryFragments.add(recoverStolenItems);
@@ -131,7 +131,7 @@ public class StoryFragments {
         return justiceStoryFragments;
     }
 
-    public List<StoryFragment> getAllStoryFragments(){
+    public List<StoryFragment> getAllStoryFragments() {
         List<StoryFragment> storyFragments = new ArrayList<>();
         storyFragments.add(deliverItem);
         storyFragments.add(interviewNPC);
