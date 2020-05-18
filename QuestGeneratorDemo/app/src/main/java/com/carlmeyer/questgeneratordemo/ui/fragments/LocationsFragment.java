@@ -15,17 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
+import com.carlmeyer.questgeneratordemo.ui.adapters.LocationsAdapter;
 
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 
 public class LocationsFragment extends Fragment {
 
     private Realm realm;
     private RecyclerView rvLocations;
-    private RecyclerView.LayoutManager layoutManager;
-    private RecyclerView.Adapter adapter;
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,11 +32,36 @@ public class LocationsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_locations, container, false);
         rvLocations = root.findViewById(R.id.rvLocations);
 
+        realm = Realm.getDefaultInstance();
+        rvLocations = root.findViewById(R.id.rvLocations);
+        setUpRecyclerView();
+
         return root;
     }
 
-    private void setUpRecyclerView(){
-        layoutManager = new LinearLayoutManager(getContext());
+    /**
+     * Set up RecyclerView
+     */
+    private void setUpRecyclerView() {
+        // get a list of all the locations in the DB
+        OrderedRealmCollection<Location> locations = realm.where(Location.class).findAll();
+        // Create and set layoutManager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvLocations.setLayoutManager(layoutManager);
+        // Initialize and set locationsAdapter with list of locations
+        LocationsAdapter locationsAdapter = new LocationsAdapter(locations);
+        rvLocations.setAdapter(locationsAdapter);
+    }
+
+    /*
+     * It is good practice to null the reference from the view to the adapter when it is no longer needed.
+     * Because the <code>RealmRecyclerViewAdapter</code> registers itself as a <code>RealmResult.ChangeListener</code>
+     * the view may still be reachable if anybody is still holding a reference to the <code>RealmResult>.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        rvLocations.setAdapter(null);
+        realm.close();
     }
 }
