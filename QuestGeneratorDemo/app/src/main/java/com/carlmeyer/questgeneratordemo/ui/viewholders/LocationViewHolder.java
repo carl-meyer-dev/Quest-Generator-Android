@@ -16,7 +16,7 @@ public class LocationViewHolder extends RecyclerView.ViewHolder {
 
     public LocationViewHolder(@NonNull View itemView) {
         super(itemView);
-        tvLocation = itemView.findViewById(R.id.tvLocation);
+        tvLocation = itemView.findViewById(R.id.tvItem);
     }
 
 }

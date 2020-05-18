@@ -8,13 +8,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestGenerator;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 
 import java.util.ArrayList;
 import java.util.List;

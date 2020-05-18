@@ -1,10 +1,10 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestGenerator;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 
 import java.util.ArrayList;
 import java.util.List;

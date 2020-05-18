@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +22,7 @@ public class LocationsFragment extends Fragment {
 
     private Realm realm;
     private RecyclerView rvLocations;
+    private Button btnAddLocation;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +31,7 @@ public class LocationsFragment extends Fragment {
         rvLocations = root.findViewById(R.id.rvLocations);
 
         realm = Realm.getDefaultInstance();
+        btnAddLocation = root.findViewById(R.id.btnAddLocation);
         rvLocations = root.findViewById(R.id.rvLocations);
         setUpRecyclerView();
 
