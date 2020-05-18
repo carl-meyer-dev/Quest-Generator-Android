@@ -32,7 +32,7 @@ public class ItemsAdapter extends RealmRecyclerViewAdapter<Item, ItemViewHolder>
         final Item item = getItem(position);
         holder.itemData = item;
         //noinspection ConstantConditions
-        final int locationID = item.getId();
+        final int itemID = item.getId();
         holder.tvItem.setText(item.getName());
 
     }
