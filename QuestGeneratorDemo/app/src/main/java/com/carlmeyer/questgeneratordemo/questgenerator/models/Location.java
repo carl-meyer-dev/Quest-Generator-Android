@@ -17,7 +17,7 @@ public class Location extends RealmObject {
     // List of NPCs in location. One to many relationship in realm db
     private RealmList<NPC> npcs;
 
-    public Location(){
+    public Location() {
 
     }
 
@@ -36,6 +36,14 @@ public class Location extends RealmObject {
         if (enemies != null) {
             this.enemies = enemies;
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

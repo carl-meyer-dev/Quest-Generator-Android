@@ -23,4 +23,6 @@
     <string name="locations">Locations</string>
     <string name="items">Items</string>
     <string name="enemies">Enemies</string>
+    <string name="add_location">Add Location</string>
+    <string name="location">Location</string>
 </resources>
