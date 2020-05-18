@@ -27,4 +27,6 @@
     <string name="location">Location</string>
     <string name="item">Item</string>
     <string name="add_Item">Add Item</string>
+    <string name="enemy">Enemy</string>
+    <string name="add_enemy">Add Enemy</string>
 </resources>
