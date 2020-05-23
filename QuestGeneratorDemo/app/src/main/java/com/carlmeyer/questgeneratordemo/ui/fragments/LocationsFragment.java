@@ -83,11 +83,13 @@ public class LocationsFragment extends Fragment {
         // add listeners
         dialog.setListener(R.id.btnDialogAddLocation, btn -> {
             // get reference to the parent layout so we can find the EditText
-            ConstraintLayout root = (ConstraintLayout) btn.getParent(); 
+            ConstraintLayout root = (ConstraintLayout) btn.getParent();
             EditText txtDialogLocation = root.findViewById(R.id.txtAddLocation);
             // add location to database
             addLocation(txtDialogLocation.getText().toString());
             dialog.dismiss();
+            rvLocations.smoothScrollToPosition(locations.size() - 1);
+
         });
         // show the dialog
         dialog.show();
