@@ -10,12 +10,24 @@ public class Item extends RealmObject {
 
     @PrimaryKey
     private int id;
-    // Name of the Item.
+    // Name of the item.
     private String name;
+    // Category of item
+    private String category;
 
     public Item() {
 
     }
+
+    public Item(String name) {
+        this.name = name;
+    }
+
+    public Item(String name, String category) {
+        this.name = name;
+        this.category = category;
+    }
+
 
     public int getId() {
         return id;
@@ -25,9 +37,6 @@ public class Item extends RealmObject {
         this.id = id;
     }
 
-    public Item(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -35,5 +44,13 @@ public class Item extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

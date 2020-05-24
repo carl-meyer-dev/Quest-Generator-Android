@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             for (Item i : data.getItems()) {
                 Item item = r.createObject(Item.class, idCounter);
                 item.setName(i.getName());
+                item.setCategory(i.getCategory());
                 idCounter++;
                 Log.d("LoadData", "Added Item to DB: " + i.getName());
             }

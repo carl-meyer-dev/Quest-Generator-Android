@@ -61,302 +61,143 @@ public class Data {
     }
 
     /* Items */
-
+    
     // Weapons
-    private Item shortSword = new Item("Short Sword");
-    private Item dagger = new Item("Dagger");
-    private Item knuckleBuster = new Item("KnuckleBuster");
-    private Item quarterstaff = new Item("Quarterstaff");
-    private Item spear = new Item("Spear");
-    private Item mace = new Item("Mace");
-    private Item sword = new Item("Sword");
-    private Item longsword = new Item("Longsword");
-    private Item battleAxe = new Item("Battle Axe");
-    private Item warHammer = new Item("War Hammer");
-    private Item glaive = new Item("Glaive");
-    private Item pickAxe = new Item("Pickaxe");
-    private Item dart = new Item("Dart");
-    private Item shuriken = new Item("Shuriken");
-    private Item javelin = new Item("Javelin");
-    private Item tomohawk = new Item("Tomohawk");
-    private Item boomerang = new Item("Boomerang");
-    private Item bomb = new Item("Bomb");
-
-    public List<Item> getWeapons() {
-        weapons.add(shortSword);
-        weapons.add(dagger);
-        weapons.add(knuckleBuster);
-        weapons.add(quarterstaff);
-        weapons.add(spear);
-        weapons.add(mace);
-        weapons.add(sword);
-        weapons.add(longsword);
-        weapons.add(battleAxe);
-        weapons.add(warHammer);
-        weapons.add(glaive);
-        weapons.add(pickAxe);
-        weapons.add(dart);
-        weapons.add(shuriken);
-        weapons.add(javelin);
-        weapons.add(tomohawk);
-        weapons.add(boomerang);
-        weapons.add(bomb);
-        return weapons;
-    }
+    private Item shortSword = new Item("Short Sword", WeaponCategories.WEAPON);
+    private Item dagger = new Item("Dagger", WeaponCategories.WEAPON);
+    private Item knuckleBuster = new Item("KnuckleBuster", WeaponCategories.WEAPON);
+    private Item quarterstaff = new Item("Quarterstaff", WeaponCategories.WEAPON);
+    private Item spear = new Item("Spear", WeaponCategories.WEAPON);
+    private Item mace = new Item("Mace", WeaponCategories.WEAPON);
+    private Item sword = new Item("Sword", WeaponCategories.WEAPON);
+    private Item longsword = new Item("Longsword", WeaponCategories.WEAPON);
+    private Item battleAxe = new Item("Battle Axe", WeaponCategories.WEAPON);
+    private Item warHammer = new Item("War Hammer", WeaponCategories.WEAPON);
+    private Item glaive = new Item("Glaive", WeaponCategories.WEAPON);
+    private Item pickAxe = new Item("Pickaxe", WeaponCategories.WEAPON);
+    private Item dart = new Item("Dart", WeaponCategories.WEAPON);
+    private Item shuriken = new Item("Shuriken", WeaponCategories.WEAPON);
+    private Item javelin = new Item("Javelin", WeaponCategories.WEAPON);
+    private Item tomohawk = new Item("Tomohawk", WeaponCategories.WEAPON);
+    private Item boomerang = new Item("Boomerang", WeaponCategories.WEAPON);
+    private Item bomb = new Item("Bomb", WeaponCategories.WEAPON);
 
     // Armors
-    private Item clothArmor = new Item("Cloth Armor");
-    private Item leatherArmor = new Item("Leather Armor");
-    private Item mailArmor = new Item("Mail Armor");
-    private Item scaleArmor = new Item("Scale Armor");
-    private Item plateArmor = new Item("Plate Armor");
-
-    public List<Item> getArmors() {
-        armors.add(clothArmor);
-        armors.add(leatherArmor);
-        armors.add(mailArmor);
-        armors.add(scaleArmor);
-        armors.add(plateArmor);
-        return armors;
-    }
-
+    private Item clothArmor = new Item("Cloth Armor", WeaponCategories.ARMOR);
+    private Item leatherArmor = new Item("Leather Armor", WeaponCategories.ARMOR);
+    private Item mailArmor = new Item("Mail Armor", WeaponCategories.ARMOR);
+    private Item scaleArmor = new Item("Scale Armor", WeaponCategories.ARMOR);
+    private Item plateArmor = new Item("Plate Armor", WeaponCategories.ARMOR);
+    
     // Potions
-    private Item potionOfHealing = new Item("Potion of Healing");
-    private Item potionOfExperience = new Item("Potion of Experience");
-    private Item potionOfToxicGas = new Item("Potion of Toxic Gas");
-    private Item potionOfParalyticGas = new Item("Potion of Paralytic Gas");
-    private Item potionOfLiquidFlame = new Item("Potion of Liquid Flame");
-    private Item potionOfLevitation = new Item("Potion of Levitation");
-    private Item potionOfStrength = new Item("Potion of Strength");
-    private Item potionOfMindVision = new Item("Potion of Mind Vision");
-    private Item potionOfPurification = new Item("Potion of Purification");
-    private Item potionOfInvisibility = new Item("Potion of Invisibility");
-    private Item potionOfMight = new Item("Potion of Might");
-    private Item potionOfFrost = new Item("Potion of Frost");
-
-    public List<Item> getPotions() {
-        potions.add(potionOfHealing);
-        potions.add(potionOfExperience);
-        potions.add(potionOfToxicGas);
-        potions.add(potionOfParalyticGas);
-        potions.add(potionOfLiquidFlame);
-        potions.add(potionOfLevitation);
-        potions.add(potionOfStrength);
-        potions.add(potionOfMindVision);
-        potions.add(potionOfPurification);
-        potions.add(potionOfInvisibility);
-        potions.add(potionOfMight);
-        potions.add(potionOfFrost);
-        return potions;
-    }
+    private Item potionOfHealing = new Item("Potion of Healing", WeaponCategories.POTION);
+    private Item potionOfExperience = new Item("Potion of Experience", WeaponCategories.POTION);
+    private Item potionOfToxicGas = new Item("Potion of Toxic Gas", WeaponCategories.POTION);
+    private Item potionOfParalyticGas = new Item("Potion of Paralytic Gas", WeaponCategories.POTION);
+    private Item potionOfLiquidFlame = new Item("Potion of Liquid Flame", WeaponCategories.POTION);
+    private Item potionOfLevitation = new Item("Potion of Levitation", WeaponCategories.POTION);
+    private Item potionOfStrength = new Item("Potion of Strength", WeaponCategories.POTION);
+    private Item potionOfMindVision = new Item("Potion of Mind Vision", WeaponCategories.POTION);
+    private Item potionOfPurification = new Item("Potion of Purification", WeaponCategories.POTION);
+    private Item potionOfInvisibility = new Item("Potion of Invisibility", WeaponCategories.POTION);
+    private Item potionOfMight = new Item("Potion of Might", WeaponCategories.POTION);
+    private Item potionOfFrost = new Item("Potion of Frost", WeaponCategories.POTION);
 
     // Scrolls
-    private Item scrollOfIdentity = new Item("Scroll of Identity");
-    private Item scrollOfTeleportation = new Item("Scroll of Teleportation");
-    private Item scrollOfRemoveCurse = new Item("Scroll of Remove Curse");
-    private Item scrollOfRecharging = new Item("Scroll of Recharging");
-    private Item scrollOfMagicMapping = new Item("Scroll of Magic Mapping");
-    private Item scrollOfChallenge = new Item("Scroll of Challenge");
-    private Item scrollOfTerror = new Item("Scroll of Terror");
-    private Item scrollOfLullaby = new Item("Scroll of Lullaby");
-    private Item scrollOfPsyonicBlast = new Item("Scroll of Psyonic Blast");
-    private Item scrollOfMirrorImage = new Item("Scroll of Mirror Image");
-    private Item scrollOfUpgrade = new Item("Scroll of Upgrade");
-    private Item scrollOfEnchantment = new Item("Scroll of Enchantment");
-
-    public List<Item> getScrolls() {
-        scrolls.add(scrollOfIdentity);
-        scrolls.add(scrollOfTeleportation);
-        scrolls.add(scrollOfRemoveCurse);
-        scrolls.add(scrollOfRecharging);
-        scrolls.add(scrollOfMagicMapping);
-        scrolls.add(scrollOfChallenge);
-        scrolls.add(scrollOfTerror);
-        scrolls.add(scrollOfLullaby);
-        scrolls.add(scrollOfPsyonicBlast);
-        scrolls.add(scrollOfMirrorImage);
-        scrolls.add(scrollOfUpgrade);
-        scrolls.add(scrollOfEnchantment);
-        return scrolls;
-    }
+    private Item scrollOfIdentity = new Item("Scroll of Identity", WeaponCategories.SCROLL);
+    private Item scrollOfTeleportation = new Item("Scroll of Teleportation", WeaponCategories.SCROLL);
+    private Item scrollOfRemoveCurse = new Item("Scroll of Remove Curse", WeaponCategories.SCROLL);
+    private Item scrollOfRecharging = new Item("Scroll of Recharging", WeaponCategories.SCROLL);
+    private Item scrollOfMagicMapping = new Item("Scroll of Magic Mapping", WeaponCategories.SCROLL);
+    private Item scrollOfChallenge = new Item("Scroll of Challenge", WeaponCategories.SCROLL);
+    private Item scrollOfTerror = new Item("Scroll of Terror", WeaponCategories.SCROLL);
+    private Item scrollOfLullaby = new Item("Scroll of Lullaby", WeaponCategories.SCROLL);
+    private Item scrollOfPsyonicBlast = new Item("Scroll of Psyonic Blast", WeaponCategories.SCROLL);
+    private Item scrollOfMirrorImage = new Item("Scroll of Mirror Image", WeaponCategories.SCROLL);
+    private Item scrollOfUpgrade = new Item("Scroll of Upgrade", WeaponCategories.SCROLL);
+    private Item scrollOfEnchantment = new Item("Scroll of Enchantment", WeaponCategories.SCROLL);
 
     // Wands
-    private Item wandOfAvalanche = new Item("Wand of Avalanche");
-    private Item wandOfDisintegration = new Item("Wand of Disintegration");
-    private Item wandOfMagicMissile = new Item("Wand of Magic Missile");
-    private Item wandOfFirebolt = new Item("Wand of Firebolt");
-    private Item wandOfLightning = new Item("Wand of Lightning");
-    private Item wandOfPoison = new Item("Wand of Poison");
-    private Item wandOfAmok = new Item("Wand of Amok");
-    private Item wandOfBlink = new Item("Wand of Blink");
-    private Item wandOfFlock = new Item("Wand of Flock");
-    private Item wandOfRegrowth = new Item("Wand of Regrowth");
-    private Item wandOfSlowness = new Item("Wand of Slowness");
-    private Item wandOfTeleportation = new Item("Wand of Teleportation");
-    private Item wandOfReach = new Item("Wand of Reach");
-
-    public List<Item> getWands() {
-        wands.add(wandOfAvalanche);
-        wands.add(wandOfDisintegration);
-        wands.add(wandOfMagicMissile);
-        wands.add(wandOfFirebolt);
-        wands.add(wandOfLightning);
-        wands.add(wandOfPoison);
-        wands.add(wandOfAmok);
-        wands.add(wandOfBlink);
-        wands.add(wandOfFlock);
-        wands.add(wandOfRegrowth);
-        wands.add(wandOfSlowness);
-        wands.add(wandOfTeleportation);
-        wands.add(wandOfReach);
-        return wands;
-    }
+    private Item wandOfAvalanche = new Item("Wand of Avalanche", WeaponCategories.WAND);
+    private Item wandOfDisintegration = new Item("Wand of Disintegration", WeaponCategories.WAND);
+    private Item wandOfMagicMissile = new Item("Wand of Magic Missile, WeaponCategories.WAND");
+    private Item wandOfFirebolt = new Item("Wand of Firebolt", WeaponCategories.WAND);
+    private Item wandOfLightning = new Item("Wand of Lightning", WeaponCategories.WAND);
+    private Item wandOfPoison = new Item("Wand of Poison", WeaponCategories.WAND);
+    private Item wandOfAmok = new Item("Wand of Amok", WeaponCategories.WAND);
+    private Item wandOfBlink = new Item("Wand of Blink", WeaponCategories.WAND);
+    private Item wandOfFlock = new Item("Wand of Flock", WeaponCategories.WAND);
+    private Item wandOfRegrowth = new Item("Wand of Regrowth", WeaponCategories.WAND);
+    private Item wandOfSlowness = new Item("Wand of Slowness", WeaponCategories.WAND);
+    private Item wandOfTeleportation = new Item("Wand of Teleportation", WeaponCategories.WAND);
+    private Item wandOfReach = new Item("Wand of Reach", WeaponCategories.WAND);
 
     // Rings
-    private Item ringOfAccuracy = new Item("Ring of Accuracy");
-    private Item ringOfDetection = new Item("Ring of Detection");
-    private Item ringOfElements = new Item("Ring of Elements");
-    private Item ringOfEvasion = new Item("Ring of Evasion");
-    private Item ringOfHaggler = new Item("Ring of Haggler");
-    private Item ringOfHaste = new Item("Ring of Haste");
-    private Item ringOfHerbalism = new Item("Ring of Herbalism");
-    private Item ringOfMending = new Item("Ring of Mending");
-    private Item ringOfPower = new Item("Ring of Power");
-    private Item ringOfSatiety = new Item("Ring of Satiety");
-    private Item ringOfShadows = new Item("Ring of Shadows");
-    private Item ringOfThorns = new Item("Ring of Thorns");
-    private Item ringOfCleansing = new Item("Ring of Cleansing");
-    private Item ringOfEnergy = new Item("Ring of Energy");
-    private Item ringOfResistance = new Item("Ring of Resistance");
-
-    public List<Item> getRings() {
-        rings.add(ringOfAccuracy);
-        rings.add(ringOfDetection);
-        rings.add(ringOfElements);
-        rings.add(ringOfEvasion);
-        rings.add(ringOfHaggler);
-        rings.add(ringOfHaste);
-        rings.add(ringOfHerbalism);
-        rings.add(ringOfMending);
-        rings.add(ringOfPower);
-        rings.add(ringOfSatiety);
-        rings.add(ringOfShadows);
-        rings.add(ringOfThorns);
-        rings.add(ringOfCleansing);
-        rings.add(ringOfEnergy);
-        rings.add(ringOfResistance);
-        return rings;
-    }
+    private Item ringOfAccuracy = new Item("Ring of Accuracy", WeaponCategories.RING);
+    private Item ringOfDetection = new Item("Ring of Detection", WeaponCategories.RING);
+    private Item ringOfElements = new Item("Ring of Elements", WeaponCategories.RING);
+    private Item ringOfEvasion = new Item("Ring of Evasion", WeaponCategories.RING);
+    private Item ringOfHaggler = new Item("Ring of Haggler", WeaponCategories.RING);
+    private Item ringOfHaste = new Item("Ring of Haste", WeaponCategories.RING);
+    private Item ringOfHerbalism = new Item("Ring of Herbalism", WeaponCategories.RING);
+    private Item ringOfMending = new Item("Ring of Mending", WeaponCategories.RING);
+    private Item ringOfPower = new Item("Ring of Power", WeaponCategories.RING);
+    private Item ringOfSatiety = new Item("Ring of Satiety", WeaponCategories.RING);
+    private Item ringOfShadows = new Item("Ring of Shadows", WeaponCategories.RING);
+    private Item ringOfThorns = new Item("Ring of Thorns", WeaponCategories.RING);
+    private Item ringOfCleansing = new Item("Ring of Cleansing", WeaponCategories.RING);
+    private Item ringOfEnergy = new Item("Ring of Energy", WeaponCategories.RING);
+    private Item ringOfResistance = new Item("Ring of Resistance", WeaponCategories.RING);
 
     // Seeds
-    private Item seedOfFirebloom = new Item("Seed of Firebloom");
-    private Item seedOfIcecap = new Item("Seed of Icecap");
-    private Item seedOfSorrowmoss = new Item("Seed of Sorrowmoss");
-    private Item seedOfDreamweed = new Item("Seed of Dreamweed");
-    private Item seedOfSungrass = new Item("Seed of Sungrass");
-    private Item seedOfEarthroot = new Item("Seed of Earthroot");
-    private Item seedOfFadeleaf = new Item("Seed of Fadeleaf");
-    private Item seedOfRotberry = new Item("Seed of Rotberry");
-
-    public List<Item> getSeeds() {
-        seeds.add(seedOfFirebloom);
-        seeds.add(seedOfIcecap);
-        seeds.add(seedOfSorrowmoss);
-        seeds.add(seedOfDreamweed);
-        seeds.add(seedOfSungrass);
-        seeds.add(seedOfEarthroot);
-        seeds.add(seedOfFadeleaf);
-        seeds.add(seedOfRotberry);
-        return seeds;
-    }
+    private Item seedOfFirebloom = new Item("Seed of Firebloom", WeaponCategories.SEED);
+    private Item seedOfIcecap = new Item("Seed of Icecap", WeaponCategories.SEED);
+    private Item seedOfSorrowmoss = new Item("Seed of Sorrowmoss", WeaponCategories.SEED);
+    private Item seedOfDreamweed = new Item("Seed of Dreamweed", WeaponCategories.SEED);
+    private Item seedOfSungrass = new Item("Seed of Sungrass", WeaponCategories.SEED);
+    private Item seedOfEarthroot = new Item("Seed of Earthroot", WeaponCategories.SEED);
+    private Item seedOfFadeleaf = new Item("Seed of Fadeleaf", WeaponCategories.SEED);
+    private Item seedOfRotberry = new Item("Seed of Rotberry", WeaponCategories.SEED);
 
     // Food
-    private Item rationOfFood = new Item("Ration of Food");
-    private Item pasty = new Item("Pasty");
-    private Item overpricedFoodRation = new Item("Overpriced Food");
-    private Item mysteryMeat = new Item("Mystery Meat");
-    private Item chargrilledMeat = new Item("Char grilled Meat");
-    private Item frozenCarpaccio = new Item("Frozen Carpaccio");
-
-    public List<Item> getFood() {
-        food.add(rationOfFood);
-        food.add(pasty);
-        food.add(overpricedFoodRation);
-        food.add(mysteryMeat);
-        food.add(chargrilledMeat);
-        food.add(frozenCarpaccio);
-        return food;
-    }
+    private Item rationOfFood = new Item("Ration of Food", WeaponCategories.FOOD);
+    private Item pasty = new Item("Pasty", WeaponCategories.FOOD);
+    private Item overpricedFoodRation = new Item("Overpriced Food", WeaponCategories.FOOD);
+    private Item mysteryMeat = new Item("Mystery Meat", WeaponCategories.FOOD);
+    private Item chargrilledMeat = new Item("Char grilled Meat", WeaponCategories.FOOD);
+    private Item frozenCarpaccio = new Item("Frozen Carpaccio", WeaponCategories.FOOD);
 
     // Keys
-    private Item ironKey = new Item("Iron key");
-    private Item goldenKey = new Item("Golden key");
-    private Item skeletonKey = new Item("Skeleton key");
-
-    public List<Item> getKeys() {
-        keys.add(ironKey);
-        keys.add(goldenKey);
-        keys.add(skeletonKey);
-        return keys;
-    }
+    private Item ironKey = new Item("Iron key", WeaponCategories.KEY);
+    private Item goldenKey = new Item("Golden key", WeaponCategories.KEY);
+    private Item skeletonKey = new Item("Skeleton key", WeaponCategories.KEY);
 
     // Bags
-    private Item seedPouch = new Item("Seed pouch");
-    private Item scrollHolder = new Item("Scroll holder");
-    private Item wandHolster = new Item("Wand holster");
-    private Item keyRing = new Item("Key ring");
-
-    public List<Item> getBags() {
-        bags.add(seedPouch);
-        bags.add(scrollHolder);
-        bags.add(wandHolster);
-        bags.add(keyRing);
-        return bags;
-    }
+    private Item seedPouch = new Item("Seed pouch", WeaponCategories.BAG);
+    private Item scrollHolder = new Item("Scroll holder", WeaponCategories.BAG);
+    private Item wandHolster = new Item("Wand holster", WeaponCategories.BAG);
+    private Item keyRing = new Item("Key ring", WeaponCategories.BAG);
 
     // Other
-    private Item dewdrop = new Item("Dewdrop");
-    private Item driedRose = new Item("Dried rose");
-    private Item giantRat = new Item("Giant rat");
-    private Item skull = new Item("Skull");
-    private Item corpseDust = new Item("Corpse dust");
-    private Item phantomFish = new Item("Phantom fish");
-    private Item darkGold = new Item("Dark gold");
-    private Item ore = new Item("Ore");
-    private Item dwarfToken = new Item("Dwarf token");
-    private Item gold = new Item("Gold");
-    private Item dewVial = new Item("Dew vial");
-    private Item honeypot = new Item("Honeypot");
-    private Item weightstone = new Item("Weightstone");
-    private Item ankh = new Item("Ankh");
-    private Item torch = new Item("Torch");
-    private Item lloydsBeacon = new Item("Lloyd's Beacon");
-    private Item tomeOfMastery = new Item("Tome of Mastery");
-    private Item armorKit = new Item("Armor kit");
-    private Item amuletOfYendor = new Item("Amulot of Yendor");
-
-    public List<Item> getOtherItems() {
-        otherItems.add(dewdrop);
-        otherItems.add(driedRose);
-        otherItems.add(giantRat);
-        otherItems.add(skull);
-        otherItems.add(corpseDust);
-        otherItems.add(phantomFish);
-        otherItems.add(darkGold);
-        otherItems.add(ore);
-        otherItems.add(dwarfToken);
-        otherItems.add(gold);
-        otherItems.add(dewVial);
-        otherItems.add(honeypot);
-        otherItems.add(weightstone);
-        otherItems.add(ankh);
-        otherItems.add(torch);
-        otherItems.add(lloydsBeacon);
-        otherItems.add(tomeOfMastery);
-        otherItems.add(armorKit);
-        otherItems.add(amuletOfYendor);
-        return otherItems;
-    }
+    private Item dewdrop = new Item("Dewdrop", WeaponCategories.OTHER);
+    private Item driedRose = new Item("Dried rose", WeaponCategories.OTHER);
+    private Item giantRat = new Item("Giant rat", WeaponCategories.OTHER);
+    private Item skull = new Item("Skull", WeaponCategories.OTHER);
+    private Item corpseDust = new Item("Corpse dust", WeaponCategories.OTHER);
+    private Item phantomFish = new Item("Phantom fish", WeaponCategories.OTHER);
+    private Item darkGold = new Item("Dark gold", WeaponCategories.OTHER);
+    private Item ore = new Item("Ore", WeaponCategories.OTHER);
+    private Item dwarfToken = new Item("Dwarf token", WeaponCategories.OTHER);
+    private Item gold = new Item("Gold", WeaponCategories.OTHER);
+    private Item dewVial = new Item("Dew vial", WeaponCategories.OTHER);
+    private Item honeypot = new Item("Honeypot", WeaponCategories.OTHER);
+    private Item weightstone = new Item("Weightstone", WeaponCategories.OTHER);
+    private Item ankh = new Item("Ankh", WeaponCategories.OTHER);
+    private Item torch = new Item("Torch", WeaponCategories.OTHER);
+    private Item lloydsBeacon = new Item("Lloyd's Beacon", WeaponCategories.OTHER);
+    private Item tomeOfMastery = new Item("Tome of Mastery", WeaponCategories.OTHER);
+    private Item armorKit = new Item("Armor kit", WeaponCategories.OTHER);
+    private Item amuletOfYendor = new Item("Amulot of Yendor", WeaponCategories.OTHER);
 
     /* NPCs */
     private NPC townGaurd = new NPC("Town Gaurd", town);

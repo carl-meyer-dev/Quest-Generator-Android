@@ -17,6 +17,7 @@ import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.LocationsAdapter;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -36,6 +37,7 @@ public class LocationsFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         btnAddLocation = root.findViewById(R.id.btnAddLocation);
         rvLocations = root.findViewById(R.id.rvLocations);
+        getLocations();
         // set up UI onclick listeners etc...
         setUpUI();
         // set up recyclerview
@@ -47,8 +49,6 @@ public class LocationsFragment extends Fragment {
      * Set up RecyclerView
      */
     private void setUpRecyclerView() {
-        // get a list of all the locations in the DB
-        locations = realm.where(Location.class).findAll();
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvLocations.setLayoutManager(layoutManager);
@@ -60,46 +60,81 @@ public class LocationsFragment extends Fragment {
     /**
      * Set up UI onclick listeners etc
      */
-    private void setUpUI(){
+    private void setUpUI() {
         btnAddLocation.setOnClickListener(v -> showAddLocationDialog());
     }
 
     /**
      * Setup, Configure and Show the add location dialog
      */
-    private void showAddLocationDialog(){
+    private void showAddLocationDialog() {
         // set up the dialog
-        LovelyCustomDialog dialog =  new LovelyCustomDialog(getContext())
+        LovelyCustomDialog dialog = new LovelyCustomDialog(getContext())
                 .setView(R.layout.dialog_add_location)
                 .setTopColorRes(R.color.colorPrimary)
                 .setTitle(R.string.add_location)
                 .setIcon(R.drawable.google_maps_light);
-        // add listeners
-        dialog.setListener(R.id.btnDialogAddLocation, btn -> {
-            // get reference to the parent layout so we can find the EditText
-            ConstraintLayout root = (ConstraintLayout) btn.getParent();
-            EditText txtDialogLocation = root.findViewById(R.id.txtAddLocation);
-            // add location to database
-            addLocation(txtDialogLocation.getText().toString());
-            dialog.dismiss();
-            rvLocations.smoothScrollToPosition(locations.size() - 1);
+
+        dialog.configureView(v -> {
+            EditText txtDialogLocation = v.findViewById(R.id.txtAddLocation);
+            Button btnDialogAddLocation = v.findViewById(R.id.btnDialogAddLocation);
+            btnDialogAddLocation.setOnClickListener(v1 -> {
+                if(txtDialogLocation.getText().toString().isEmpty()){
+                    // Show error dialog
+                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setButtonsColorRes(R.color.colorAccent)
+                            .setIcon(R.drawable.alert_box_light)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.location_may_not_be_empty)
+                            .setPositiveButton(android.R.string.ok,v2 -> {})
+                            .show();
+                }else{
+                    // add location to database
+                    addLocation(txtDialogLocation.getText().toString());
+                    dialog.dismiss();
+                    rvLocations.smoothScrollToPosition(locations.size() - 1);
+                }
+
+            });
 
         });
-        // show the dialog
+
         dialog.show();
     }
 
     /**
+     * Get the locations from the DB and sort them alphabetically
+     */
+    private void getLocations(){
+        locations = realm.where(Location.class).findAll();
+        locations =  locations.sort("name");
+    }
+
+    /**
      * Add a new location to the database and update the list of locations
+     *
      * @param locationName - the new location's name
      */
-    private void addLocation(String locationName){
+    private void addLocation(String locationName) {
 
         // first add the location to the database
         realm.executeTransaction(r -> {
             Location location = r.createObject(Location.class, locations.size() + 1);
             location.setName(locationName);
         });
+
+        // get the position of the item that has been inserted alphabetically into the list
+        int position = 0;
+        for (Location location : locations){
+            if(location.getName().equals(locationName)){
+                break;
+            }
+            position++;
+        }
+        // scroll to that position
+        rvLocations.smoothScrollToPosition(position);
+
 
     }
 

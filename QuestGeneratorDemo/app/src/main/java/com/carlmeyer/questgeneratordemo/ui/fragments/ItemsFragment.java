@@ -17,6 +17,7 @@ import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.ui.adapters.ItemsAdapter;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -26,7 +27,7 @@ public class ItemsFragment extends Fragment {
     private Realm realm;
     private RecyclerView rvItems;
     private Button btnAddItem;
-    OrderedRealmCollection<Item> items;
+    private OrderedRealmCollection<Item> items;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class ItemsFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         btnAddItem = root.findViewById(R.id.btnAddItem);
         rvItems = root.findViewById(R.id.rvItems);
+
+        getItems();
 
         setUpUI();
 
@@ -47,8 +50,6 @@ public class ItemsFragment extends Fragment {
      * Set up RecyclerView
      */
     private void setUpRecyclerView() {
-        // get a list of all the items in the DB
-        items = realm.where(Item.class).findAll();
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvItems.setLayoutManager(layoutManager);
@@ -76,16 +77,31 @@ public class ItemsFragment extends Fragment {
                 .setTopColorRes(R.color.colorPrimary)
                 .setTitle(R.string.add_item)
                 .setIcon(R.drawable.sword_cross_light);
-        // add listeners
-        dialog.setListener(R.id.btnDialogAddItem, btn -> {
-            // get reference to the parent layout so we can find the EditText
-            ConstraintLayout root = (ConstraintLayout) btn.getParent();
-            EditText txtDialogItem = root.findViewById(R.id.txtAddItem);
-            // add Item to database
-            addItem(txtDialogItem.getText().toString());
-            dialog.dismiss();
-            rvItems.smoothScrollToPosition(items.size() - 1);
+
+        dialog.configureView(v -> {
+            EditText txtDialogItem = v.findViewById(R.id.txtAddItem);
+            Button btnDialogAddItem = v.findViewById(R.id.btnDialogAddItem);
+
+            btnDialogAddItem.setOnClickListener(v1 -> {
+                if(txtDialogItem.getText().toString().isEmpty()){
+                    // Show error dialog
+                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setButtonsColorRes(R.color.colorAccent)
+                            .setIcon(R.drawable.alert_box_light)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.item_may_not_be_empty)
+                            .setPositiveButton(android.R.string.ok,v2 -> {})
+                            .show();
+                }else{
+                    addItem(txtDialogItem.getText().toString());
+                    dialog.dismiss();
+                }
+
+            });
+
         });
+
         // show the dialog
         dialog.show();
     }
@@ -102,6 +118,24 @@ public class ItemsFragment extends Fragment {
             Item.setName(itemName);
         });
 
+        // get the position of the item that has been inserted alphabetically into the list
+        int position = 0;
+        for (Item item : items){
+            if(item.getName().equals(itemName)){
+                break;
+            }
+            position++;
+        }
+        // scroll to that position
+        rvItems.smoothScrollToPosition(position);
+    }
+
+    /**
+     * Get the items from the DB and sort them alphabetically
+     */
+    private void getItems(){
+        items = realm.where(Item.class).findAll();
+        items = items.sort("name");
     }
 
     /*

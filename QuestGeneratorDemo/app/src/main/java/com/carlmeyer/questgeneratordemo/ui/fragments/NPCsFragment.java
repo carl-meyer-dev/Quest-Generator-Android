@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.ui.adapters.NPCsAdapter;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
@@ -34,6 +33,7 @@ public class NPCsFragment extends Fragment {
     private Button btnAddNPC;
     private OrderedRealmCollection<NPC> npcs;
     private OrderedRealmCollection<Location> locations;
+    private List<String> locationsNames;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,8 +44,9 @@ public class NPCsFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         btnAddNPC = root.findViewById(R.id.btnAddNPC);
         rvNPCS = root.findViewById(R.id.rvNPCS);
+        getNPCS();
         // Get all the locations, we will need this later
-        locations = realm.where(Location.class).findAll();
+        getLocations();
         setUpUI();
         setUpRecyclerView();
         return root;
@@ -55,8 +56,6 @@ public class NPCsFragment extends Fragment {
      * Set up RecyclerView
      */
     private void setUpRecyclerView() {
-        // get a list of all the locations in the DB
-        npcs = realm.where(NPC.class).findAll();
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvNPCS.setLayoutManager(layoutManager);
@@ -98,7 +97,7 @@ public class NPCsFragment extends Fragment {
                             .setTitle(R.string.locations)
                             .setIcon(R.drawable.google_maps_light)
                             .setMessage(R.string.choose_a_location)
-                            .setItems(getLocationNames(), (position, location) -> {
+                            .setItems(locationsNames, (position, location) -> {
                                 // when a location is selected, set the location txt of the npc and dismiss
                                 txtNPCLocation.setText(location);
                                 // clear focus so that you can click on it again once dialog closes
@@ -138,7 +137,6 @@ public class NPCsFragment extends Fragment {
                     // add location to database
                     addNPC(txtNPCName.getText().toString(), txtNPCLocation.getText().toString());
                     dialog.dismiss();
-                    rvNPCS.smoothScrollToPosition(npcs.size() - 1);
                 }
             });
 
@@ -163,22 +161,49 @@ public class NPCsFragment extends Fragment {
             npc.setLocation(location);
         });
 
+        // get the position of the item that has been inserted alphabetically into the list
+        int position = 0;
+        for (NPC npc : npcs){
+            if(npc.getName().equals(npcName)){
+                break;
+            }
+            position++;
+        }
+        // scroll to that position
+        rvNPCS.smoothScrollToPosition(position);
+
+    }
+
+    /**
+     * Get the npcs from the DB and sort them alphabetically
+     */
+    private void getNPCS(){
+        npcs = realm.where(NPC.class).findAll();
+        npcs = npcs.sort("name");
+    }
+
+    /**
+     * Get the locations from the DB and sort them alphabetically
+     */
+    private void getLocations(){
+        locations = realm.where(Location.class).findAll();
+        locations.sort("name");
+        // set locationNames list to use in choice dialog
+        setLocationNames();
     }
 
     /**
      * Get a string list of location names to use in locations choice dialog
      *
-     * @return - list of location names
      */
-    private List<String> getLocationNames() {
+    private void setLocationNames() {
 
-        List<String> locationsNames = new ArrayList<>();
+        locationsNames = new ArrayList<>();
 
         for (Location location : locations) {
             locationsNames.add(location.getName());
         }
 
-        return locationsNames;
     }
 
     /*
