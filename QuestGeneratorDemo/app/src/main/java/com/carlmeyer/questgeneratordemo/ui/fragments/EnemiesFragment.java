@@ -33,17 +33,21 @@ public class EnemiesFragment extends Fragment {
     private Button btnAddEnemy;
     private OrderedRealmCollection<Enemy> enemies;
     private OrderedRealmCollection<Location> locations;
+    private List<String> locationsNames;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_enemies, container, false);
+        // Find views
         rvEnemies = root.findViewById(R.id.rvEnemies);
         realm = Realm.getDefaultInstance();
         btnAddEnemy = root.findViewById(R.id.btnAddEnemy);
         rvEnemies = root.findViewById(R.id.rvEnemies);
-        // Get all the locations, we will need this later
-        locations = realm.where(Location.class).findAll();
+        // Get data
+        getEnemies();
+        getLocations();
+        // UI Setup
         setUpUI();
         setUpRecyclerView();
         return root;
@@ -53,8 +57,6 @@ public class EnemiesFragment extends Fragment {
      * Set up RecyclerView
      */
     private void setUpRecyclerView() {
-        // get a list of all the enemies in the DB
-        enemies = realm.where(Enemy.class).findAll();
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvEnemies.setLayoutManager(layoutManager);
@@ -96,7 +98,7 @@ public class EnemiesFragment extends Fragment {
                             .setTitle(R.string.locations)
                             .setIcon(R.drawable.google_maps_light)
                             .setMessage(R.string.choose_a_location)
-                            .setItems(getLocationNames(), (position, location) -> {
+                            .setItems(locationsNames, (position, location) -> {
                                 // when a location is selected, set the location txt of the enemy and dismiss
                                 txtEnemyLocation.setText(location);
                                 // clear focus so that you can click on it again once dialog closes
@@ -108,7 +110,7 @@ public class EnemiesFragment extends Fragment {
             });
             // Set Add Enemy Listener
             btnDialogAddEnemy.setOnClickListener(v1 -> {
-                // if no enemy location provided
+                // validate data before adding to DB
                 if(txtEnemyName.getText().toString().isEmpty()){
                     // Show error dialog
                     new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
@@ -133,10 +135,9 @@ public class EnemiesFragment extends Fragment {
                             .show();
 
                 }else{
-                    // add location to database
+                    // Data valid, add location to database
                     addEnemy(txtEnemyName.getText().toString(), txtEnemyLocation.getText().toString());
                     dialog.dismiss();
-                    rvEnemies.smoothScrollToPosition(enemies.size() - 1);
                 }
             });
 
@@ -144,6 +145,14 @@ public class EnemiesFragment extends Fragment {
 
         // show the dialog
         dialog.show();
+    }
+
+    /**
+     * Get the enemies from the DB and sort them alphabetically
+     */
+    private void getEnemies(){
+        enemies = realm.where(Enemy.class).findAll();
+        enemies = enemies.sort("name");
     }
 
     /**
@@ -161,22 +170,42 @@ public class EnemiesFragment extends Fragment {
             enemy.setLocation(location);
         });
 
+        // get the position of the item that has been inserted alphabetically into the list
+        int position = 0;
+        for (Enemy enemy : enemies){
+            if(enemy.getName().equals(enemyName)){
+                break;
+            }
+            position++;
+        }
+        // scroll to that position
+        rvEnemies.smoothScrollToPosition(position);
+
     }
 
     /**
-     * Get a string list of location names to use in locations choice dialog
-     *
-     * @return - list of location names
+     * Get the locations from the DB and sort them alphabetically
      */
-    private List<String> getLocationNames() {
+    private void getLocations(){
+        locations = realm.where(Location.class).findAll();
+        locations = locations.sort("name");
+        // set locationNames list to use in choice dialog
+        setLocationNames();
+    }
 
-        List<String> locationsNames = new ArrayList<>();
+    /**
+     * Make a string list of location names to use in locations choice dialog
+     * I used to do this each time when you open the dialog but now I am rather doing it once and
+     * passing the reference to the dialog instead
+     */
+    private void setLocationNames() {
+
+        locationsNames = new ArrayList<>();
 
         for (Location location : locations) {
             locationsNames.add(location.getName());
         }
 
-        return locationsNames;
     }
 
     /*
