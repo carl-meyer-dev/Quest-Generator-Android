@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,7 +17,6 @@ import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.LocationsAdapter;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
-import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -28,7 +26,7 @@ public class LocationsFragment extends Fragment {
     private Realm realm;
     private RecyclerView rvLocations;
     private Button btnAddLocation;
-    OrderedRealmCollection<Location> locations;
+    private OrderedRealmCollection<Location> locations;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,9 +63,7 @@ public class LocationsFragment extends Fragment {
      * Set up UI onclick listeners etc
      */
     private void setUpUI(){
-        btnAddLocation.setOnClickListener(v -> {
-            showAddLocationDialog();
-        });
+        btnAddLocation.setOnClickListener(v -> showAddLocationDialog());
     }
 
     /**
