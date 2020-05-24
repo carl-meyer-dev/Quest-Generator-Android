@@ -33,7 +33,6 @@ public class LocationsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_locations, container, false);
         rvLocations = root.findViewById(R.id.rvLocations);
-
         realm = Realm.getDefaultInstance();
         btnAddLocation = root.findViewById(R.id.btnAddLocation);
         rvLocations = root.findViewById(R.id.rvLocations);
@@ -41,7 +40,6 @@ public class LocationsFragment extends Fragment {
         setUpUI();
         // set up recyclerview
         setUpRecyclerView();
-
         return root;
     }
 

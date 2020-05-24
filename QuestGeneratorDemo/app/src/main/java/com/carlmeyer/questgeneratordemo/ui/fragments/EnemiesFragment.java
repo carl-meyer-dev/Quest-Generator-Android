@@ -39,15 +39,12 @@ public class EnemiesFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_enemies, container, false);
         rvEnemies = root.findViewById(R.id.rvEnemies);
-
         realm = Realm.getDefaultInstance();
         btnAddEnemy = root.findViewById(R.id.btnAddEnemy);
         rvEnemies = root.findViewById(R.id.rvEnemies);
         // Get all the locations, we will need this later
         locations = realm.where(Location.class).findAll();
-
         setUpUI();
-
         setUpRecyclerView();
         return root;
     }
