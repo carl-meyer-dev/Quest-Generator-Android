@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.ui.adapters.NPCsAdapter;
+import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
+import com.yarolegovich.lovelydialog.LovelyCustomDialog;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -23,16 +32,21 @@ public class NPCsFragment extends Fragment {
     private Realm realm;
     private RecyclerView rvNPCS;
     private Button btnAddNPC;
+    private OrderedRealmCollection<NPC> npcs;
+    private OrderedRealmCollection<Location> locations;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_npcs, container, false);
         rvNPCS = root.findViewById(R.id.rvNPCS);
-
         realm = Realm.getDefaultInstance();
         btnAddNPC = root.findViewById(R.id.btnAddNPC);
         rvNPCS = root.findViewById(R.id.rvNPCS);
+        // Get all the locations, we will need this later
+        locations = realm.where(Location.class).findAll();
+        setUpUI();
         setUpRecyclerView();
         return root;
     }
@@ -42,13 +56,129 @@ public class NPCsFragment extends Fragment {
      */
     private void setUpRecyclerView() {
         // get a list of all the locations in the DB
-        OrderedRealmCollection<NPC> npcs = realm.where(NPC.class).findAll();
+        npcs = realm.where(NPC.class).findAll();
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvNPCS.setLayoutManager(layoutManager);
         // Initialize and set locationsAdapter with list of locations
         NPCsAdapter npcsAdapter = new NPCsAdapter(npcs);
         rvNPCS.setAdapter(npcsAdapter);
+    }
+
+    /**
+     * Set up UI onclick listeners etc
+     */
+    private void setUpUI() {
+        btnAddNPC.setOnClickListener(v -> {
+            showAddNPCDialog();
+        });
+    }
+
+    /**
+     * Setup, Configure and Show the add location dialog
+     */
+    private void showAddNPCDialog() {
+        // set up the dialog
+        LovelyCustomDialog dialog = new LovelyCustomDialog(getContext())
+                .setView(R.layout.dialog_add_npc)
+                .setTopColorRes(R.color.colorPrimary)
+                .setTitle(R.string.add_npc)
+                .setIcon(R.drawable.skull_light);
+        // config txtLocation
+        dialog.configureView(v -> {
+            EditText txtNPCName = v.findViewById(R.id.txtAddNPCName);
+            EditText txtNPCLocation = v.findViewById(R.id.txtAddNPCLocation);
+            Button btnDialogAddNPC = v.findViewById(R.id.btnDialogAddNPC);
+            txtNPCLocation.setKeyListener(null);
+            txtNPCLocation.setOnFocusChangeListener((v1, hasFocus) -> {
+                // when location edit text is clicked and gains focus display a choice dialog of locations
+                if (hasFocus) {
+                    new LovelyChoiceDialog(getContext())
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setTitle(R.string.locations)
+                            .setIcon(R.drawable.google_maps_light)
+                            .setMessage(R.string.choose_a_location)
+                            .setItems(getLocationNames(), (position, location) -> {
+                                // when a location is selected, set the location txt of the npc and dismiss
+                                txtNPCLocation.setText(location);
+                                // clear focus so that you can click on it again once dialog closes
+                                txtNPCLocation.clearFocus();
+                            })
+                            .show();
+                }
+
+            });
+            // Set Add NPC Listener
+            btnDialogAddNPC.setOnClickListener(v1 -> {
+                // if no npc location provided
+                if(txtNPCName.getText().toString().isEmpty()){
+                    // Show error dialog
+                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setButtonsColorRes(R.color.colorAccent)
+                            .setIcon(R.drawable.alert_box_light)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.npc_name_may_not_be_empty)
+                            .setPositiveButton(android.R.string.ok,v2 -> {})
+                            .show();
+
+                }
+                else if(txtNPCLocation.getText().toString().isEmpty()){
+                    // Show error dialog
+                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setButtonsColorRes(R.color.colorAccent)
+                            .setIcon(R.drawable.alert_box_light)
+                            .setTitle(R.string.error)
+                            .setMessage(R.string.npc_location_may_not_be_empty)
+                            .setPositiveButton(android.R.string.ok,v2 -> {})
+                            .show();
+
+                }else{
+                    // add location to database
+                    addNPC(txtNPCName.getText().toString(), txtNPCLocation.getText().toString());
+                    dialog.dismiss();
+                    rvNPCS.smoothScrollToPosition(npcs.size() - 1);
+                }
+            });
+
+        });
+
+        // show the dialog
+        dialog.show();
+    }
+
+    /**
+     * Add a new location to the database and update the list of npcs
+     *
+     * @param npcName - the new npc's name
+     */
+    private void addNPC(String npcName, String locationName) {
+
+        // first add the npc to the database
+        realm.executeTransaction(r -> {
+            NPC npc = r.createObject(NPC.class, npcs.size() + 1);
+            npc.setName(npcName);
+            Location location = realm.where(Location.class).equalTo("name", locationName).findFirst();
+            npc.setLocation(location);
+        });
+
+    }
+
+    /**
+     * Get a string list of location names to use in locations choice dialog
+     *
+     * @return - list of location names
+     */
+    private List<String> getLocationNames() {
+
+        List<String> locationsNames = new ArrayList<>();
+
+        for (Location location : locations) {
+            locationsNames.add(location.getName());
+        }
+
+        return locationsNames;
     }
 
     /*
