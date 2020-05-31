@@ -82,7 +82,7 @@ public class NPCsFragment extends Fragment {
                 .setView(R.layout.dialog_add_npc)
                 .setTopColorRes(R.color.colorPrimary)
                 .setTitle(R.string.add_npc)
-                .setIcon(R.drawable.skull_light);
+                .setIcon(R.drawable.human_greeting_light);
         // config txtLocation
         dialog.configureView(v -> {
             EditText txtNPCName = v.findViewById(R.id.txtAddNPCName);

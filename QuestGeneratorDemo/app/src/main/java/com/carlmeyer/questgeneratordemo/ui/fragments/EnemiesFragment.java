@@ -108,7 +108,7 @@ public class EnemiesFragment extends Fragment {
                 }
 
             });
-            // Set Add Enemy Listener
+//             Set Add Enemy Listener
             btnDialogAddEnemy.setOnClickListener(v1 -> {
                 // validate data before adding to DB
                 if(txtEnemyName.getText().toString().isEmpty()){
