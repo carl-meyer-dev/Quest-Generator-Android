@@ -65,4 +65,6 @@
     <string name="could_not_find_location">"Oops! Something went wrong. We could not find the selected location!"</string>
     <string name="could_not_find_item">Oops! Something went wrongCould not find selected item!</string>
     <string name="could_not_delete_item">Oops! Something went wrong. Could not delete item!</string>
+    <string name="could_not_find_enemy">Oops! Something went wrong. Could not find enemy!</string>
+    <string name="could_not_delete_enemy">Oops! Something went wrong. Could not delete enemy!</string>
 </resources>

@@ -9,15 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.ItemsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ItemViewHolder;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
@@ -279,7 +276,7 @@ public class ItemsFragment extends Fragment implements ItemViewHolder.OnItemList
 
     }
 
-    private void scrollToItem(String itemName){
+    private void scrollToItem(String itemName) {
         // get the position of the item that has been inserted alphabetically into the list
         int position = 0;
         for (Item item : items) {
