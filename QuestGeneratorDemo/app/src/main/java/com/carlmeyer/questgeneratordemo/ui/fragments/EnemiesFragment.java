@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.EnemiesAdapter;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
@@ -164,7 +165,10 @@ public class EnemiesFragment extends Fragment {
 
         // first add the enemy to the database
         realm.executeTransaction(r -> {
-            Enemy enemy = r.createObject(Enemy.class, enemies.size() + 1);
+            // unfortunately since realm does not support auto increment ID's yet we need to
+            // get the next id before adding the new enemy
+            long nextID = (long) (r.where(Enemy.class).max("id")) + 1;
+            Enemy enemy = r.createObject(Enemy.class, nextID);
             enemy.setName(enemyName);
             Location location = realm.where(Location.class).equalTo("name", locationName).findFirst();
             enemy.setLocation(location);
