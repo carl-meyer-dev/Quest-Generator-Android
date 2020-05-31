@@ -49,4 +49,16 @@
     <string name="npc_location_may_not_be_empty">NPC location may not be empty</string>
     <string name="location_may_not_be_empty">Location may not be empty!</string>
     <string name="item_may_not_be_empty">Item may not be empty!</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="location_name">Location name</string>
+    <string name="item_name">Item name</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="edit_location">Edit Location</string>
+    <string name="enemy_name">Enemy name</string>
+    <string name="enemy_location">Enemy Location</string>
+    <string name="edit_enemy">Edit enemy</string>
+    <string name="npc_name">NPC name</string>
+    <string name="npc_location">NPC location</string>
+    <string name="edit_npc">Edit NPC</string>
 </resources>

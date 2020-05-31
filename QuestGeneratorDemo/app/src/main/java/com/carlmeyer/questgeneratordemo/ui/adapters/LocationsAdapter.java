@@ -35,6 +35,7 @@ public class LocationsAdapter extends RealmRecyclerViewAdapter<Location, Locatio
         final int locationID = location.getId();
         holder.tvLocation.setText(location.getName());
 
+
     }
 
     @Override
