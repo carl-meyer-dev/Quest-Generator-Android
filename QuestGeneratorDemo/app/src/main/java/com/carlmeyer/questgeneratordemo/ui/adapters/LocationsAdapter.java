@@ -15,16 +15,19 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class LocationsAdapter extends RealmRecyclerViewAdapter<Location, LocationViewHolder> {
 
-    public LocationsAdapter(OrderedRealmCollection<Location> data) {
+    private LocationViewHolder.OnLocationListener onLocationListener;
+
+    public LocationsAdapter(OrderedRealmCollection<Location> data, LocationViewHolder.OnLocationListener onLocationListener) {
         super(data, true);
         setHasStableIds(true);
+        this.onLocationListener = onLocationListener;
     }
 
     @NonNull
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_location, parent, false);
-        return new LocationViewHolder(itemView);
+        return new LocationViewHolder(itemView, onLocationListener);
     }
 
     @Override
