@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.LocationsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.LocationViewHolder;
@@ -171,7 +172,10 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
 
         // first add the location to the database
         realm.executeTransaction(r -> {
-            Location location = r.createObject(Location.class, locations.size() + 1);
+            // unfortunately since realm does not support auto increment ID's yet we need to
+            // get the next id before adding the new location
+            long nextID = (long) (r.where(Location.class).max("id")) + 1;
+            Location location = r.createObject(Location.class, nextID);
             location.setName(locationName);
         });
 
@@ -189,6 +193,11 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
 
     }
 
+    /**
+     * Update an existing location
+     * @param location - existing location
+     * @param updatedLocationName - new location name
+     */
     private void updateLocation(Location location, String updatedLocationName) {
 
         realm.executeTransaction(r -> {

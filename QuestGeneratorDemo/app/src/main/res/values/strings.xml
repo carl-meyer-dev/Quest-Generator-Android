@@ -61,6 +61,8 @@
     <string name="npc_name">NPC name</string>
     <string name="npc_location">NPC location</string>
     <string name="edit_npc">Edit NPC</string>
-    <string name="could_not_delete_location">"Oops! Something went wrong. We could not delete your location. "</string>
-    <string name="could_not_find_location">"Oops! Something went wrong. We could not find the selected location. "</string>
+    <string name="could_not_delete_location">"Oops! Something went wrong. We could not delete your location!"</string>
+    <string name="could_not_find_location">"Oops! Something went wrong. We could not find the selected location!"</string>
+    <string name="could_not_find_item">Oops! Something went wrongCould not find selected item!</string>
+    <string name="could_not_delete_item">Oops! Something went wrong. Could not delete item!</string>
 </resources>

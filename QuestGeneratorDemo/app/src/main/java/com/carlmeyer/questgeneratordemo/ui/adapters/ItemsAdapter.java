@@ -15,16 +15,19 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class ItemsAdapter extends RealmRecyclerViewAdapter<Item, ItemViewHolder> {
 
-    public ItemsAdapter(OrderedRealmCollection<Item> data) {
+    private ItemViewHolder.OnItemListener onItemListener;
+
+    public ItemsAdapter(OrderedRealmCollection<Item> data, ItemViewHolder.OnItemListener onItemListener) {
         super(data, true);
         setHasStableIds(true);
+        this.onItemListener = onItemListener;
     }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_item, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, onItemListener);
     }
 
     @Override

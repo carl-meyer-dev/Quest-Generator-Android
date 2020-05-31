@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.ui.adapters.NPCsAdapter;
@@ -155,7 +156,10 @@ public class NPCsFragment extends Fragment {
 
         // first add the npc to the database
         realm.executeTransaction(r -> {
-            NPC npc = r.createObject(NPC.class, npcs.size() + 1);
+            // unfortunately since realm does not support auto increment ID's yet we need to
+            // get the next id before adding the new npc
+            long nextID = (long) (r.where(NPC.class).max("id")) + 1;
+            NPC npc = r.createObject(NPC.class, nextID);
             npc.setName(npcName);
             Location location = realm.where(Location.class).equalTo("name", locationName).findFirst();
             npc.setLocation(location);
