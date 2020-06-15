@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import io.realm.Realm;
+
 public class QuestGenerator {
 
     private Random random = new Random();
@@ -57,11 +59,11 @@ public class QuestGenerator {
 
     private QuestGenerator() {
         // load the list of available npcs, enemies and locations
-        Data data = new Data();
-        locations = data.getLocations();
-        npcs = data.getNpcs();
-        enemies = data.getEnemies();
-        items = data.getItems();
+        Realm realm = Realm.getDefaultInstance();
+        locations = realm.where(Location.class).findAll();
+        npcs = realm.where(NPC.class).findAll();
+        enemies = realm.where(Enemy.class).findAll();
+        items = realm.where(Item.class).findAll();
     }
 
     public Quest getQuest(String motive, int minimumComplexity) {
