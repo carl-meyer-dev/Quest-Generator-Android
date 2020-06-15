@@ -15,16 +15,20 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class NPCsAdapter extends RealmRecyclerViewAdapter<NPC, NPCViewHolder> {
 
-    public NPCsAdapter(OrderedRealmCollection<NPC> data) {
+    private NPCViewHolder.OnNPCListener onNPCListener;
+
+    public NPCsAdapter(OrderedRealmCollection<NPC> data, NPCViewHolder.OnNPCListener onNPCListener) {
         super(data, true);
         setHasStableIds(true);
+        this.onNPCListener = onNPCListener;
+
     }
 
     @NonNull
     @Override
     public NPCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_npc, parent, false);
-        return new NPCViewHolder(itemView);
+        return new NPCViewHolder(itemView, onNPCListener);
     }
 
     @Override

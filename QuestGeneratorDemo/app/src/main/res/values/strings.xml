@@ -67,4 +67,6 @@
     <string name="could_not_delete_item">Oops! Something went wrong. Could not delete item!</string>
     <string name="could_not_find_enemy">Oops! Something went wrong. Could not find enemy!</string>
     <string name="could_not_delete_enemy">Oops! Something went wrong. Could not delete enemy!</string>
+    <string name="could_not_delete_npc">Oops! Something went wrong. Could not delete NPC!</string>
+    <string name="could_not_find_npc">Oops! Something went wrong. Could not find NPC!</string>
 </resources>
