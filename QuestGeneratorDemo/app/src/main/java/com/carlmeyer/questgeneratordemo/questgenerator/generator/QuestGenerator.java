@@ -196,8 +196,12 @@ public class QuestGenerator {
 
     // Get random enemy
     public Enemy getEnemy() {
-        int index = random.nextInt(enemies.size() - 1);
-        return enemies.get(index);
+        if (enemies.size() > 1) {
+            int index = random.nextInt(enemies.size() - 1);
+            return enemies.get(index);
+        } else {
+            return enemies.get(0);
+        }
     }
 
     // Get enemy with specific item
@@ -224,8 +228,12 @@ public class QuestGenerator {
 
     // Get random location
     public Location getLocation() {
-        int index = random.nextInt(locations.size() - 1);
-        return locations.get(index);
+        if (locations.size() > 1) {
+            int index = random.nextInt(locations.size() - 1);
+            return locations.get(index);
+        } else {
+            return locations.get(0);
+        }
     }
 
     // Todo: getLocation(Item item)
@@ -236,14 +244,22 @@ public class QuestGenerator {
 
     // Get random item
     public Item getItem() {
-        int index = random.nextInt(items.size() - 1);
-        return items.get(index);
+        if (items.size() > 1) {
+            int index = random.nextInt(items.size() - 1);
+            return items.get(index);
+        } else {
+            return items.get(0);
+        }
     }
 
     // Get random NPC
     public NPC getNPC() {
-        int index = random.nextInt(npcs.size() - 1);
-        return npcs.get(index);
+        if (npcs.size() > 1) {
+            int index = random.nextInt(npcs.size() - 1);
+            return npcs.get(index);
+        } else {
+            return npcs.get(0);
+        }
     }
 
 

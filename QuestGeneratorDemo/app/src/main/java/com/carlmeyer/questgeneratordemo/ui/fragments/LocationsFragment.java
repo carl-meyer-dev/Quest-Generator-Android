@@ -15,12 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.ui.adapters.LocationsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.LocationViewHolder;
+import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyCustomDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -32,6 +38,8 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
     private Button btnAddLocation;
     private OrderedRealmCollection<Location> locations;
     LocationsAdapter locationsAdapter;
+    private List<String> locationsNames;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -161,6 +169,8 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
     private void getLocations() {
         locations = realm.where(Location.class).findAll();
         locations = locations.sort("name");
+        // set locationNames list to use in choice dialog
+        setLocationNames();
     }
 
     /**
@@ -221,7 +231,9 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
             realm.executeTransaction(r -> {
                 Location locationToDelete = r.where(Location.class).equalTo("name", location.getName()).findFirst();
                 if (locationToDelete != null) {
-                    locationToDelete.deleteFromRealm();
+                    // need to ask user to what the new location must be for NPCs and Enemies that had the location that is going to be deleted
+                    showSelectNewLocationDialog(locationToDelete);
+
                 } else {
                     // Show error dialog
                     new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
@@ -249,8 +261,6 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
                     .show();
 
         }
-
-
     }
 
     /*
@@ -286,5 +296,72 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
                     })
                     .show();
         }
+    }
+
+    /**
+     * Assign a new locations to enemies and npcs that had the location that is going to be deleted
+     */
+    private void showSelectNewLocationDialog(Location locationToDelete){
+
+        List<String> filteredLocationNames = new ArrayList<>();
+
+        for (String locationName : locationsNames){
+            if(!locationName.equals(locationToDelete.getName())){
+                filteredLocationNames.add(locationName);
+            }
+        }
+
+        new LovelyChoiceDialog(getContext())
+                .setTopColorRes(R.color.colorPrimary)
+                .setTitle(R.string.locations)
+                .setIcon(R.drawable.google_maps_light)
+                .setMessage(R.string.choose_a_new_location)
+                .setItems(filteredLocationNames, (position, location) -> {
+                    Location newLocation = realm.where(Location.class).equalTo("name", location).findFirst();
+                    updateExistingNPCAndEnemyLocations(locationToDelete, newLocation);
+
+                })
+                .show();
+    }
+
+    /**
+     * Update Existing NPCs and Enemies in a particular location to a new location
+     * @param oldLocation - old location of npcs and enemies
+     * @param newLocation - new location of npcs and enemies
+     */
+    private void updateExistingNPCAndEnemyLocations(Location oldLocation, Location newLocation){
+        realm.executeTransaction(r -> {
+            OrderedRealmCollection<NPC> npcs = oldLocation.getNpcs();
+            OrderedRealmCollection<Enemy> enemies = oldLocation.getEnemies();
+
+            for (NPC npc : npcs){
+                npc.setLocation(newLocation);
+            }
+
+            for (Enemy enemy : enemies){
+                enemy.setLocation(newLocation);
+            }
+
+            oldLocation.deleteFromRealm();
+
+            getLocations();
+
+        });
+
+        // after npcs and enemies have been updated with new location, we can safely delete old location that needs to be deleted
+
+    }
+
+    /**
+     * Get a string list of location names to use in locations choice dialog
+     */
+    private void setLocationNames() {
+
+        locationsNames = new ArrayList<>();
+
+        for (Location location : locations) {
+            locationsNames.add(location.getName());
+        }
+
     }
 }
