@@ -70,4 +70,12 @@
     <string name="could_not_delete_npc">Oops! Something went wrong. Could not delete NPC!</string>
     <string name="could_not_find_npc">Oops! Something went wrong. Could not find NPC!</string>
     <string name="choose_a_new_location">Choose a new Location for existing enemies and npcs</string>
+    <string name="action">Action</string>
+    <string name="example_quest_generator">Example Quest Generator</string>
+    <string name="motivation">Motivation:</string>
+    <string name="description">Description:</string>
+    <string name="quest">Quest</string>
+    <string name="generate_quest">Generate Quest</string>
+    <string name="quest_steps">Quest Steps</string>
+    <string name="step">step</string>
 </resources>
