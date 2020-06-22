@@ -83,4 +83,6 @@
     <string name="test_dialog">Hello there adventurer! Are you ready to go on a quest?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="attention">Attention!</string>
+    <string name="can_not_delete_last_location">"There needs to be at least 1 location. If you would like to delete this location, first create another one before deleting this one. "</string>
 </resources>

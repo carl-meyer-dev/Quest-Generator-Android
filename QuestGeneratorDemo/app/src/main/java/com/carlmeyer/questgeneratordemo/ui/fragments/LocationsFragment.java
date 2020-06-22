@@ -231,8 +231,25 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
             realm.executeTransaction(r -> {
                 Location locationToDelete = r.where(Location.class).equalTo("name", location.getName()).findFirst();
                 if (locationToDelete != null) {
-                    // need to ask user to what the new location must be for NPCs and Enemies that had the location that is going to be deleted
-                    showSelectNewLocationDialog(locationToDelete);
+                    /* need to ask user to what the new location must be for
+                    NPCs and Enemies that had the location that is going to be deleted */
+                    if(locations.size() > 1){
+                        showSelectNewLocationDialog(locationToDelete);
+                    }else{
+                        /* Must have at least one location, so need to show information dialog to
+                        inform the user that they need to add another location in order to delete
+                        this one */
+                        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                                .setTopColorRes(R.color.colorPrimary)
+                                .setButtonsColorRes(R.color.colorAccent)
+                                .setIcon(R.drawable.alert_box_light)
+                                .setTitle(R.string.attention)
+                                .setMessage(R.string.can_not_delete_last_location)
+                                .setPositiveButton(android.R.string.ok, v2 -> {
+                                })
+                                .show();
+                    }
+
 
                 } else {
                     // Show error dialog
@@ -304,6 +321,8 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
     private void showSelectNewLocationDialog(Location locationToDelete){
 
         List<String> filteredLocationNames = new ArrayList<>();
+
+        setLocationNames();
 
         for (String locationName : locationsNames){
             if(!locationName.equals(locationToDelete.getName())){
