@@ -19,6 +19,7 @@ public class Use extends Action {
      * @param item - item to use
      */
     public Use(Item item) {
+        this.actionType = Actions.USE; 
         this.actionText = "Use " + item.getName();
         this.subActions = new ArrayList<>();
         initialize(item);

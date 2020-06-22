@@ -39,7 +39,6 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
     private TextView tvDescription;
     private TextView tvQuest;
 
-    private ActionsAdapter actionsAdapter;
     private RecyclerView rvActions;
     List<Action> questSteps;
 
@@ -120,12 +119,22 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set locationsAdapter with list of locations
-        actionsAdapter = new ActionsAdapter(questSteps, this);
+        ActionsAdapter actionsAdapter = new ActionsAdapter(questSteps, this);
         rvActions.setAdapter(actionsAdapter);
     }
 
     @Override
     public void onActionClick(int position) {
-
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.human_greeting_light)
+                .setTitle(R.string.dialog)
+                .setMessage(R.string.test_dialog)
+                .setPositiveButton(R.string.yes, v2 -> {
+                })
+                .setNegativeButton(R.string.no, v2 -> {
+                })
+                .show();
     }
 }

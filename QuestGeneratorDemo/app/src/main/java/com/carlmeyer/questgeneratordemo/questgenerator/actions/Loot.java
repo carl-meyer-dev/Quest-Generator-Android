@@ -1,5 +1,6 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 
@@ -13,6 +14,7 @@ public class Loot extends Action {
      * @param item - item to loot
      */
     public Loot(Item item) {
+        this.actionType = Actions.LOOT;
         this.actionText = "Loot " + item.getName();
         this.subActions = new ArrayList<>();
         initialize();

@@ -78,4 +78,9 @@
     <string name="generate_quest">Generate Quest</string>
     <string name="quest_steps">Quest Steps</string>
     <string name="step">step</string>
+    <string name="actiontype">actionType</string>
+    <string name="dialog">Dialog</string>
+    <string name="test_dialog">Hello there adventurer! Are you ready to go on a quest?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

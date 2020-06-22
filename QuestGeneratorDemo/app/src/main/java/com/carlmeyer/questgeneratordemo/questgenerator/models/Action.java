@@ -11,6 +11,7 @@ public class Action implements RealmModel {
 
     public List<Action> subActions;
     public String actionText;
+    public String actionType;
     public boolean complete = false;
 
     public String getActionText() {

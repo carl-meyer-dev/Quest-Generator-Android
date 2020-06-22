@@ -1,6 +1,7 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
@@ -15,6 +16,7 @@ public class Listen extends Action {
      * @param npc - npc to listen to
      */
     public Listen(NPC npc) {
+        this.actionType = Actions.LISTEN;
         this.actionText = "Listen to " + npc.getName();
         this.subActions = new ArrayList<>();
         initialize();

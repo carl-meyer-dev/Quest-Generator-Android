@@ -23,6 +23,7 @@ public class Learn extends Action {
      * @param npc - NPC to learn about
      */
     public Learn(NPC npc) {
+        this.actionType = Actions.LEARN;
         this.actionText = "Learn about " + npc.getName();
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();

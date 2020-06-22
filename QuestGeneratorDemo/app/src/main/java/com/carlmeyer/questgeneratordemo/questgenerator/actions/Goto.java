@@ -31,6 +31,7 @@ public class Goto extends Action {
      * @param enemy - enemy to go to
      */
     public Goto(Enemy enemy) {
+        this.actionType = Actions.GOTO;
         this.actionText = "Go to " + enemy.getLocation().getName();
         this.subActions = new ArrayList<>();
         initialize(enemy);
