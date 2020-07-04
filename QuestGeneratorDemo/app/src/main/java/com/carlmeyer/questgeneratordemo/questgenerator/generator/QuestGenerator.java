@@ -119,6 +119,7 @@ public class QuestGenerator {
         Subquest root = new Subquest(rootActions);
 
         root.actionText = storyFragment.getDescription();
+        root.actionType = storyFragment.getMotive();
 
         return root;
 

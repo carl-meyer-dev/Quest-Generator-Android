@@ -28,6 +28,7 @@ public class Listen extends Action {
      * @param enemy - enemy to listen to
      */
     public Listen(Enemy enemy) {
+        this.actionType = Actions.LISTEN;
         this.actionText = "Listen to " + enemy.getName();
         this.subActions = new ArrayList<>();
         initialize();

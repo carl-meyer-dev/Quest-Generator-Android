@@ -12,6 +12,7 @@ public class Action implements RealmModel {
     public List<Action> subActions;
     public String actionText;
     public String actionType;
+    public String actionDialog;
     public boolean complete = false;
 
     public String getActionText() {
@@ -20,5 +21,9 @@ public class Action implements RealmModel {
 
     public List<Action> getSubActions() {
         return subActions;
+    }
+
+    public String getActionDialog() {
+        return actionDialog;
     }
 }

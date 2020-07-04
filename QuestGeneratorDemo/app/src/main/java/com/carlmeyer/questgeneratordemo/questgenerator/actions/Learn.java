@@ -37,6 +37,7 @@ public class Learn extends Action {
      * @param enemy - enemy to learn about
      */
     public Learn(Enemy enemy) {
+        this.actionType = Actions.LEARN;
         this.actionText = "Learn about " + enemy.getName();
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();
@@ -49,6 +50,7 @@ public class Learn extends Action {
      * @param location - location to learn about
      */
     public Learn(Location location) {
+        this.actionType = Actions.LEARN;
         this.actionText = "Learn about " + location.getName();
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();

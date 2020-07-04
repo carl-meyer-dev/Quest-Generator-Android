@@ -7,7 +7,8 @@ public class StoryFragment {
     private String description;
     private String[] actions;
 
-    public StoryFragment(String motive, String description, String[] actions) {
+    public StoryFragment(int id, String motive, String description, String[] actions) {
+        this.id = id;
         this.motive = motive;
         this.description = description;
         this.actions = actions;
@@ -40,4 +41,13 @@ public class StoryFragment {
     public void setActions(String[] actions) {
         this.actions = actions;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

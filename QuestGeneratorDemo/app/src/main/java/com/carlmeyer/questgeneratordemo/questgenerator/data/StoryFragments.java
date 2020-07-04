@@ -10,6 +10,7 @@ public class StoryFragments {
 
     // Knowledge Story Fragments
     StoryFragment deliverItem = new StoryFragment(
+            1,
             Motives.KNOWLEDGE,
             "Deliver item for study",
             new String[]{
@@ -20,6 +21,7 @@ public class StoryFragments {
     );
 
     StoryFragment interviewNPC = new StoryFragment(
+            2,
             Motives.KNOWLEDGE,
             "Interview an NPC",
             new String[]{
@@ -31,6 +33,7 @@ public class StoryFragments {
     );
 
     StoryFragment useItem = new StoryFragment(
+            3,
             Motives.KNOWLEDGE,
             "Use an item in the field",
             new String[]{
@@ -52,6 +55,7 @@ public class StoryFragments {
 
     // Comfort Story Fragments
     StoryFragment gatherItems = new StoryFragment(
+            4,
             Motives.COMFORT,
             "Gather items",
             new String[]{
@@ -63,6 +67,7 @@ public class StoryFragments {
     );
 
     StoryFragment getLuxuries = new StoryFragment(
+            5,
             Motives.COMFORT,
             "Get luxuries",
             new String[]{
@@ -73,6 +78,7 @@ public class StoryFragments {
     );
 
     StoryFragment killPests = new StoryFragment(
+            6,
             Motives.COMFORT,
             "Kill pests",
             new String[]{
@@ -93,6 +99,7 @@ public class StoryFragments {
 
     // Justice Story Fragments
     StoryFragment getRevenge = new StoryFragment(
+            7,
             Motives.JUSTICE,
             "Get revenge",
             new String[]{
@@ -103,6 +110,7 @@ public class StoryFragments {
     );
 
     StoryFragment recoverStolenItems = new StoryFragment(
+            8,
             Motives.JUSTICE,
             "Recover stolen items",
             new String[]{
@@ -113,6 +121,7 @@ public class StoryFragments {
     );
 
     StoryFragment stealBackStolenItems = new StoryFragment(
+            9,
             Motives.JUSTICE,
             "Steal back stolen items",
             new String[]{
