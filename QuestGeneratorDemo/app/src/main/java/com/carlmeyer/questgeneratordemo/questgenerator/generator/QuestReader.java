@@ -1,6 +1,8 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.generator;
 
 
+import android.util.Log;
+
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 
@@ -42,13 +44,13 @@ public class QuestReader {
     /**
      * Read and traverse any sub-actions or sub-quests of an action and append each action to a list
      * of quest steps that need to completed in order to complete the quest.
-     *
+     * <p>
      * note we are also building a string of quest steps while reading the quests in case we
      * need to output a string list of quest steps. This is related to the questStepsText variable.
-     *
+     * <p>
      * The ordered list of actions that need to be completed will be stored in the questSteps array
      * as we traverse and read the leaf nodes in pre-order traversal in the quest tree.
-     *
+     * <p>
      * for a visual representation you can look at this picture:
      * https://drive.google.com/file/d/1w0dPhB4T-9wWuYfmYFIxu36OJUeaFFsP/view?usp=sharing
      *
@@ -56,11 +58,6 @@ public class QuestReader {
      * @param depth  - depth of the tree
      */
     private void readSubActions(Action action, int depth) {
-
-        /*
-
-         */
-
 
         questStepsText.append("\n");
 
@@ -115,5 +112,28 @@ public class QuestReader {
 
     public String getQuestStepsText() {
         return questStepsText.toString();
+    }
+
+    private String getDialog(Action action){
+
+        String dialog = "";
+
+        if(stepCount == 0){
+            /*  this is the first action which is tied to the Story fragment. This is the first
+                Dialog that will be shown to the player which should explain the main quest.
+                We will use the story fragment and its actions to build the first Dialog. */
+
+
+
+
+        }else{
+            /*  after explaining the main quest, the rest of the action dialogs will simply be a
+                short description of what the player needs to do next. We will use information from
+                the previous and next actions to build this dialog to make it feel more coherent. */
+
+
+        }
+
+        return dialog;
     }
 }

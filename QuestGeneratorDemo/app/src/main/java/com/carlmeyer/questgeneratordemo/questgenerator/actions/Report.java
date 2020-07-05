@@ -15,7 +15,6 @@ public class Report extends Action {
      * @param npc - npc to report to
      */
     public Report(NPC npc) {
-        this.actionType = Actions.REPORT;
         this.actionText = "Report to " + npc.getName();
         subActions = new ArrayList<>();
         initialize(npc);

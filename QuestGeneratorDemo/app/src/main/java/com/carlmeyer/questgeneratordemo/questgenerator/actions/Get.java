@@ -19,7 +19,6 @@ public class Get extends Action {
      * @param item - item to get
      */
     public Get(Item item) {
-        this.actionType = Actions.GET;
         this.actionText = "Aquire " + item.getName();
         this.subActions = new ArrayList<>();
         initialize(item);
