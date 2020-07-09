@@ -21,7 +21,7 @@ public class Steal extends Action {
      * @param enemy - enemy to steal the item from
      */
     public Steal(Item item, Enemy enemy) {
-        this.actionText = "Steal " + item.getName() + " from " + enemy.getName();
+        this.actionText = "Steal " + item.getName() + " from the " + enemy.getName();
         this.subActions = new ArrayList<>();
         initialize(item, enemy);
     }

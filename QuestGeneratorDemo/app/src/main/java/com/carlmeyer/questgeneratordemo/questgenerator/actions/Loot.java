@@ -14,7 +14,7 @@ public class Loot extends Action {
      * @param item - item to loot
      */
     public Loot(Item item) {
-        this.actionText = "Loot " + item.getName();
+        this.actionText = "Loot a " + item.getName();
         this.subActions = new ArrayList<>();
         initialize();
     }

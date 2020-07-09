@@ -13,7 +13,6 @@ import com.carlmeyer.questgeneratordemo.questgenerator.actions.Steal;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Subquest;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Use;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
@@ -66,28 +65,45 @@ public class QuestGenerator {
         items = realm.where(Item.class).findAll();
     }
 
+    private Quest getQuestFromStoryFragment(StoryFragment storyFragment){
+        // get the list of root actions provided by the story fragment
+        List<Action> rootActions = assignActions(storyFragment.getActions());
+
+        // create the root of the quest
+        Subquest root = new Subquest(rootActions);
+
+        root.actionText = storyFragment.getDescription();
+
+        //create the quest with the root actions and the story fragment ID that will be used later for generating the dialog
+
+        return new Quest(root,storyFragment);
+    }
+
     public Quest getQuest(String motive, int minimumComplexity) {
         int failCatch = 0;
-        Subquest root = getActions(motive);
-        Quest quest = new Quest(root);
+        // get the story fragment we are going to use for the quest
+        StoryFragment storyFragment = getActions(motive);
+
+       Quest quest = getQuestFromStoryFragment(storyFragment);
 
         while (quest.getDepth() < minimumComplexity || quest.getDepth() > 20) {
             if (failCatch > 100) {
                 Log.d("Error", "Can't find path, breaking out.");
                 break;
             }
-            quest = new Quest(getActions(motive));
+
+            storyFragment = getActions(motive);
+
+            quest = getQuestFromStoryFragment(storyFragment);
             failCatch++;
         }
 
-        quest.motivation = motive;
-        quest.description = root.actionText;
         // Will add quest meta data here, such as text, title, etc
         return quest;
     }
 
     // Get the appropriate actions for the subquest based on motive
-    private Subquest getActions(String motive) {
+    private StoryFragment getActions(String motive) {
 
 
         StoryFragment storyFragment = new StoryFragment();
@@ -114,13 +130,9 @@ public class QuestGenerator {
                 break;
         }
 
-        List<Action> rootActions = assignActions(storyFragment.getActions());
 
-        Subquest root = new Subquest(rootActions);
 
-        root.actionText = storyFragment.getDescription();
-
-        return root;
+        return storyFragment;
 
     }
 

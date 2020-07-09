@@ -40,6 +40,7 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
     private TextView tvQuest;
 
     private RecyclerView rvActions;
+    private ActionsAdapter actionsAdapter;
     List<Action> questSteps;
 
 
@@ -106,6 +107,9 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
             tvDescription.setText("Description : " + questDescriptionText);
             tvQuest.setText(questStepsText);
 
+            showQuestDialog(quest);
+
+
         } else {
             tvQuest.setText("Error! Quest is null!");
         }
@@ -119,18 +123,33 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set locationsAdapter with list of locations
-        ActionsAdapter actionsAdapter = new ActionsAdapter(questSteps, this);
+        actionsAdapter = new ActionsAdapter(questSteps, this);
         rvActions.setAdapter(actionsAdapter);
+    }
+
+    private void showQuestDialog(Quest quest){
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.script_text_light)
+                .setTitle(R.string.quest)
+                .setMessage(quest.dialog)
+                .setPositiveButton(R.string.accept, v2 -> {
+                })
+                .show();
     }
 
     @Override
     public void onActionClick(int position) {
+
+        Action selectedAction = actionsAdapter.getItem(position);
+
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.human_greeting_light)
-                .setTitle(R.string.dialog)
-                .setMessage(R.string.test_dialog)
+                .setTitle(selectedAction.getActionText())
+                .setMessage(selectedAction.getActionDialog())
                 .setPositiveButton(R.string.yes, v2 -> {
                 })
                 .setNegativeButton(R.string.no, v2 -> {

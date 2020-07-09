@@ -8,11 +8,13 @@ import java.util.List;
 
 public class StoryFragments {
 
+    List<StoryFragment> storyFragments = new ArrayList<>();
+
     // Knowledge Story Fragments
     StoryFragment deliverItem = new StoryFragment(
             1,
             Motives.KNOWLEDGE,
-            "Deliver item for study",
+            "deliver item for study",
             new String[]{
                     Actions.GET,
                     Actions.GOTO,
@@ -23,7 +25,7 @@ public class StoryFragments {
     StoryFragment interviewNPC = new StoryFragment(
             2,
             Motives.KNOWLEDGE,
-            "Interview an NPC",
+            "interview an NPC",
             new String[]{
                     Actions.GOTO,
                     Actions.LISTEN,
@@ -35,7 +37,7 @@ public class StoryFragments {
     StoryFragment useItem = new StoryFragment(
             3,
             Motives.KNOWLEDGE,
-            "Use an item in the field",
+            "use an item in the field",
             new String[]{
                     Actions.GET,
                     Actions.GOTO,
@@ -57,7 +59,7 @@ public class StoryFragments {
     StoryFragment gatherItems = new StoryFragment(
             4,
             Motives.COMFORT,
-            "Gather items",
+            "gather items",
             new String[]{
                     Actions.GOTO,
                     Actions.GATHER,
@@ -69,7 +71,7 @@ public class StoryFragments {
     StoryFragment getLuxuries = new StoryFragment(
             5,
             Motives.COMFORT,
-            "Get luxuries",
+            "get luxuries",
             new String[]{
                     Actions.GET,
                     Actions.GOTO,
@@ -80,7 +82,7 @@ public class StoryFragments {
     StoryFragment killPests = new StoryFragment(
             6,
             Motives.COMFORT,
-            "Kill pests",
+            "kill pests",
             new String[]{
                     Actions.GOTO,
                     Actions.KILL,
@@ -101,7 +103,7 @@ public class StoryFragments {
     StoryFragment getRevenge = new StoryFragment(
             7,
             Motives.JUSTICE,
-            "Get revenge",
+            "get revenge",
             new String[]{
                     Actions.GOTO,
                     Actions.KILL,
@@ -112,7 +114,7 @@ public class StoryFragments {
     StoryFragment recoverStolenItems = new StoryFragment(
             8,
             Motives.JUSTICE,
-            "Recover stolen items",
+            "recover stolen items",
             new String[]{
                     Actions.GET,
                     Actions.GOTO,
@@ -123,7 +125,7 @@ public class StoryFragments {
     StoryFragment stealBackStolenItems = new StoryFragment(
             9,
             Motives.JUSTICE,
-            "Steal back stolen items",
+            "steal back stolen items",
             new String[]{
                     Actions.GOTO,
                     Actions.GET,
@@ -152,6 +154,16 @@ public class StoryFragments {
         storyFragments.add(recoverStolenItems);
         storyFragments.add(stealBackStolenItems);
         return storyFragments;
+    }
+
+    public StoryFragment getStoryFragmentById(int id){
+        for (StoryFragment storyFragment: getAllStoryFragments()) {
+            if (storyFragment.getId() == id){
+                return storyFragment;
+            }
+        }
+        // no story fragment with such ID found
+        return null;
     }
 
 }

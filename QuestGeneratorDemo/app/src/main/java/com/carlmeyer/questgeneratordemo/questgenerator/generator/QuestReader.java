@@ -1,10 +1,10 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.generator;
 
 
-import android.util.Log;
-
+import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ public class QuestReader {
     private StringBuilder questStepsText = new StringBuilder();
     private int stepCount = 0;
     private String indent = "   ";
+    private StoryFragments storyFragments;
 
     /**
      * Traverse the quest tree and create an ordered list of actions that need to be completed
@@ -39,6 +40,8 @@ public class QuestReader {
         //read the sub-actions of the quest
         readSubActions(quest.root, 0);
 
+        //generate the Quest Dialog
+        generateDialog(quest, questSteps);
     }
 
     /**
@@ -94,7 +97,7 @@ public class QuestReader {
     /**
      * Convert the quest actions into a list of steps (string)
      *
-     * @return
+     * @return - a string containing all the actions and indented per sub action
      */
     public String getQuestStepsToString() {
         StringBuilder steps = new StringBuilder();
@@ -114,26 +117,22 @@ public class QuestReader {
         return questStepsText.toString();
     }
 
-    private String getDialog(Action action){
-
-        String dialog = "";
-
-        if(stepCount == 0){
-            /*  this is the first action which is tied to the Story fragment. This is the first
-                Dialog that will be shown to the player which should explain the main quest.
-                We will use the story fragment and its actions to build the first Dialog. */
-
-
-
-
-        }else{
-            /*  after explaining the main quest, the rest of the action dialogs will simply be a
-                short description of what the player needs to do next. We will use information from
-                the previous and next actions to build this dialog to make it feel more coherent. */
-
-
+    private void generateDialog(Quest quest, List<Action> questSteps){
+        StringBuilder questDialog = new StringBuilder();
+        storyFragments = new StoryFragments();
+        StoryFragment storyFragment = storyFragments.getStoryFragmentById(quest.storyFragmentID);
+        // Explain the Quest Motivation and what the quest is about.
+        questDialog.append("Dear Adventurer, I am on a quest for ").append(storyFragment.getMotive()).append(".").append("\n").append("\n");
+        questDialog.append("I need you to help me ").append(storyFragment.getDescription()).append(".").append("\n").append("\n");
+        // Explain What actions need to be done for this specific storyfragment.
+        // Note to self: look at the first depth of the actions tree, those actions should relate to the action in the story fragment. Actions in other depths are subquests.
+        questDialog.append("In order to do this you will have to do the following: ").append("\n").append("\n");
+        int step = 1;
+        for (Action action : quest.root.subActions){
+            questDialog.append(step).append(". ").append(action.actionText).append("\n").append("\n");
+            step++;
         }
-
-        return dialog;
+        questDialog.append("Complete these actions and I shall reward you greatly!");
+        quest.dialog = questDialog.toString();
     }
 }

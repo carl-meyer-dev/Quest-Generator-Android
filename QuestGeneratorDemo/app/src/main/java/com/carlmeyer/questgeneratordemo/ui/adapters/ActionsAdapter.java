@@ -43,4 +43,9 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionViewHolder> {
     public int getItemCount() {
         return actions.size();
     }
+
+
+    public Action getItem(int position) {
+        return actions.get(position);
+    }
 }
