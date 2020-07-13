@@ -13,6 +13,7 @@ public class ActionViewHolder extends RecyclerView.ViewHolder implements View.On
 
     public TextView tvAction;
     public TextView tvStep;
+    public TextView tvActionType;
     public Action actionData;
     OnActionListener onActionListener;
 
@@ -20,13 +21,14 @@ public class ActionViewHolder extends RecyclerView.ViewHolder implements View.On
         super(itemView);
         tvAction = itemView.findViewById(R.id.tvAction);
         tvStep = itemView.findViewById(R.id.tvStep);
+        tvActionType = itemView.findViewById(R.id.tvActionType);
         this.onActionListener = onActionListener;
         itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        onActionListener.onActionClick(getAdapterPosition());
     }
 
     public interface OnActionListener {

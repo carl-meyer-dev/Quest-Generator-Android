@@ -39,9 +39,10 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
     private TextView tvDescription;
     private TextView tvQuest;
 
-    private ActionsAdapter actionsAdapter;
     private RecyclerView rvActions;
-    List<Action> questSteps;
+    private ActionsAdapter actionsAdapter;
+    private List<Action> questSteps;
+    private Quest quest;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,7 +72,7 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         Random random = new Random();
         QuestGenerator questGenerator = QuestGenerator.getInstance();
 
-        Quest quest = null;
+        quest = null;
 
         // get a random quest motivation
         String questMotivation = motivations[random.nextInt(motivations.length - 1)];
@@ -107,6 +108,9 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
             tvDescription.setText("Description : " + questDescriptionText);
             tvQuest.setText(questStepsText);
 
+            showQuestDialog(quest);
+
+
         } else {
             tvQuest.setText("Error! Quest is null!");
         }
@@ -120,12 +124,37 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set locationsAdapter with list of locations
-        actionsAdapter = new ActionsAdapter(questSteps, this);
+        actionsAdapter = new ActionsAdapter(quest.root.subActions, this);
         rvActions.setAdapter(actionsAdapter);
+    }
+
+    private void showQuestDialog(Quest quest){
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.script_text_light)
+                .setTitle(R.string.quest)
+                .setMessage(quest.dialog)
+                .setPositiveButton(R.string.accept, v2 -> {
+                })
+                .show();
     }
 
     @Override
     public void onActionClick(int position) {
 
+        Action selectedAction = actionsAdapter.getItem(position);
+
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.human_greeting_light)
+                .setTitle(selectedAction.getActionText())
+                .setMessage(selectedAction.getActionDialog())
+                .setPositiveButton(R.string.yes, v2 -> {
+                })
+                .setNegativeButton(R.string.no, v2 -> {
+                })
+                .show();
     }
 }

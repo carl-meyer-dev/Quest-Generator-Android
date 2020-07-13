@@ -78,4 +78,12 @@
     <string name="generate_quest">Generate Quest</string>
     <string name="quest_steps">Quest Steps</string>
     <string name="step">step</string>
+    <string name="actiontype">actionType</string>
+    <string name="dialog">Dialog</string>
+    <string name="test_dialog">Hello there adventurer! Are you ready to go on a quest?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="attention">Attention!</string>
+    <string name="can_not_delete_last_location">"There needs to be at least 1 location. If you would like to delete this location, first create another one before deleting this one. "</string>
+    <string name="accept">Accept</string>
 </resources>

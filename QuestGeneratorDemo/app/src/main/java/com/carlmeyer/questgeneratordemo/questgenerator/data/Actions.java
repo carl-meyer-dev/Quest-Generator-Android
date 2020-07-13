@@ -12,4 +12,5 @@ public class Actions {
     public static final String LISTEN = "listen";
     public static final String GATHER = "gather";
     public static final String LOOT = "loot";
+    public static final String SUBQUEST = "subquest";
 }
