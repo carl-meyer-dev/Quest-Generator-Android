@@ -41,7 +41,8 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
 
     private RecyclerView rvActions;
     private ActionsAdapter actionsAdapter;
-    List<Action> questSteps;
+    private List<Action> questSteps;
+    private Quest quest;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -71,7 +72,7 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         Random random = new Random();
         QuestGenerator questGenerator = QuestGenerator.getInstance();
 
-        Quest quest = null;
+        quest = null;
 
         // get a random quest motivation
         String questMotivation = motivations[random.nextInt(motivations.length - 1)];
@@ -123,7 +124,7 @@ public class  QuestGeneratorFragment extends Fragment implements ActionViewHolde
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set locationsAdapter with list of locations
-        actionsAdapter = new ActionsAdapter(questSteps, this);
+        actionsAdapter = new ActionsAdapter(quest.root.subActions, this);
         rvActions.setAdapter(actionsAdapter);
     }
 
