@@ -52,7 +52,7 @@ public class Goto extends Action {
      *
      * @param npc - npc to go to
      */
-    public void initialize(NPC npc) {
+    private void initialize(NPC npc) {
         // Add all the different ways the quest can go with an NPC
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about npc first before Goto npc
@@ -76,7 +76,7 @@ public class Goto extends Action {
      *
      * @param enemy
      */
-    public void initialize(Enemy enemy) {
+    private void initialize(Enemy enemy) {
         // Add all the different ways the quest can go with an Enemy
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about enemy first before Goto enemy

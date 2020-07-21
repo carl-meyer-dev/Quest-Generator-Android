@@ -19,7 +19,7 @@ public class Loot extends Action {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
 
     }
 

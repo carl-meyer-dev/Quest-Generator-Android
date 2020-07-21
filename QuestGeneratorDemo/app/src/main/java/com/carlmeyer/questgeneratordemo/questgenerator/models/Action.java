@@ -12,17 +12,5 @@ public class Action implements RealmModel {
     public List<Action> subActions;
     public String actionText;
     public String actionDialog;
-    public boolean complete = false;
 
-    public String getActionText() {
-        return actionText;
-    }
-
-    public List<Action> getSubActions() {
-        return subActions;
-    }
-
-    public String getActionDialog() {
-        return actionDialog;
-    }
 }

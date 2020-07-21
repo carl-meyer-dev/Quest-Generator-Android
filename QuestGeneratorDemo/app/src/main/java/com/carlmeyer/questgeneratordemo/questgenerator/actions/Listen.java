@@ -32,7 +32,7 @@ public class Listen extends Action {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         // no further subActions to add to rootQuest.
     }
 

@@ -32,7 +32,7 @@ public class Steal extends Action {
      * @param item  - item to steal
      * @param enemy - enemy to steal from
      */
-    public void initialize(Item item, Enemy enemy) {
+    private void initialize(Item item, Enemy enemy) {
         QuestGenerator questGenerator = QuestGenerator.getInstance();
         // Add possible ways quest can go
         List<String[]> questPatterns = new ArrayList<>();

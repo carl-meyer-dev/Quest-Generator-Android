@@ -27,7 +27,7 @@ public class Kill extends Action {
      *
      * @param enemy - enemy to kill
      */
-    public void initialize(Enemy enemy) {
+    private void initialize(Enemy enemy) {
         // Add all the different ways the quest can go
         List<String[]> questPatterns = new ArrayList<>();
         // Listen to the enemy first before killing him

@@ -29,7 +29,7 @@ public class Get extends Action {
      *
      * @param item - item to get
      */
-    public void initialize(Item item) {
+    private void initialize(Item item) {
         QuestGenerator questGenerator = QuestGenerator.getInstance();
         // Add all the different options that the quest can play out
         List<String[]> questPatterns = new ArrayList<>();

@@ -20,7 +20,7 @@ public class Report extends Action {
         initialize(npc);
     }
 
-    public void initialize(NPC npc) {
+    private void initialize(NPC npc) {
 
     }
 

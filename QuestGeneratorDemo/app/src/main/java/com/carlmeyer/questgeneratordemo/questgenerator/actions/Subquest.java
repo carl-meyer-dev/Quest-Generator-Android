@@ -17,12 +17,7 @@ public class Subquest extends Action {
         initialize();
     }
 
-    public Subquest() {
-        this.actionText = "Subquest complete";
-        this.subActions = new ArrayList<>();
-    }
-
-    public void initialize() {
+    private void initialize() {
 
     }
 

@@ -142,7 +142,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.human_greeting_light)
-                .setMessage(selectedAction.getActionText() + "?")
+                .setTitle(selectedAction.actionText)
+                .setMessage(selectedAction.actionDialog)
                 .setPositiveButton(R.string.yes, v2 -> {
                     if (position == 0) {
                         // can perform action
