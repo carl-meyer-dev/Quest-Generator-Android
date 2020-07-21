@@ -126,7 +126,9 @@ public class QuestReader {
         questDialog.append("I need you to help me ").append(storyFragment.getDescription()).append(".").append("\n").append("\n");
         // Explain What actions need to be done for this specific storyfragment.
         // Note to self: look at the first depth of the actions tree, those actions should relate to the action in the story fragment. Actions in other depths are subquests.
-        questDialog.append("In order to do this you will have to do the following: ").append("\n").append("\n");
+        questDialog.append("In order to do this you will have to do the following: ");
+        quest.questText = questDialog.toString();
+        questDialog.append("\n").append("\n");
         int step = 1;
         for (Action action : quest.root.subActions){
             questDialog.append(step).append(". ").append(action.actionText).append("\n").append("\n");

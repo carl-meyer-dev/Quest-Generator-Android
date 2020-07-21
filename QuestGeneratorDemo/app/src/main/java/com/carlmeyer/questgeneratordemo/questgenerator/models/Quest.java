@@ -7,6 +7,7 @@ public class Quest {
     public String motivation;
     public int storyFragmentID;
     public String dialog;
+    public String questText;
 
     public Action root;
 

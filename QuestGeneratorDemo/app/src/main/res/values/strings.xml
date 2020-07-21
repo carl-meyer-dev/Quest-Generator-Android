@@ -86,4 +86,6 @@
     <string name="attention">Attention!</string>
     <string name="can_not_delete_last_location">"There needs to be at least 1 location. If you would like to delete this location, first create another one before deleting this one. "</string>
     <string name="accept">Accept</string>
+    <string name="cant_perform_action_now">You can\'t perform that action right now</string>
+    <string name="ok">OK</string>
 </resources>
