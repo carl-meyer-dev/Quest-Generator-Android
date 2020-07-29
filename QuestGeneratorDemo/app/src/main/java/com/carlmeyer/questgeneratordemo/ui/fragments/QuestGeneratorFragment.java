@@ -142,7 +142,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.human_greeting_light)
-                .setTitle(selectedAction.actionText)
+                .setTitle(selectedAction.actionText + "?")
                 .setMessage(selectedAction.actionDialog)
                 .setPositiveButton(R.string.yes, v2 -> {
                     if (position == 0) {
@@ -165,7 +165,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
      * @param action - selected action to perform
      */
     private void performAction(Action action) {
-        if (action.getSubActions().isEmpty()) {
+        if (action.subActions.isEmpty()) {
             completeAction(action);
         } else {
             startSubQuest(action);
@@ -194,7 +194,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         subQuestText
                 .append("Before you can ")
                 .append(root.actionText)
-                .append(" you need to do the following: ");
+                .append(" you need to do the following: ").append("\n");
 
         int step = 1;
         for (Action action : root.subActions){
@@ -205,6 +205,17 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         questStack.push(questSteps);
         questSteps = root.subActions;
         actionsAdapter.notifyDataSetChanged();
+
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.alert_box_light)
+                .setMessage(subQuestText.toString())
+                .setPositiveButton(R.string.ok, v2 -> {
+
+                })
+                .show();
+
 
      }
 
