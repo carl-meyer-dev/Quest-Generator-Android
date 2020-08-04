@@ -1,6 +1,7 @@
 package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,11 @@ import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -162,6 +168,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
      * Perform the action that was selected.
      * If no subactions simple complete the action and remove it from the list
      * else if it has sub actions start subQuest
+     *
      * @param action - selected action to perform
      */
     private void performAction(Action action) {
@@ -181,30 +188,44 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setPositiveButton(R.string.ok, v2 -> {
                     questSteps.remove(0);
                     actionsAdapter.notifyItemRemoved(0);
+                    Log.d("Quest Stack empty?", String.valueOf(questStack.isEmpty()));
+                    if(!questStack.isEmpty()){
+                        continuePreviousQuest();
+                    }
                 })
                 .show();
     }
 
+    private void continuePreviousQuest(){
+
+        List<Action> previousQuest = questStack.pop();
+
+        Log.d("Previous Quest", previousQuest.toString());
+
+        questSteps.clear();
+        questSteps.addAll(previousQuest);
+        actionsAdapter.notifyDataSetChanged();
+    }
+
+
+
     /**
      * Start the subquest that needs to be completed to perform root action
+     *
      * @param root
      */
-    private void startSubQuest(Action root){
+    private void startSubQuest(Action root) {
         StringBuilder subQuestText = new StringBuilder();
         subQuestText
                 .append("Before you can ")
                 .append(root.actionText)
-                .append(" you need to do the following: ").append("\n");
+                .append(" you need to do the following: ").append("\n").append("\n");
 
         int step = 1;
-        for (Action action : root.subActions){
+        for (Action action : root.subActions) {
             subQuestText.append(step).append(". ").append(action.actionText).append("\n").append("\n");
             step++;
         }
-
-        questStack.push(questSteps);
-        questSteps = root.subActions;
-        actionsAdapter.notifyDataSetChanged();
 
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
@@ -212,12 +233,24 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setIcon(R.drawable.alert_box_light)
                 .setMessage(subQuestText.toString())
                 .setPositiveButton(R.string.ok, v2 -> {
-
+                    addSubquest(root);
                 })
                 .show();
+    }
+
+    private void addSubquest(Action subQuest){
+
+        Collections.reverse(subQuest.subActions);
+
+        for (Action action : subQuest.subActions){
+            questSteps.add(0, action);
+        }
+
+        subQuest.subActions.clear();
 
 
-     }
+        actionsAdapter.notifyDataSetChanged();
+    }
 
     private void performPreviousActionFirst(int parentPosition, Action action) {
         Action parentAction = actionsAdapter.getItem(parentPosition);
