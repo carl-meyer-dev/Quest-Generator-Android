@@ -1,7 +1,7 @@
 package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
-import com.carlmeyer.questgeneratordemo.questgenerator.actions.Gather;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestGenerator;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
@@ -27,14 +25,14 @@ import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 public class QuestGeneratorFragment extends Fragment implements ActionViewHolder.OnActionListener {
 
@@ -46,6 +44,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     private ActionsAdapter actionsAdapter;
     private List<Action> questSteps;
     private Quest quest;
+    private KonfettiView konfettiView;
 
     private Stack<List<Action>> questStack = new Stack<>();
 
@@ -60,6 +59,9 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         Button btnGenerateQuest = root.findViewById(R.id.btnQuestGenerator);
 
         rvActions = root.findViewById(R.id.rvActions);
+
+        konfettiView =  root.findViewById(R.id.viewKonfetti);
+
 
         btnGenerateQuest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,11 +174,12 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
      * @param action - selected action to perform
      */
     private void performAction(Action action) {
-        if (action.subActions.isEmpty()) {
-            completeAction(action);
-        } else {
-            startSubQuest(action);
-        }
+        completeAction(action);
+//        if (action.subActions.isEmpty()) {
+//            completeAction(action);
+//        } else {
+//            startSubQuest(action);
+//        }
     }
 
     private void completeAction(Action action) {
@@ -188,23 +191,11 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setPositiveButton(R.string.ok, v2 -> {
                     questSteps.remove(0);
                     actionsAdapter.notifyItemRemoved(0);
-                    Log.d("Quest Stack empty?", String.valueOf(questStack.isEmpty()));
-                    if(!questStack.isEmpty()){
-                        continuePreviousQuest();
+                    if(questSteps.size() == 0){
+                        completeQuest();
                     }
                 })
                 .show();
-    }
-
-    private void continuePreviousQuest(){
-
-        List<Action> previousQuest = questStack.pop();
-
-        Log.d("Previous Quest", previousQuest.toString());
-
-        questSteps.clear();
-        questSteps.addAll(previousQuest);
-        actionsAdapter.notifyDataSetChanged();
     }
 
 
@@ -223,7 +214,11 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         int step = 1;
         for (Action action : root.subActions) {
-            subQuestText.append(step).append(". ").append(action.actionText).append("\n").append("\n");
+            subQuestText
+                    .append(step).append(". ")
+                    .append(action.actionText)
+                    .append("\n")
+                    .append("\n");
             step++;
         }
 
@@ -273,5 +268,29 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
                 })
                 .show();
+    }
+
+    private void completeQuest(){
+        throwConfetti();
+    }
+
+    private void throwConfetti(){
+        konfettiView.setOnClickListener(view -> konfettiView.build()
+                .addColors(
+                        getContext().getColor(R.color.colorPrimary),
+                        getContext().getColor(R.color.colorPrimaryDark),
+                        getContext().getColor(R.color.colorAccent)
+                )
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 25f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                .addSizes(new Size(10, 1f))
+                .setPosition(
+                        konfettiView.getWidth() - konfettiView.getWidth() / 2f,
+                        konfettiView.getHeight() - konfettiView.getHeight() / 1.5f
+                )
+                .burst(1000));
     }
 }
