@@ -1,7 +1,6 @@
 package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -271,11 +270,20 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     }
 
     private void completeQuest(){
-        throwConfetti();
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.check_bold)
+                .setMessage(generateCompleteQuestDialog())
+                .setPositiveButton(R.string.ok, v2 -> {
+                    tvQuestText.setText("");
+                    throwConfetti();
+                })
+                .show();
     }
 
     private void throwConfetti(){
-        konfettiView.setOnClickListener(view -> konfettiView.build()
+        konfettiView.build()
                 .addColors(
                         getContext().getColor(R.color.colorPrimary),
                         getContext().getColor(R.color.colorPrimaryDark),
@@ -291,6 +299,14 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                         konfettiView.getWidth() - konfettiView.getWidth() / 2f,
                         konfettiView.getHeight() - konfettiView.getHeight() / 1.5f
                 )
-                .burst(1000));
+                .burst(1000);
+    }
+
+    private String generateCompleteQuestDialog(){
+        StringBuilder completeQuestDialog = new StringBuilder();
+        completeQuestDialog.append("Well done adventurer!").append("\n").append("\n");
+        completeQuestDialog.append("Thank you for completing the quest!").append("\n").append("\n");
+        completeQuestDialog.append("As promised here is your reward.");
+        return completeQuestDialog.toString();
     }
 }
