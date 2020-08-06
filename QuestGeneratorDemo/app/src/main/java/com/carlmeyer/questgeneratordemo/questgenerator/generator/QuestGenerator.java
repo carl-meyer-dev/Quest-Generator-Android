@@ -13,7 +13,6 @@ import com.carlmeyer.questgeneratordemo.questgenerator.actions.Steal;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Subquest;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Use;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
@@ -29,6 +28,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import io.realm.Realm;
 
 public class QuestGenerator {
 
@@ -57,35 +58,52 @@ public class QuestGenerator {
 
     private QuestGenerator() {
         // load the list of available npcs, enemies and locations
-        Data data = new Data();
-        locations = data.getLocations();
-        npcs = data.getNpcs();
-        enemies = data.getEnemies();
-        items = data.getItems();
+        Realm realm = Realm.getDefaultInstance();
+        locations = realm.where(Location.class).findAll();
+        npcs = realm.where(NPC.class).findAll();
+        enemies = realm.where(Enemy.class).findAll();
+        items = realm.where(Item.class).findAll();
+    }
+
+    private Quest getQuestFromStoryFragment(StoryFragment storyFragment){
+        // get the list of root actions provided by the story fragment
+        List<Action> rootActions = assignActions(storyFragment.getActions());
+
+        // create the root of the quest
+        Subquest root = new Subquest(rootActions);
+
+        root.actionText = storyFragment.getDescription();
+
+        //create the quest with the root actions and the story fragment ID that will be used later for generating the dialog
+
+        return new Quest(root,storyFragment);
     }
 
     public Quest getQuest(String motive, int minimumComplexity) {
         int failCatch = 0;
-        Subquest root = getActions(motive);
-        Quest quest = new Quest(root);
+        // get the story fragment we are going to use for the quest
+        StoryFragment storyFragment = getActions(motive);
+
+       Quest quest = getQuestFromStoryFragment(storyFragment);
 
         while (quest.getDepth() < minimumComplexity || quest.getDepth() > 20) {
             if (failCatch > 100) {
                 Log.d("Error", "Can't find path, breaking out.");
                 break;
             }
-            quest = new Quest(getActions(motive));
+
+            storyFragment = getActions(motive);
+
+            quest = getQuestFromStoryFragment(storyFragment);
             failCatch++;
         }
 
-        quest.motivation = motive;
-        quest.description = root.actionText;
         // Will add quest meta data here, such as text, title, etc
         return quest;
     }
 
     // Get the appropriate actions for the subquest based on motive
-    private Subquest getActions(String motive) {
+    private StoryFragment getActions(String motive) {
 
 
         StoryFragment storyFragment = new StoryFragment();
@@ -112,13 +130,9 @@ public class QuestGenerator {
                 break;
         }
 
-        List<Action> rootActions = assignActions(storyFragment.getActions());
 
-        Subquest root = new Subquest(rootActions);
 
-        root.actionText = storyFragment.getDescription();
-
-        return root;
+        return storyFragment;
 
     }
 
@@ -194,8 +208,12 @@ public class QuestGenerator {
 
     // Get random enemy
     public Enemy getEnemy() {
-        int index = random.nextInt(enemies.size() - 1);
-        return enemies.get(index);
+        if (enemies.size() > 1) {
+            int index = random.nextInt(enemies.size() - 1);
+            return enemies.get(index);
+        } else {
+            return enemies.get(0);
+        }
     }
 
     // Get enemy with specific item
@@ -222,8 +240,12 @@ public class QuestGenerator {
 
     // Get random location
     public Location getLocation() {
-        int index = random.nextInt(locations.size() - 1);
-        return locations.get(index);
+        if (locations.size() > 1) {
+            int index = random.nextInt(locations.size() - 1);
+            return locations.get(index);
+        } else {
+            return locations.get(0);
+        }
     }
 
     // Todo: getLocation(Item item)
@@ -234,14 +256,22 @@ public class QuestGenerator {
 
     // Get random item
     public Item getItem() {
-        int index = random.nextInt(items.size() - 1);
-        return items.get(index);
+        if (items.size() > 1) {
+            int index = random.nextInt(items.size() - 1);
+            return items.get(index);
+        } else {
+            return items.get(0);
+        }
     }
 
     // Get random NPC
     public NPC getNPC() {
-        int index = random.nextInt(npcs.size() - 1);
-        return npcs.get(index);
+        if (npcs.size() > 1) {
+            int index = random.nextInt(npcs.size() - 1);
+            return npcs.get(index);
+        } else {
+            return npcs.get(0);
+        }
     }
 
 

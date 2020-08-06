@@ -20,7 +20,7 @@ public class Goto extends Action {
      * @param npc - npc you need to go to
      */
     public Goto(NPC npc) {
-        this.actionText = "Go to " + npc.getLocation().getName();
+        this.actionText = "Go to the " + npc.getLocation().getName();
         this.subActions = new ArrayList<>();
         initialize(npc);
     }
@@ -31,7 +31,7 @@ public class Goto extends Action {
      * @param enemy - enemy to go to
      */
     public Goto(Enemy enemy) {
-        this.actionText = "Go to " + enemy.getLocation().getName();
+        this.actionText = "Go to the " + enemy.getLocation().getName();
         this.subActions = new ArrayList<>();
         initialize(enemy);
     }
@@ -42,7 +42,7 @@ public class Goto extends Action {
      * @param location - location to go to
      */
     public Goto(Location location) {
-        this.actionText = "Goto " + location.getName();
+        this.actionText = "Go to the " + location.getName();
         this.subActions = new ArrayList<>();
         // No initialize for location since you simply need to goto the location
     }
@@ -52,7 +52,7 @@ public class Goto extends Action {
      *
      * @param npc - npc to go to
      */
-    public void initialize(NPC npc) {
+    private void initialize(NPC npc) {
         // Add all the different ways the quest can go with an NPC
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about npc first before Goto npc
@@ -76,7 +76,7 @@ public class Goto extends Action {
      *
      * @param enemy
      */
-    public void initialize(Enemy enemy) {
+    private void initialize(Enemy enemy) {
         // Add all the different ways the quest can go with an Enemy
         List<String[]> questPatterns = new ArrayList<>();
         // Learn about enemy first before Goto enemy

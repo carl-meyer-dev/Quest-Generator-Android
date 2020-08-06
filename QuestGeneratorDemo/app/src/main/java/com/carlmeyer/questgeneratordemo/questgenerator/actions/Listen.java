@@ -1,6 +1,7 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
@@ -31,7 +32,7 @@ public class Listen extends Action {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         // no further subActions to add to rootQuest.
     }
 

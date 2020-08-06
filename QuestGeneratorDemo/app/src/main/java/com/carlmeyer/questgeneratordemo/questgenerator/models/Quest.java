@@ -5,14 +5,19 @@ public class Quest {
     public String name;
     public String description;
     public String motivation;
+    public int storyFragmentID;
+    public String dialog;
+    public String questText;
 
     public Action root;
 
-    public Quest(Action root) {
+    public Quest(Action root, StoryFragment storyFragment) {
         this.root = root;
 
-        this.name = "Cool Quest";
-        this.description = "All quests have the same description";
+        this.name = storyFragment.getDescription();
+        this.description = root.actionText;
+        this.motivation = storyFragment.getMotive();
+        this.storyFragmentID = storyFragment.getId();
     }
 
     public int getDepth() {

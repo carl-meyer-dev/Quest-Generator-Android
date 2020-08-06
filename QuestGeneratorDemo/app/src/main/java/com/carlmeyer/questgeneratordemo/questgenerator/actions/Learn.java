@@ -60,7 +60,7 @@ public class Learn extends Action {
      * @param npc the npc that you learn info from.
      *            Note this might need to be reworked since npc isn't actually used.
      */
-    public void initialize(NPC npc) {
+    private void initialize(NPC npc) {
 
         String[] randomlySelectedPattern = getRandomQuestPattern();
 
@@ -74,7 +74,7 @@ public class Learn extends Action {
      * @param enemy the enemy that you learn info from.
      *              Note this might need to be reworked since enemy isn't actually used.
      */
-    public void initialize(Enemy enemy) {
+    private void initialize(Enemy enemy) {
         String[] randomlySelectedPattern = getRandomQuestPattern();
 
         this.subActions = questGenerator.assignActions(randomlySelectedPattern);
@@ -86,7 +86,7 @@ public class Learn extends Action {
      * @param location the location that you learn info from.
      *                 Note this might need to be reworked since location isn't actually used.
      */
-    public void initialize(Location location) {
+    private void initialize(Location location) {
         String[] randomlySelectedPattern = getRandomQuestPattern();
 
         this.subActions = questGenerator.assignActions(randomlySelectedPattern);

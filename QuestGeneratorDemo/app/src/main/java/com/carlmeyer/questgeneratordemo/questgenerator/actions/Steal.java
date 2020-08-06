@@ -21,7 +21,7 @@ public class Steal extends Action {
      * @param enemy - enemy to steal the item from
      */
     public Steal(Item item, Enemy enemy) {
-        this.actionText = "Steal " + item.getName() + " from " + enemy.getName();
+        this.actionText = "Steal " + item.getName() + " from the " + enemy.getName();
         this.subActions = new ArrayList<>();
         initialize(item, enemy);
     }
@@ -32,7 +32,7 @@ public class Steal extends Action {
      * @param item  - item to steal
      * @param enemy - enemy to steal from
      */
-    public void initialize(Item item, Enemy enemy) {
+    private void initialize(Item item, Enemy enemy) {
         QuestGenerator questGenerator = QuestGenerator.getInstance();
         // Add possible ways quest can go
         List<String[]> questPatterns = new ArrayList<>();

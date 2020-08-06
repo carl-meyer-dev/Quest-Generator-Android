@@ -1,5 +1,6 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 
@@ -13,12 +14,12 @@ public class Gather extends Action {
      * @param item - item to gather
      */
     public Gather(Item item) {
-        this.actionText = "Gather " + item.getName();
+        this.actionText = "gather a " + item.getName();
         this.subActions = new ArrayList<>();
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
 
     }
 

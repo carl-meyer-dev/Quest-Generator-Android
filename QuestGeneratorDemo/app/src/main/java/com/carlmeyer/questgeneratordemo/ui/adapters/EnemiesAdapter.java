@@ -15,16 +15,19 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class EnemiesAdapter extends RealmRecyclerViewAdapter<Enemy, EnemyViewHolder> {
 
-    public EnemiesAdapter(OrderedRealmCollection<Enemy> data) {
+    private EnemyViewHolder.OnEnemyListener onEnemyListener;
+
+    public EnemiesAdapter(OrderedRealmCollection<Enemy> data, EnemyViewHolder.OnEnemyListener onEnemyListener) {
         super(data, true);
         setHasStableIds(true);
+        this.onEnemyListener = onEnemyListener;
     }
 
     @NonNull
     @Override
     public EnemyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_enemy, parent, false);
-        return new EnemyViewHolder(itemView);
+        return new EnemyViewHolder(itemView, onEnemyListener);
     }
 
     @Override

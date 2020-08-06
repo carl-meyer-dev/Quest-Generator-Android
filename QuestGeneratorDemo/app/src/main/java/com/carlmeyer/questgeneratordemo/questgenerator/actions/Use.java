@@ -19,7 +19,7 @@ public class Use extends Action {
      * @param item - item to use
      */
     public Use(Item item) {
-        this.actionText = "Use " + item.getName();
+        this.actionText = "Use the " + item.getName();
         this.subActions = new ArrayList<>();
         initialize(item);
     }
@@ -29,7 +29,7 @@ public class Use extends Action {
      *
      * @param item
      */
-    public void initialize(Item item) {
+    private void initialize(Item item) {
         QuestGenerator questGenerator = QuestGenerator.getInstance();
         // Add possible ways this quest can go
         List<String[]> questPatterns = new ArrayList<>();

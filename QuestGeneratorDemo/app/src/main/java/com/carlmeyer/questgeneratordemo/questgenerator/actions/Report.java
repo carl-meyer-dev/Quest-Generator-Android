@@ -1,6 +1,7 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
 
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 
@@ -14,12 +15,12 @@ public class Report extends Action {
      * @param npc - npc to report to
      */
     public Report(NPC npc) {
-        this.actionText = "Report to " + npc.getName();
+        this.actionText = "Report to the " + npc.getName();
         subActions = new ArrayList<>();
         initialize(npc);
     }
 
-    public void initialize(NPC npc) {
+    private void initialize(NPC npc) {
 
     }
 

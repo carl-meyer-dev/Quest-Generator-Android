@@ -1,6 +1,9 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.actions;
 
 
+import android.util.Log;
+
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 
 import java.util.ArrayList;
@@ -11,14 +14,10 @@ public class Subquest extends Action {
     public Subquest(List<Action> subActions) {
         this.actionText = "Subquest complete";
         this.subActions = subActions;
+        initialize();
     }
 
-    public Subquest() {
-        this.actionText = "Subquest complete";
-        this.subActions = new ArrayList<>();
-    }
-
-    public void initialize() {
+    private void initialize() {
 
     }
 
