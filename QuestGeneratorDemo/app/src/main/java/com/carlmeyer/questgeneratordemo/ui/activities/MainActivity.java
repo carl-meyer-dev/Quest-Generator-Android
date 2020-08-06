@@ -14,10 +14,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import io.realm.Realm;
@@ -155,14 +157,16 @@ public class MainActivity extends AppCompatActivity {
 
             // Get a reference to the Default Story Fragments that I have set up for the Quest Generator
             // TODO: subaction of type string[] not allowed by Realm. Need to change it
-//            StoryFragments storyFragments = new StoryFragments();
-//            for (StoryFragment sf : storyFragments.getAllStoryFragments()){
-//                StoryFragment storyFragment = r.createObject(StoryFragment.class);
-//                storyFragment.setMotive(sf.getMotive());
-//                storyFragment.setDescription(sf.getDescription());
-//                storyFragment.setActions(sf.getActions());
-//                Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotive() + " : " + sf.getDescription());
-//            }
+            StoryFragments storyFragments = new StoryFragments();
+            idCounter = 1;
+            for (StoryFragment sf : storyFragments.getAllStoryFragments()){
+                StoryFragment storyFragment = r.createObject(StoryFragment.class, idCounter);
+                storyFragment.setMotive(sf.getMotive());
+                storyFragment.setDescription(sf.getDescription());
+                storyFragment.setActions(sf.getActions());
+                idCounter++;
+                Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotive() + " : " + sf.getDescription());
+            }
         });
     }
 

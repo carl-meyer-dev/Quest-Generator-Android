@@ -88,4 +88,14 @@
     <string name="accept">Accept</string>
     <string name="cant_perform_action_now">You can\'t perform that action right now</string>
     <string name="ok">OK</string>
+    <string name="add_story_fragment">Add Story Fragment</string>
+    <string name="story_fragment">Story Fragment</string>
+    <string name="menu_story_fragments">Story Fragments</string>
+    <string name="story_fragment_may_not_be_empty">Story Fragment may not be empty</string>
+    <string name="could_not_find_story_fragment">Can not find story fragment</string>
+    <string name="could_not_delete_story_fragment">Could not delete story fragment</string>
+    <string name="can_not_delete_last_story_fragment">Can not delete last story fragment</string>
+    <string name="edit_story_fragment">Edit Story Fragment</string>
+    <string name="story_fragment_name">Story Fragment Name</string>
+    <string name="enter_story_fragment_name">Enter Story Fragment Name</string>
 </resources>

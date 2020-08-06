@@ -31,4 +31,9 @@
         android:name="com.carlmeyer.questgeneratordemo.ui.fragments.NPCsFragment"
         android:label="@string/menu_non_player_characters"
         tools:layout="@layout/fragment_npcs" />
+    <fragment
+        android:id="@+id/nav_story_fragments"
+        android:name="com.carlmeyer.questgeneratordemo.ui.fragments.StoryFragmentsFragment"
+        android:label="@string/menu_story_fragments"
+        tools:layout="@layout/fragment_story_fragments" />
 </navigation>

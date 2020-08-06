@@ -63,6 +63,23 @@ public class QuestGenerator {
         npcs = realm.where(NPC.class).findAll();
         enemies = realm.where(Enemy.class).findAll();
         items = realm.where(Item.class).findAll();
+        knowledgeStoryFragments = realm.where(StoryFragment.class).equalTo("motive", "knowledge").findAll();
+        comfortStoryFragments = realm.where(StoryFragment.class).equalTo("motive", "comfort").findAll();
+        justiceStoryFragments = realm.where(StoryFragment.class).equalTo("motive", "justice").findAll();
+        logStoryFragments();
+    }
+
+    private void logStoryFragments() {
+        Log.d("Story Fragments From DB", "knowledge Story Fragments:");
+        for (StoryFragment sf : knowledgeStoryFragments){
+            Log.d("Knowledge Story Fragment", sf.getMotive() + " : " + sf.getDescription());
+        }
+        for (StoryFragment sf : comfortStoryFragments){
+            Log.d("Knowledge Story Fragment", sf.getMotive() + " : " + sf.getDescription());
+        }
+        for (StoryFragment sf : justiceStoryFragments){
+            Log.d("Knowledge Story Fragment", sf.getMotive() + " : " + sf.getDescription());
+        }
     }
 
     private Quest getQuestFromStoryFragment(StoryFragment storyFragment){

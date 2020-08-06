@@ -24,5 +24,9 @@
             android:id="@+id/nav_npcs"
             android:icon="@drawable/human_greeting"
             android:title="@string/menu_non_player_characters" />
+        <item
+            android:id="@+id/nav_story_fragments"
+            android:icon="@drawable/puzzle"
+            android:title="@string/menu_story_fragments" />
     </group>
 </menu>
