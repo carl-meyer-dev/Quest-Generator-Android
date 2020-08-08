@@ -13,14 +13,18 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -150,22 +154,26 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoadData", "Added NPC to DB: " + n.getName());
             }
 
-            /*
-            I also want to add the initial set of Story Fragments to the DB so that we can later
-            add the functionality to add and edit Story Fragments in the App.
-             */
 
             // Get a reference to the Default Story Fragments that I have set up for the Quest Generator
-            // TODO: subaction of type string[] not allowed by Realm. Need to change it
             StoryFragments storyFragments = new StoryFragments();
             idCounter = 1;
-            for (StoryFragment sf : storyFragments.getAllStoryFragments()){
+            for (StoryFragment sf : storyFragments.getAllStoryFragments()) {
                 StoryFragment storyFragment = r.createObject(StoryFragment.class, idCounter);
                 storyFragment.setMotive(sf.getMotive());
                 storyFragment.setDescription(sf.getDescription());
                 storyFragment.setActions(sf.getActions());
                 idCounter++;
                 Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotive() + " : " + sf.getDescription());
+            }
+
+            // Add a list of actions to the DB so we can easily access and retrieve them when adding or editing new story fragments
+
+            Actions actions = new Actions();
+
+            for (String a : actions.getActions()) {
+                DBAction dbaction = r.createObject(DBAction.class, a);
+                Log.d("LoadData", "Added Action to DB: " + a);
             }
         });
     }
