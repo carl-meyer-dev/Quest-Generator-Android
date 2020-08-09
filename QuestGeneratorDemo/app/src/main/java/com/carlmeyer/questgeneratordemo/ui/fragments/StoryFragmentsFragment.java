@@ -281,7 +281,7 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         if (selectedStoryFragment != null) {
             // get live storyFragment object from Realm
             StoryFragment storyFragment = realm.where(StoryFragment.class).equalTo("id", selectedStoryFragment.getId()).findFirst();
-            showEditStoryFragmentDialog(storyFragment);
+            goToStoryFragmentBuilder(selectedStoryFragment);
         } else {
             Log.e("ERROR", "Could not find StoryFragment");
             // Show error dialog if storyFragment could not be found
@@ -297,10 +297,9 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         }
     }
 
+    private void goToStoryFragmentBuilder(StoryFragment selectedStoryFragment) {
 
-
-
-
+    }
 
 
 }

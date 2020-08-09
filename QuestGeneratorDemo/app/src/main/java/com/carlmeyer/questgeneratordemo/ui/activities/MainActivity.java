@@ -15,8 +15,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
+import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
@@ -154,27 +156,49 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoadData", "Added NPC to DB: " + n.getName());
             }
 
+            Motives motives = new Motives();
+            idCounter = 1;
+            for (String m : motives.getMotives()) {
+                Motivation motivation = r.createObject(Motivation.class, idCounter);
+                motivation.setMotivation(m);
+                Log.d("LoadData", "Added Motivation to DB: " + m);
+                idCounter++;
+            }
 
             // Get a reference to the Default Story Fragments that I have set up for the Quest Generator
             StoryFragments storyFragments = new StoryFragments();
             idCounter = 1;
             for (StoryFragment sf : storyFragments.getAllStoryFragments()) {
                 StoryFragment storyFragment = r.createObject(StoryFragment.class, idCounter);
-                storyFragment.setMotive(sf.getMotive());
                 storyFragment.setDescription(sf.getDescription());
                 storyFragment.setActions(sf.getActions());
+                Motivation motivation = r.where(Motivation.class).equalTo("motivation",sf.getMotivation()).findFirst();
+                storyFragment.setMotivation(sf.getMotivation());
+                // TODO: Figure out why it is only adding the last story fragment to the motivation
+                if(motivation != null){
+                    motivation.addStoryFragment(sf);
+                }
                 idCounter++;
-                Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotive() + " : " + sf.getDescription());
+                Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotivation() + " : " + sf.getDescription());
             }
+
+
+
+
 
             // Add a list of actions to the DB so we can easily access and retrieve them when adding or editing new story fragments
-
             Actions actions = new Actions();
-
+            idCounter = 1;
             for (String a : actions.getActions()) {
-                DBAction dbaction = r.createObject(DBAction.class, a);
+                DBAction dbaction = r.createObject(DBAction.class, idCounter);
+                dbaction.setAction(a);
                 Log.d("LoadData", "Added Action to DB: " + a);
+                idCounter++;
             }
+
+            // Add a list of motivations to the DB so we can easily access and retrieve them when adding or editing new story fragments
+
+
         });
     }
 

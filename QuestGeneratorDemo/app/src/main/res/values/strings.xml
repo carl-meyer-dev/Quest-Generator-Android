@@ -98,4 +98,16 @@
     <string name="edit_story_fragment">Edit Story Fragment</string>
     <string name="story_fragment_name">Story Fragment Name</string>
     <string name="enter_story_fragment_name">Enter Story Fragment Name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="could_not_delete_motivation">Could not delete motivation</string>
+    <string name="could_not_find_motivation">Could not find motivation</string>
+    <string name="motivation_may_not_be_empty">Motivation may not be empty</string>
+    <string name="edit_motivation">Edit motivation</string>
+    <string name="add_motivation">Add Motivation</string>
+    <string name="enter_motivation">Enter motivation</string>
+    <string name="menu_motives">Motives</string>
+    <string name="can_not_delete_last_motivation">You can not delete the last story fragment</string>
+    <string name="motivations">Motives</string>
+    <string name="choose_a_new_motivation">Choose a new motivation</string>
 </resources>

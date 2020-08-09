@@ -5,7 +5,7 @@ public class Quest {
     public String name;
     public String description;
     public String motivation;
-    public int storyFragmentID;
+    public StoryFragment storyFragment;
     public String dialog;
     public String questText;
 
@@ -16,8 +16,8 @@ public class Quest {
 
         this.name = storyFragment.getDescription();
         this.description = root.actionText;
-        this.motivation = storyFragment.getMotive();
-        this.storyFragmentID = storyFragment.getId();
+        this.motivation = storyFragment.getMotivation();
+        this.storyFragment = storyFragment;
     }
 
     public int getDepth() {

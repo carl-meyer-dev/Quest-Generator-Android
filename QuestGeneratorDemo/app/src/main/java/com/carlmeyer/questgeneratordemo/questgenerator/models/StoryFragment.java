@@ -10,13 +10,13 @@ public class StoryFragment extends RealmObject {
 
     @PrimaryKey
     private int id;
-    private String motive;
+    private String motivation;
     private String description;
     public RealmList<String> actions;
 
-    public StoryFragment(int id, String motive, String description, String[] actions) {
+    public StoryFragment(int id, String motivation, String description, String[] actions) {
         this.id = id;
-        this.motive = motive;
+        this.motivation = motivation;
         this.description = description;
         this.actions = getRealmListOfActions(actions);
 
@@ -27,12 +27,12 @@ public class StoryFragment extends RealmObject {
 
     }
 
-    public String getMotive() {
-        return motive;
+    public String getMotivation() {
+        return motivation;
     }
 
-    public void setMotive(String motive) {
-        this.motive = motive;
+    public void setMotivation(String motivation) {
+        this.motivation = motivation;
     }
 
     public String getDescription() {
