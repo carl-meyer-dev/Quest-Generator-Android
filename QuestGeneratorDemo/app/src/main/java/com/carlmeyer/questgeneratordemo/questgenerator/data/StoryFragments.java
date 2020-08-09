@@ -1,6 +1,8 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.data;
 
 
+import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 
 import java.util.ArrayList;
@@ -10,11 +12,14 @@ public class StoryFragments {
 
     List<StoryFragment> storyFragments = new ArrayList<>();
 
+    List<DBAction> actions = new ArrayList<>();
+
     // Knowledge Story Fragments
     StoryFragment deliverItem = new StoryFragment(
             1,
             Motives.KNOWLEDGE,
             "deliver item for study",
+
             new String[]{
                     Actions.GET,
                     Actions.GOTO,

@@ -19,6 +19,7 @@ import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestGenerator;
 import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
@@ -28,14 +29,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
+import io.realm.Realm;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
 
 public class QuestGeneratorFragment extends Fragment implements ActionViewHolder.OnActionListener {
 
+    Realm realm;
+
     private String[] motivations = new String[]{Motives.KNOWLEDGE, Motives.COMFORT, Motives.JUSTICE};
+    private List<Motivation> motives;
 
     private TextView tvQuestText;
 
@@ -51,6 +57,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        realm = Realm.getDefaultInstance();
+
         View root = inflater.inflate(R.layout.fragment_quest_generator, container, false);
 
         tvQuestText = root.findViewById(R.id.tvQuestText);
@@ -60,6 +68,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         rvActions = root.findViewById(R.id.rvActions);
 
         konfettiView =  root.findViewById(R.id.viewKonfetti);
+
+        motives = realm.where(Motivation.class).findAll();
 
 
         btnGenerateQuest.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +90,25 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         quest = null;
 
         // get a random quest motivation
-        String questMotivation = motivations[random.nextInt(motivations.length - 1)];
+
+        /*
+        We need to filter out any motivations that do not have any story fragments.
+        This might happen when the user has just created a new motivation there are no
+        story fragments for that motivation yet.
+        */
+        List<Motivation> motivesWithStoryFragments = motives
+                .stream()
+                .filter(motivation -> motivation.getStoryFragments().size() > 0)
+                .collect(Collectors.toList());
+
+        Motivation questMotivation = motivesWithStoryFragments.get(random.nextInt(motives.size() - 1));
+
+        Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
 
         int minimumComplexity = 8;
-        switch (questMotivation) {
-            case Motives.KNOWLEDGE:
-                // Generate Knowledge Quest
-                quest = questGenerator.getQuest(Motives.KNOWLEDGE, minimumComplexity);
-                break;
-            case Motives.COMFORT:
-                // Generate comfort quest
-                quest = questGenerator.getQuest(Motives.COMFORT, minimumComplexity);
-                break;
-            case Motives.JUSTICE:
-                // Generate Justice Quest
-                quest = questGenerator.getQuest(Motives.JUSTICE, minimumComplexity);
-                break;
-        }
+
+        quest = questGenerator.getQuest(questMotivation, minimumComplexity);
+
 
         QuestReader questReader = new QuestReader();
         // Read the quest using the Quest Reader

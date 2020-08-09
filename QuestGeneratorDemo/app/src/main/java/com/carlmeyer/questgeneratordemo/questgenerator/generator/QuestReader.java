@@ -17,7 +17,6 @@ public class QuestReader {
     private StringBuilder questStepsText = new StringBuilder();
     private int stepCount = 0;
     private String indent = "   ";
-    private StoryFragments storyFragments;
 
     /**
      * Traverse the quest tree and create an ordered list of actions that need to be completed
@@ -119,10 +118,9 @@ public class QuestReader {
 
     private void generateDialog(Quest quest, List<Action> questSteps){
         StringBuilder questDialog = new StringBuilder();
-        storyFragments = new StoryFragments();
-        StoryFragment storyFragment = storyFragments.getStoryFragmentById(quest.storyFragmentID);
+        StoryFragment storyFragment = quest.storyFragment;
         // Explain the Quest Motivation and what the quest is about.
-        questDialog.append("Dear Adventurer, I am on a quest for ").append(storyFragment.getMotive()).append(".").append("\n").append("\n");
+        questDialog.append("Dear Adventurer, I am on a quest for ").append(storyFragment.getMotivation()).append(".").append("\n").append("\n");
         questDialog.append("I need you to help me ").append(storyFragment.getDescription()).append(".").append("\n").append("\n");
         // Explain What actions need to be done for this specific storyfragment.
         // Note to self: look at the first depth of the actions tree, those actions should relate to the action in the story fragment. Actions in other depths are subquests.

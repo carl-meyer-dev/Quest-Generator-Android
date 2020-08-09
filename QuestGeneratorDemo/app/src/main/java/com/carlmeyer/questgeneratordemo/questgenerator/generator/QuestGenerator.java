@@ -13,12 +13,11 @@ import com.carlmeyer.questgeneratordemo.questgenerator.actions.Steal;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Subquest;
 import com.carlmeyer.questgeneratordemo.questgenerator.actions.Use;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Actions;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
@@ -34,7 +33,6 @@ import io.realm.Realm;
 public class QuestGenerator {
 
     private Random random = new Random();
-    private StoryFragments storyFragments = new StoryFragments();
 
     // Local copies of all data
     private List<Location> locations;
@@ -42,9 +40,7 @@ public class QuestGenerator {
     private List<Enemy> enemies;
     private List<Item> items;
     // load available story fragments
-    private List<StoryFragment> knowledgeStoryFragments = storyFragments.getKnowledgeStoryFragments();
-    private List<StoryFragment> comfortStoryFragments = storyFragments.getComfortFragments();
-    private List<StoryFragment> justiceStoryFragments = storyFragments.getJusticeStoryFragments();
+    private List<StoryFragment> storyFragments;
 
 
     private static QuestGenerator instance;
@@ -63,9 +59,17 @@ public class QuestGenerator {
         npcs = realm.where(NPC.class).findAll();
         enemies = realm.where(Enemy.class).findAll();
         items = realm.where(Item.class).findAll();
+        storyFragments = realm.where(StoryFragment.class).findAll();
+        logStoryFragments();
     }
 
-    private Quest getQuestFromStoryFragment(StoryFragment storyFragment){
+    private void logStoryFragments() {
+        for (StoryFragment sf : storyFragments) {
+            Log.d("StoryFragments From DB", sf.getMotivation() + " : " + sf.getDescription());
+        }
+    }
+
+    private Quest getQuestFromStoryFragment(StoryFragment storyFragment) {
         // get the list of root actions provided by the story fragment
         List<Action> rootActions = assignActions(storyFragment.getActions());
 
@@ -76,15 +80,15 @@ public class QuestGenerator {
 
         //create the quest with the root actions and the story fragment ID that will be used later for generating the dialog
 
-        return new Quest(root,storyFragment);
+        return new Quest(root, storyFragment);
     }
 
-    public Quest getQuest(String motive, int minimumComplexity) {
+    public Quest getQuest(Motivation motive, int minimumComplexity) {
         int failCatch = 0;
         // get the story fragment we are going to use for the quest
         StoryFragment storyFragment = getActions(motive);
 
-       Quest quest = getQuestFromStoryFragment(storyFragment);
+        Quest quest = getQuestFromStoryFragment(storyFragment);
 
         while (quest.getDepth() < minimumComplexity || quest.getDepth() > 20) {
             if (failCatch > 100) {
@@ -103,34 +107,15 @@ public class QuestGenerator {
     }
 
     // Get the appropriate actions for the subquest based on motive
-    private StoryFragment getActions(String motive) {
+    private StoryFragment getActions(Motivation motivation) {
 
 
         StoryFragment storyFragment = new StoryFragment();
         Random random = new Random();
 
-        switch (motive) {
-            case Motives.KNOWLEDGE:
-                storyFragment = knowledgeStoryFragments.get(
-                        random.nextInt(knowledgeStoryFragments.size())
-                );
-                break;
-            case Motives.COMFORT:
-                storyFragment = comfortStoryFragments.get(
-                        random.nextInt(comfortStoryFragments.size())
-                );
-                break;
-            case Motives.JUSTICE:
-                storyFragment = justiceStoryFragments.get(
-                        random.nextInt(justiceStoryFragments.size())
-                );
-                break;
-            default:
-                // Not implemented
-                break;
-        }
+        List<StoryFragment> storyFragmentsForMotive = motivation.getStoryFragments();
 
-
+        storyFragment = storyFragmentsForMotive.get(random.nextInt(storyFragmentsForMotive.size()));
 
         return storyFragment;
 
