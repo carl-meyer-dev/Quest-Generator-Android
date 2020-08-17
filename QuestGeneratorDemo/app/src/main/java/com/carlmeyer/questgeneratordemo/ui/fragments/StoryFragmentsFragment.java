@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,46 +72,14 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
      * Set up UI onclick listeners etc
      */
     private void setUpUI() {
-        btnAddStoryFragment.setOnClickListener(v -> showAddStoryFragmentDialog());
+        btnAddStoryFragment.setOnClickListener(v -> addStoryFragment());
     }
 
     /**
      * Setup, Configure and Show the add storyFragment dialog
      */
-    private void showAddStoryFragmentDialog() {
-        // set up the dialog
-        LovelyCustomDialog dialog = new LovelyCustomDialog(getContext())
-                .setView(R.layout.dialog_add_story_fragment)
-                .setTopColorRes(R.color.colorPrimary)
-                .setTitle(R.string.add_story_fragment)
-                .setIcon(R.drawable.google_maps_light);
-
-        dialog.configureView(v -> {
-            EditText txtDialogStoryFragment = v.findViewById(R.id.txtAddStoryFragment);
-            Button btnDialogAddStoryFragment = v.findViewById(R.id.btnDialogAddStoryFragment);
-            btnDialogAddStoryFragment.setOnClickListener(v1 -> {
-                if (txtDialogStoryFragment.getText().toString().isEmpty()) {
-                    // Show error dialog
-                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
-                            .setTopColorRes(R.color.colorPrimary)
-                            .setButtonsColorRes(R.color.colorAccent)
-                            .setIcon(R.drawable.alert_box_light)
-                            .setTitle(R.string.error)
-                            .setMessage(R.string.story_fragment_may_not_be_empty)
-                            .setPositiveButton(android.R.string.ok, v2 -> {
-                            })
-                            .show();
-                } else {
-                    // add storyFragment to database
-                    addStoryFragment(Integer.parseInt(txtDialogStoryFragment.getText().toString()));
-                    dialog.dismiss();
-                }
-
-            });
-
-        });
-
-        dialog.show();
+    private void addStoryFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.nav_story_fragment_builder);
     }
 
     /**

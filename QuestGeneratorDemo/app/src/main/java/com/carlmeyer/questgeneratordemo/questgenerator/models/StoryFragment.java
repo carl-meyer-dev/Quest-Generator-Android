@@ -13,14 +13,13 @@ public class StoryFragment extends RealmObject {
     private String motivation;
     private String description;
     public RealmList<String> actions;
+    public String questDialog;
 
     public StoryFragment(int id, String motivation, String description, String[] actions) {
         this.id = id;
         this.motivation = motivation;
         this.description = description;
         this.actions = getRealmListOfActions(actions);
-
-
     }
 
     public StoryFragment() {

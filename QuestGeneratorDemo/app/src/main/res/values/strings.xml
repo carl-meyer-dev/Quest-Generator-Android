@@ -110,4 +110,12 @@
     <string name="can_not_delete_last_motivation">You can not delete the last story fragment</string>
     <string name="motivations">Motives</string>
     <string name="choose_a_new_motivation">Choose a new motivation</string>
+    <string name="menu_story_fragment_builder">Story Fragment Builder</string>
+    <string name="save_story_fragment">Save Story Fragment</string>
+    <string name="quest_dialog">Quest Dialog</string>
+    <string name="add_dialog">Add dialog that will be displayed to the player when they are given this quest. Use $location, $item, $npc, $enemy as a placeholder for the location, item, npc or enemy name that will be randomly generated for this quest.</string>
+    <string name="actions">Actions</string>
+    <string name="choose_an_action">Choose an action</string>
+    <string name="story_fragment_dialog">Story Fragment Dialog</string>
+    <string name="choose_a_motivation">Choose a motivation</string>
 </resources>
