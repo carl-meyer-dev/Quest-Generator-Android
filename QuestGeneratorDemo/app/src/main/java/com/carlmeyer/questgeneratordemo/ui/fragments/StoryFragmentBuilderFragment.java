@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,8 @@ import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.adapters.DBActionsAdapter;
+import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
+import com.carlmeyer.questgeneratordemo.ui.utils.ItemMoveCallback;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
@@ -31,7 +34,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener {
+public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener, StartDragListener {
 
     private Realm realm;
     private RecyclerView rvActions;
@@ -43,6 +46,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     private EditText txtMotivation;
     private EditText txtDescription;
     private EditText txtStoryFragmentDialog;
+    private ItemTouchHelper touchHelper;
 
 
     @Override
@@ -109,7 +113,11 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set actionsAdapter with list of actions
-        actionsAdapter = new DBActionsAdapter(actions, this);
+        actionsAdapter = new DBActionsAdapter(actions, this::onActionClick, this::requestDrag);
+        ItemTouchHelper.Callback callback =
+                new ItemMoveCallback(actionsAdapter);
+        touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rvActions);
         rvActions.setAdapter(actionsAdapter);
     }
 
@@ -180,5 +188,11 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             Log.d("Motivations From DB", motivation.getMotivation());
             motivationNames.add(motivation.getMotivation());
         }
+    }
+
+
+    @Override
+    public void requestDrag(RecyclerView.ViewHolder viewHolder) {
+        touchHelper.startDrag(viewHolder);
     }
 }
