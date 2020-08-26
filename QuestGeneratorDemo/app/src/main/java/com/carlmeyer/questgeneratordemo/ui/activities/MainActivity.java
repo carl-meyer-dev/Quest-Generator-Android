@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 idCounter++;
                 Log.d("LoadData", "Added NPC to DB: " + n.getName());
             }
-
+            // Add a list of motivations to the DB so we can easily access and retrieve them when adding or editing new story fragments
             Motives motives = new Motives();
             idCounter = 1;
             for (String m : motives.getMotives()) {
@@ -188,15 +188,14 @@ public class MainActivity extends AppCompatActivity {
 
             // Add a list of actions to the DB so we can easily access and retrieve them when adding or editing new story fragments
             Actions actions = new Actions();
-            idCounter = 1;
-            for (String a : actions.getActions()) {
-                DBAction dbaction = r.createObject(DBAction.class, idCounter);
-                dbaction.setAction(a);
-                Log.d("LoadData", "Added Action to DB: " + a);
-                idCounter++;
+            for (DBAction a : actions.getDBActions()) {
+                DBAction dbaction = r.createObject(DBAction.class, a.getId());
+                dbaction.setAction(a.getAction());
+                dbaction.setConfigs(a.getConfigs());
+                Log.d("LoadData", "Added Action to DB: " + a.getAction());
             }
 
-            // Add a list of motivations to the DB so we can easily access and retrieve them when adding or editing new story fragments
+
 
 
         });

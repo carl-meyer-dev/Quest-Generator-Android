@@ -118,4 +118,7 @@
     <string name="choose_an_action">Choose an action</string>
     <string name="story_fragment_dialog">Story Fragment Dialog</string>
     <string name="choose_a_motivation">Choose a motivation</string>
+    <string name="hint_motivation">Motivation</string>
+    <string name="hint_description">Description</string>
+    <string name="dollar_npc">$npc</string>
 </resources>

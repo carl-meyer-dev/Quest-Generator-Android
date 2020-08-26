@@ -2,28 +2,34 @@ package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.IntRange;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
+import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import com.carlmeyer.questgeneratordemo.R;
-import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
-import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.adapters.DBActionsAdapter;
+import com.carlmeyer.questgeneratordemo.ui.adapters.TemplateHelperAdapter;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
+import com.carlmeyer.questgeneratordemo.ui.utils.AutoFitGridLayoutManager;
 import com.carlmeyer.questgeneratordemo.ui.utils.ItemMoveCallback;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
+import com.carlmeyer.questgeneratordemo.ui.viewholders.TemplateHelperViewHolder;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
@@ -34,7 +40,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener, StartDragListener {
+public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener, StartDragListener, TemplateHelperViewHolder.OnTemplateHelperListener {
 
     private Realm realm;
     private RecyclerView rvActions;
@@ -47,6 +53,11 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     private EditText txtDescription;
     private EditText txtStoryFragmentDialog;
     private ItemTouchHelper touchHelper;
+    private Button btnSaveStoryFragment;
+    private Boolean edit = false;
+    private RecyclerView rvTemplateHelper;
+    private TemplateHelperAdapter templateHelperAdapter;
+    private List<String> templateHelpers = new ArrayList<>();
 
 
     @Override
@@ -59,7 +70,11 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         rvActions = root.findViewById(R.id.rvStoryBuilderActions);
 
+        rvTemplateHelper = root.findViewById(R.id.rvTemplateHelper);
+
         btnAddAction = root.findViewById(R.id.btnAddAction);
+
+        btnSaveStoryFragment = root.findViewById(R.id.btnSaveStoryFragment);
 
         txtMotivation = root.findViewById(R.id.txtStoryFragmentMotive);
 
@@ -73,11 +88,12 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         setUpUI();
 
-        setUpRecyclerView();
+        setUpActionsRecyclerView();
+
+        setupTemplateHelperRecyclerView();
 
         return root;
     }
-
 
 
     /**
@@ -85,6 +101,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
      */
     private void setUpUI() {
         btnAddAction.setOnClickListener(v -> showAddActionDialog());
+        btnSaveStoryFragment.setOnClickListener(v -> saveStoryFragment());
         txtMotivation.setOnFocusChangeListener((v1, hasFocus) -> {
             // when location edit text is clicked and gains focus display a choice dialog of locations
             if (hasFocus) {
@@ -105,10 +122,18 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         });
     }
 
+    private void saveStoryFragment() {
+        if (edit) {
+            // update existing story fragment
+        } else {
+
+        }
+    }
+
     /**
      * Set up RecyclerView
      */
-    private void setUpRecyclerView() {
+    private void setUpActionsRecyclerView() {
         // Create and set layoutManager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
@@ -119,6 +144,29 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rvActions);
         rvActions.setAdapter(actionsAdapter);
+    }
+
+    private void setupTemplateHelperRecyclerView() {
+
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(requireContext())
+                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                .build();
+
+        rvTemplateHelper.setLayoutManager(chipsLayoutManager);
+        templateHelperAdapter = new TemplateHelperAdapter(templateHelpers, this::onTemplateHelperClick);
+        rvTemplateHelper.setAdapter(templateHelperAdapter);
+        templateHelpers.add("$npc1");
+        templateHelpers.add("$location1");
+        templateHelpers.add("$npc2");
+        templateHelpers.add("$enemy1");
+        templateHelpers.add("$enemy2");
+        templateHelpers.add("$location2");
+        templateHelpers.add("$npc3");
+        templateHelpers.add("$enemy3");
+        templateHelpers.add("$location3");
+        templateHelpers.add("$location4");
+        templateHelperAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -163,6 +211,10 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 .show();
     }
 
+    private void getActionChoices(Action action) {
+
+    }
+
     /**
      * Get a string list of action names to use in actions choice dialog
      */
@@ -194,5 +246,13 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     @Override
     public void requestDrag(RecyclerView.ViewHolder viewHolder) {
         touchHelper.startDrag(viewHolder);
+    }
+
+    @Override
+    public void onTemplateHelperClick(int position) {
+
+        String selectedTemplateHelper = templateHelperAdapter.getItem(position);
+
+        txtStoryFragmentDialog.append(" " + selectedTemplateHelper + " ");
     }
 }

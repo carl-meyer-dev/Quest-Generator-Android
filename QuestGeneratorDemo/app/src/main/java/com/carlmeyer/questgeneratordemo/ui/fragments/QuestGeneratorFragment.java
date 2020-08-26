@@ -161,7 +161,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.human_greeting_light)
-                .setTitle(selectedAction.actionText + "?")
+                .setTitle(selectedAction.actionDescription + "?")
                 .setMessage(selectedAction.actionDialog)
                 .setPositiveButton(R.string.yes, v2 -> {
                     if (position == 0) {
@@ -198,7 +198,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.check_bold)
-                .setMessage("You " + action.actionText)
+                .setMessage("You " + action.actionDescription)
                 .setPositiveButton(R.string.ok, v2 -> {
                     questSteps.remove(0);
                     actionsAdapter.notifyItemRemoved(0);
@@ -220,14 +220,14 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         StringBuilder subQuestText = new StringBuilder();
         subQuestText
                 .append("Before you can ")
-                .append(root.actionText)
+                .append(root.actionDescription)
                 .append(" you need to do the following: ").append("\n").append("\n");
 
         int step = 1;
         for (Action action : root.subActions) {
             subQuestText
                     .append(step).append(". ")
-                    .append(action.actionText)
+                    .append(action.actionDescription)
                     .append("\n")
                     .append("\n");
             step++;
@@ -266,9 +266,9 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         performPreviousText
                 .append("Before you can ")
-                .append(action.actionText)
+                .append(action.actionDescription)
                 .append(" you first need to ")
-                .append(parentAction.actionText);
+                .append(parentAction.actionDescription);
 
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)

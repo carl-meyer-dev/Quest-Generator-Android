@@ -1,7 +1,6 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.generator;
 
 
-import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
@@ -69,11 +68,11 @@ public class QuestReader {
 
         if (action.subActions.size() == 0) {
             questSteps.add(action);
-            questStepsText.append(action.actionText);
+            questStepsText.append(action.actionDescription);
             stepCount++;
         } else {
             questSteps.add(action);
-            questStepsText.append(action.actionText);
+            questStepsText.append(action.actionDescription);
             for (Action a : action.subActions) {
                 readSubActions(a, depth + 1);
             }
@@ -103,9 +102,9 @@ public class QuestReader {
         int count = 0;
         for (Action action : questSteps) {
             if (count == 0) {
-                steps.append("Main Quest: ").append(action.actionText).append("\n").append("\n");
+                steps.append("Main Quest: ").append(action.actionDescription).append("\n").append("\n");
             } else {
-                steps.append(count).append(".   ").append(action.actionText).append("\n");
+                steps.append(count).append(".   ").append(action.actionDescription).append("\n");
             }
             count++;
         }
@@ -129,7 +128,7 @@ public class QuestReader {
         questDialog.append("\n").append("\n");
         int step = 1;
         for (Action action : quest.root.subActions){
-            questDialog.append(step).append(". ").append(action.actionText).append("\n").append("\n");
+            questDialog.append(step).append(". ").append(action.actionDescription).append("\n").append("\n");
             step++;
         }
         questDialog.append("Complete these actions and I shall reward you greatly!");

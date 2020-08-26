@@ -34,7 +34,7 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionViewHolder> {
     public void onBindViewHolder(@NonNull ActionViewHolder holder, int position) {
         final Action action = actions.get(position);
         holder.actionData = action;
-        holder.tvAction.setText(action.actionText);
+        holder.tvAction.setText(action.actionDescription);
         holder.tvStep.setText(String.valueOf(position + 1));
         holder.tvActionType.setText(action.getClass().getSimpleName());
     }

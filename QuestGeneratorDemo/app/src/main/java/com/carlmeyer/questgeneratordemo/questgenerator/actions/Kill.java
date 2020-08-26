@@ -17,7 +17,9 @@ public class Kill extends Action {
      * @param enemy - enemy to kill
      */
     public Kill(Enemy enemy) {
-        this.actionText = "Kill a " + enemy.getName();
+        this.actionName = Actions.KILL;
+        this.actionDescription = "Kill a " + enemy.getName();
+        this.config = "enemy";
         this.subActions = new ArrayList<>();
         initialize(enemy);
     }

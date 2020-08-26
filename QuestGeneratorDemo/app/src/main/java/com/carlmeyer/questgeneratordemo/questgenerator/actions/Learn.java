@@ -23,7 +23,9 @@ public class Learn extends Action {
      * @param npc - NPC to learn about
      */
     public Learn(NPC npc) {
-        this.actionText = "Learn about " + npc.getName();
+        this.actionName = Actions.LEARN;
+        this.actionDescription = "Learn about " + npc.getName();
+        this.config = "npc";
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();
         initialize(npc);
@@ -36,7 +38,9 @@ public class Learn extends Action {
      * @param enemy - enemy to learn about
      */
     public Learn(Enemy enemy) {
-        this.actionText = "Learn about " + enemy.getName();
+        this.actionName = Actions.LEARN;
+        this.actionDescription = "Learn about " + enemy.getName();
+        this.config = "enemy";
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();
         initialize(enemy);
@@ -48,7 +52,7 @@ public class Learn extends Action {
      * @param location - location to learn about
      */
     public Learn(Location location) {
-        this.actionText = "Learn about " + location.getName();
+        this.actionDescription = "Learn about " + location.getName();
         this.subActions = new ArrayList<>();
         questGenerator = QuestGenerator.getInstance();
         initialize(location);

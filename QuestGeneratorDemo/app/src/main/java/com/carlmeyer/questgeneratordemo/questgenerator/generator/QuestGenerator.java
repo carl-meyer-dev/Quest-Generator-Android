@@ -76,7 +76,7 @@ public class QuestGenerator {
         // create the root of the quest
         Subquest root = new Subquest(rootActions);
 
-        root.actionText = storyFragment.getDescription();
+        root.actionDescription = storyFragment.getDescription();
 
         //create the quest with the root actions and the story fragment ID that will be used later for generating the dialog
 
