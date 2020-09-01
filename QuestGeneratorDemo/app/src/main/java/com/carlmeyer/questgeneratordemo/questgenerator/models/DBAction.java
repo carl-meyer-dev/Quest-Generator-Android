@@ -33,6 +33,13 @@ public class DBAction extends RealmObject {
         this.configs = getRealmListOfConfigs(configs);
     }
 
+    public DBAction(int id, String action, RealmList<String> configs, String config){
+        this.id = id;
+        this.action = action;
+        this.configs = configs;
+        this.config = config;
+    }
+
     public String getAction() {
         return action;
     }

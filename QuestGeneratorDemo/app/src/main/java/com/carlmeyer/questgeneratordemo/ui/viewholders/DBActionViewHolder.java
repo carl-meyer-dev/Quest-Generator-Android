@@ -15,6 +15,7 @@ public class DBActionViewHolder extends RecyclerView.ViewHolder implements View.
     public TextView tvAction;
     public TextView tvStep;
     public TextView tvActionType;
+    public TextView tvActionConfig;
     public Action actionData;
     public View rowView;
     public ImageView ivDragAndDropHandle;
@@ -27,6 +28,7 @@ public class DBActionViewHolder extends RecyclerView.ViewHolder implements View.
         tvAction = itemView.findViewById(R.id.tvAction);
         tvStep = itemView.findViewById(R.id.tvStep);
         tvActionType = itemView.findViewById(R.id.tvActionType);
+        tvActionConfig = itemView.findViewById(R.id.tvConfig);
         ivDragAndDropHandle = itemView.findViewById(R.id.ivDragAndDrop);
         this.onActionListener = onActionListener;
         itemView.setOnClickListener(this);

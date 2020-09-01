@@ -26,6 +26,7 @@ import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.ui.adapters.DBActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.adapters.TemplateHelperAdapter;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
+import com.carlmeyer.questgeneratordemo.ui.interfaces.StopDragListener;
 import com.carlmeyer.questgeneratordemo.ui.utils.AutoFitGridLayoutManager;
 import com.carlmeyer.questgeneratordemo.ui.utils.ItemMoveCallback;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
@@ -34,13 +35,14 @@ import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener, StartDragListener, TemplateHelperViewHolder.OnTemplateHelperListener {
+public class StoryFragmentBuilderFragment extends Fragment implements ActionViewHolder.OnActionListener, StartDragListener, StopDragListener, TemplateHelperViewHolder.OnTemplateHelperListener {
 
     private Realm realm;
     private RecyclerView rvActions;
@@ -138,7 +140,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvActions.setLayoutManager(layoutManager);
         // Initialize and set actionsAdapter with list of actions
-        actionsAdapter = new DBActionsAdapter(actions, this::onActionClick, this::requestDrag);
+        actionsAdapter = new DBActionsAdapter(actions, this::onActionClick, this::requestDrag, this::stopDrag);
         ItemTouchHelper.Callback callback =
                 new ItemMoveCallback(actionsAdapter);
         touchHelper = new ItemTouchHelper(callback);
@@ -155,16 +157,6 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         rvTemplateHelper.setLayoutManager(chipsLayoutManager);
         templateHelperAdapter = new TemplateHelperAdapter(templateHelpers, this::onTemplateHelperClick);
         rvTemplateHelper.setAdapter(templateHelperAdapter);
-        templateHelpers.add("$npc1");
-        templateHelpers.add("$location1");
-        templateHelpers.add("$npc2");
-        templateHelpers.add("$enemy1");
-        templateHelpers.add("$enemy2");
-        templateHelpers.add("$location2");
-        templateHelpers.add("$npc3");
-        templateHelpers.add("$enemy3");
-        templateHelpers.add("$location3");
-        templateHelpers.add("$location4");
         templateHelperAdapter.notifyDataSetChanged();
 
     }
@@ -190,7 +182,30 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
     private void removeAction(DBAction selectedAction) {
         actions.remove(selectedAction);
-        actionsAdapter.notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    private void showConfigurations(DBAction selectedAction) {
+
+        List<String> configs = selectedAction.getConfigs();
+
+        new LovelyChoiceDialog(getContext())
+                .setTopColorRes(R.color.colorPrimary)
+                .setTitle(R.string.actions)
+                .setIcon(R.drawable.google_maps_light)
+                .setMessage(R.string.choose_an_action)
+                .setItems(configs, (position, config) -> {
+
+                    DBAction action = new DBAction(
+                            selectedAction.getId(),
+                            selectedAction.getAction(),
+                            selectedAction.getConfigs(),
+                            config
+                    );
+                    actions.add(action);
+                    notifyDataSetChanged();
+                })
+                .show();
     }
 
     /**
@@ -205,14 +220,34 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 .setMessage(R.string.choose_an_action)
                 .setItems(actionsNames, (position, action) -> {
                     DBAction newAction = realm.where(DBAction.class).equalTo("action", action).findFirst();
-                    actions.add(newAction);
-                    actionsAdapter.notifyDataSetChanged();
+                    showConfigurations(newAction);
                 })
                 .show();
     }
 
-    private void getActionChoices(Action action) {
+    private void updateDialogQuestTemplateHelper() {
 
+        templateHelpers.clear();
+        HashMap<String, Integer> configCounters = new HashMap<>();
+
+        for (DBAction action : actions) {
+            int count = 0;
+            String config = action.getConfig();
+
+            if (configCounters.containsKey(config)) {
+                count = configCounters.get(config);
+            }
+            count++;
+            configCounters.put(action.getConfig(), count);
+
+            templateHelpers.add("$" + action.getConfig() + count);
+        }
+        templateHelperAdapter.notifyDataSetChanged();
+    }
+
+    private void notifyDataSetChanged() {
+        updateDialogQuestTemplateHelper();
+        actionsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -254,5 +289,10 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         String selectedTemplateHelper = templateHelperAdapter.getItem(position);
 
         txtStoryFragmentDialog.append(" " + selectedTemplateHelper + " ");
+    }
+
+    @Override
+    public void stopDrag(RecyclerView.ViewHolder viewHolder) {
+        notifyDataSetChanged();
     }
 }

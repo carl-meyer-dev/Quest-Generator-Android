@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
+import com.carlmeyer.questgeneratordemo.ui.interfaces.StopDragListener;
 import com.carlmeyer.questgeneratordemo.ui.utils.ItemMoveCallback;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.DBActionViewHolder;
 
@@ -24,11 +25,13 @@ public class DBActionsAdapter extends RecyclerView.Adapter<DBActionViewHolder> i
     private DBActionViewHolder.OnActionListener onActionListener;
     private List<DBAction> actions;
     private final StartDragListener mStartDragListener;
+    private final StopDragListener mStopDragListener;
 
 
-    public DBActionsAdapter(List<DBAction> data, DBActionViewHolder.OnActionListener onActionListener, StartDragListener startDragListener) {
+    public DBActionsAdapter(List<DBAction> data, DBActionViewHolder.OnActionListener onActionListener, StartDragListener startDragListener, StopDragListener stopDragListener) {
         this.onActionListener = onActionListener;
         mStartDragListener = startDragListener;
+        mStopDragListener = stopDragListener;
         this.actions = data;
     }
 
@@ -51,6 +54,7 @@ public class DBActionsAdapter extends RecyclerView.Adapter<DBActionViewHolder> i
             return false;
         });
         holder.tvAction.setText(action.getAction());
+        holder.tvActionConfig.setText(action.getConfig());
     }
 
     @Override
@@ -83,6 +87,7 @@ public class DBActionsAdapter extends RecyclerView.Adapter<DBActionViewHolder> i
 
     @Override
     public void onRowClear(DBActionViewHolder myViewHolder) {
+        mStopDragListener.stopDrag(myViewHolder);
     }
 
 
