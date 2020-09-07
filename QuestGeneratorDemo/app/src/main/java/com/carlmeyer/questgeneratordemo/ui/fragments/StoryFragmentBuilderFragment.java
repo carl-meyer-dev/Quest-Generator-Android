@@ -11,6 +11,9 @@ import android.widget.EditText;
 
 import androidx.annotation.IntRange;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +25,9 @@ import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import com.carlmeyer.questgeneratordemo.R;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.carlmeyer.questgeneratordemo.ui.adapters.DBActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.adapters.TemplateHelperAdapter;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
@@ -60,13 +65,14 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     private RecyclerView rvTemplateHelper;
     private TemplateHelperAdapter templateHelperAdapter;
     private List<String> templateHelpers = new ArrayList<>();
+    private View root;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_story_builder, container, false);
+        root = inflater.inflate(R.layout.fragment_story_builder, container, false);
 
         realm = Realm.getDefaultInstance();
 
@@ -125,9 +131,21 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     }
 
     private void saveStoryFragment() {
+
         if (edit) {
             // update existing story fragment
         } else {
+            realm.executeTransaction(r -> {
+                long nextID = (long) (r.where(StoryFragment.class).max("id")) + 1;
+                StoryFragment sf = r.createObject(StoryFragment.class, nextID);
+                sf.setMotivation(txtMotivation.getText().toString());
+                sf.setDescription(txtDescription.getText().toString().toLowerCase());
+                sf.setActions(actions);
+                sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
+            });
+
+            Navigation.findNavController(root).popBackStack();
+
 
         }
     }

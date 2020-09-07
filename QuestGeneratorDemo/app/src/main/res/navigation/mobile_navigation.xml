@@ -9,7 +9,7 @@
         android:id="@+id/nav_generator"
         android:name="com.carlmeyer.questgeneratordemo.ui.fragments.QuestGeneratorFragment"
         android:label="@string/menu_quest_generator"
-        tools:layout="@layout/fragment_quest_generator"></fragment>
+        tools:layout="@layout/fragment_quest_generator" />
     <fragment
         android:id="@+id/nav_locations"
         android:name="com.carlmeyer.questgeneratordemo.ui.fragments.LocationsFragment"
@@ -45,5 +45,6 @@
         android:id="@+id/nav_story_fragment_builder"
         android:name="com.carlmeyer.questgeneratordemo.ui.fragments.StoryFragmentBuilderFragment"
         android:label="@string/menu_story_fragment_builder"
-        tools:layout="@layout/fragment_story_builder" />
+        tools:layout="@layout/fragment_story_builder"
+        />
 </navigation>

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
@@ -82,53 +83,6 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         NavHostFragment.findNavController(this).navigate(R.id.nav_story_fragment_builder);
     }
 
-    /**
-     * Show Edit StoryFragment Dialog
-     *
-     * @param storyFragment - the storyFragment being edited
-     */
-    private void showEditStoryFragmentDialog(StoryFragment storyFragment) {
-        // set up the dialog
-        LovelyCustomDialog dialog = new LovelyCustomDialog(getContext())
-                .setView(R.layout.dialog_edit_story_fragment)
-                .setTopColorRes(R.color.colorPrimary)
-                .setTitle(R.string.edit_story_fragment)
-                .setIcon(R.drawable.google_maps_light);
-
-        dialog.configureView(v -> {
-            EditText txtDialogStoryFragment = v.findViewById(R.id.txtEditStoryFragment);
-            txtDialogStoryFragment.setText(storyFragment.getDescription());
-            Button btnDialogDeleteStoryFragment = v.findViewById(R.id.btnDialogDelete);
-            Button btnDialogSaveStoryFragment = v.findViewById(R.id.btnDialogSave);
-            btnDialogDeleteStoryFragment.setOnClickListener(v1 -> {
-                // add storyFragment to database
-                deleteStoryFragment(storyFragment);
-                dialog.dismiss();
-            });
-
-            btnDialogSaveStoryFragment.setOnClickListener(v1 -> {
-                if (txtDialogStoryFragment.getText().toString().isEmpty()) {
-                    // Show error dialog
-                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
-                            .setTopColorRes(R.color.colorPrimary)
-                            .setButtonsColorRes(R.color.colorAccent)
-                            .setIcon(R.drawable.alert_box_light)
-                            .setTitle(R.string.error)
-                            .setMessage(R.string.story_fragment_may_not_be_empty)
-                            .setPositiveButton(android.R.string.ok, v2 -> {
-                            })
-                            .show();
-                } else {
-                    updateStoryFragment(storyFragment, txtDialogStoryFragment.getText().toString());
-                    dialog.dismiss();
-                }
-            });
-
-        });
-
-        dialog.show();
-    }
-
 
     /**
      * Get the storyFragments from the DB and sort them alphabetically
@@ -138,45 +92,20 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         storyFragments = storyFragments.sort("id");
     }
 
-    /**
-     * Add a new storyFragment to the database and update the list of storyFragments
-     *
-     * @param storyFragmentId - the new storyFragment's id
-     */
-    private void addStoryFragment(int storyFragmentId) {
+    private void deleteStoryFragmentDialog(StoryFragment storyFragment){
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                .setTopColorRes(R.color.colorPrimary)
+                .setButtonsColorRes(R.color.colorAccent)
+                .setIcon(R.drawable.alert_box_light)
+                .setTitle(R.string.attention)
+                .setMessage(R.string.are_you_sure_you_want_delete)
+                .setPositiveButton(android.R.string.yes, v2 -> {
+                    deleteStoryFragment(storyFragment);
+                })
+                .setNegativeButton(android.R.string.no, v -> {
 
-        // first add the storyFragment to the database
-        realm.executeTransaction(r -> {
-            // unfortunately since realm does not support auto increment ID's yet we need to
-            // get the next id before adding the new storyFragment
-            long nextID = (long) (r.where(StoryFragment.class).max("id")) + 1;
-            StoryFragment storyFragment = r.createObject(StoryFragment.class, nextID);
-            storyFragment.setId(storyFragmentId);
-        });
-
-        // get the position of the item that has been inserted alphabetically into the list
-        int position = 0;
-        for (StoryFragment storyFragment : storyFragments) {
-            if (storyFragment.getId() == (storyFragmentId)) {
-                break;
-            }
-            position++;
-        }
-        // scroll to that position
-        rvStoryFragments.smoothScrollToPosition(position);
-
-
-    }
-
-    /**
-     * Update an existing storyFragment
-     * @param storyFragment - existing storyFragment
-     * @param updatedStoryFragmentName - new storyFragment id
-     */
-    private void updateStoryFragment(StoryFragment storyFragment, String updatedStoryFragmentName) {
-
-       
-
+                })
+                .show();
     }
 
 
@@ -249,8 +178,38 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         StoryFragment selectedStoryFragment = storyFragmentsAdapter.getItem(position);
         if (selectedStoryFragment != null) {
             // get live storyFragment object from Realm
+
             StoryFragment storyFragment = realm.where(StoryFragment.class).equalTo("id", selectedStoryFragment.getId()).findFirst();
-            goToStoryFragmentBuilder(selectedStoryFragment);
+
+
+            StringBuilder info = new StringBuilder();
+
+            info.append("Motivation: ").append(storyFragment.getMotivation()).append("\n").append("\n");
+            info.append("Actions: ").append("\n");
+            int index = 1;
+            for (String action : storyFragment.getActions()){
+                info.append(index).append(". ").append(action).append("\n");
+                index++;
+            }
+            info.append("\n").append("Dialog: ").append(storyFragment.getQuestDialog());
+
+            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                    .setTopColorRes(R.color.colorPrimary)
+                    .setButtonsColorRes(R.color.colorAccent)
+                    .setIcon(R.drawable.comment_account_light)
+                    .setTitle(storyFragment.getDescription())
+                    .setMessage(info.toString())
+                    .setPositiveButton(R.string.edit, v2 -> {
+                        goToStoryFragmentBuilder(selectedStoryFragment);
+                    })
+                    .setNegativeButton(R.string.delete, v -> {
+                        deleteStoryFragmentDialog(selectedStoryFragment);
+                    })
+                    .setNeutralButton(R.string.cancel, v -> {
+
+                    })
+                    .show();
+
         } else {
             Log.e("ERROR", "Could not find StoryFragment");
             // Show error dialog if storyFragment could not be found

@@ -1,6 +1,8 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.models;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -50,6 +52,21 @@ public class StoryFragment extends RealmObject {
         this.actions = getRealmListOfActions(actions);
     }
 
+    public void setActions(List<DBAction> actions){
+        this.actions = getRealmListOfActions(actions);
+    }
+
+    private RealmList<String> getRealmListOfActions(List<DBAction> actions) {
+        RealmList<String> realmListOfActions = new RealmList<>();
+
+        for (DBAction action : actions){
+            realmListOfActions.add(action.getAction());
+            //TODO: need to take configuration into account
+        }
+
+        return realmListOfActions;
+    }
+
     public int getId() {
         return id;
     }
@@ -75,4 +92,15 @@ public class StoryFragment extends RealmObject {
         return stringArrayOfActions;
     }
 
+    public void setActions(RealmList<String> actions) {
+        this.actions = actions;
+    }
+
+    public String getQuestDialog() {
+        return questDialog;
+    }
+
+    public void setQuestDialog(String questDialog) {
+        this.questDialog = questDialog;
+    }
 }
