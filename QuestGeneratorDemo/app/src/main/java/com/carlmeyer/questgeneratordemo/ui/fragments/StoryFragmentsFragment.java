@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -226,7 +227,10 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
     }
 
     private void goToStoryFragmentBuilder(StoryFragment selectedStoryFragment) {
-
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("edit", true);
+        bundle.putSerializable("storyfragment", selectedStoryFragment);
+        NavHostFragment.findNavController(this).navigate(R.id.nav_story_fragment_builder, bundle);
     }
 
 

@@ -2,37 +2,27 @@ package com.carlmeyer.questgeneratordemo.ui.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.IntRange;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.beloo.widget.chipslayoutmanager.gravity.IChildGravityResolver;
-import com.beloo.widget.chipslayoutmanager.layouter.breaker.IRowBreaker;
 import com.carlmeyer.questgeneratordemo.R;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.carlmeyer.questgeneratordemo.ui.adapters.DBActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.adapters.TemplateHelperAdapter;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StartDragListener;
 import com.carlmeyer.questgeneratordemo.ui.interfaces.StopDragListener;
-import com.carlmeyer.questgeneratordemo.ui.utils.AutoFitGridLayoutManager;
 import com.carlmeyer.questgeneratordemo.ui.utils.ItemMoveCallback;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.TemplateHelperViewHolder;
@@ -66,6 +56,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     private TemplateHelperAdapter templateHelperAdapter;
     private List<String> templateHelpers = new ArrayList<>();
     private View root;
+    private StoryFragment editStoryFragment;
 
 
     @Override
@@ -89,6 +80,13 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         txtDescription = root.findViewById(R.id.txtStoryFragmentDescription);
 
         txtStoryFragmentDialog = root.findViewById(R.id.txtStoryFragmentDialog);
+
+        Bundle bundle = getArguments();
+
+        if (bundle != null) {
+            edit = bundle.getBoolean("edit");
+            editStoryFragment = (StoryFragment) bundle.getSerializable("storyfragment");
+        }
 
         setActionNames();
 
@@ -128,12 +126,33 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             }
 
         });
+
+        if(edit && editStoryFragment != null){
+            txtMotivation.setText(editStoryFragment.getMotivation());
+            txtDescription.setText(editStoryFragment.getDescription());
+            if(editStoryFragment.getQuestDialog() != null){
+                txtStoryFragmentDialog.setText(editStoryFragment.getQuestDialog());
+            }
+            for (String action : editStoryFragment.getActions()){
+                DBAction dbaction = realm.where(DBAction.class).equalTo("action", action).findFirst();
+                // Todo: get config from string action (something like substring | )
+                actions.add(dbaction);
+            }
+
+        }
     }
 
     private void saveStoryFragment() {
 
         if (edit) {
-            // update existing story fragment
+            realm.executeTransaction(r -> {
+                StoryFragment sf = r.where(StoryFragment.class).equalTo("id", editStoryFragment.getId()).findFirst();
+                sf.setMotivation(txtMotivation.getText().toString());
+                sf.setDescription(txtDescription.getText().toString().toLowerCase());
+                sf.setActions(actions);
+                sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
+            });
+            Navigation.findNavController(root).popBackStack();
         } else {
             realm.executeTransaction(r -> {
                 long nextID = (long) (r.where(StoryFragment.class).max("id")) + 1;

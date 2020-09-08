@@ -1,5 +1,6 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.models;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +9,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class StoryFragment extends RealmObject {
+public class StoryFragment extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
