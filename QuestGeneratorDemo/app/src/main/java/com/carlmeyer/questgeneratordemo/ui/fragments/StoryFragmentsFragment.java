@@ -93,17 +93,17 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         storyFragments = storyFragments.sort("id");
     }
 
-    private void deleteStoryFragmentDialog(StoryFragment storyFragment){
-        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+    private void deleteStoryFragmentDialog(StoryFragment storyFragment) {
+        new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.alert_box_light)
                 .setTitle(R.string.attention)
                 .setMessage(R.string.are_you_sure_you_want_delete)
-                .setPositiveButton(android.R.string.yes, v2 -> {
+                .setPositiveButton(R.string.yes, v2 -> {
                     deleteStoryFragment(storyFragment);
                 })
-                .setNegativeButton(android.R.string.no, v -> {
+                .setNegativeButton(R.string.no, v -> {
 
                 })
                 .show();
@@ -116,12 +116,20 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
      * @param storyFragment - storyFragment to delete
      */
     private void deleteStoryFragment(StoryFragment storyFragment) {
-        try {
-            realm.executeTransaction(r -> {
-                StoryFragment storyFragmentToDelete = r.where(StoryFragment.class).equalTo("id", storyFragment.getId()).findFirst();
-                if (storyFragmentToDelete != null) {
+
+        realm.executeTransaction(r -> {
+            StoryFragment storyFragmentToDelete = r.where(StoryFragment.class).equalTo("id", storyFragment.getId()).findFirst();
+            Log.d("Story Fragment", storyFragment.getDescription());
+            if (storyFragmentToDelete != null) {
                     /* Must have at least one storyFragment, so need to show information dialog to
                         inform the user that they need to add another storyFragment in order to delete
+                        this one */
+
+                if(storyFragments.size() > 1){
+                   storyFragmentToDelete.deleteFromRealm();
+                }else{
+                        /* Must have at least one location, so need to show information dialog to
+                        inform the user that they need to add another location in order to delete
                         this one */
                     new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
                             .setTopColorRes(R.color.colorPrimary)
@@ -132,33 +140,21 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
                             .setPositiveButton(android.R.string.ok, v2 -> {
                             })
                             .show();
-                } else {
-                    // Show error dialog
-                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
-                            .setTopColorRes(R.color.colorPrimary)
-                            .setButtonsColorRes(R.color.colorAccent)
-                            .setIcon(R.drawable.alert_box_light)
-                            .setTitle(R.string.error)
-                            .setMessage(R.string.could_not_find_story_fragment)
-                            .setPositiveButton(android.R.string.ok, v2 -> {
-                            })
-                            .show();
                 }
-            });
-        } catch (Exception e) {
-            Log.e("ERROR", "Could not delete StoryFragment");
-            // Show error dialog
-            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
-                    .setTopColorRes(R.color.colorPrimary)
-                    .setButtonsColorRes(R.color.colorAccent)
-                    .setIcon(R.drawable.alert_box_light)
-                    .setTitle(R.string.error)
-                    .setMessage(R.string.could_not_delete_story_fragment)
-                    .setPositiveButton(android.R.string.ok, v2 -> {
-                    })
-                    .show();
 
-        }
+            } else {
+                // Show error dialog
+                new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                        .setTopColorRes(R.color.colorPrimary)
+                        .setButtonsColorRes(R.color.colorAccent)
+                        .setIcon(R.drawable.alert_box_light)
+                        .setTitle(R.string.error)
+                        .setMessage(R.string.could_not_find_story_fragment)
+                        .setPositiveButton(android.R.string.ok, v2 -> {
+                        })
+                        .show();
+            }
+        });
     }
 
     /*
@@ -188,7 +184,7 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
             info.append("Motivation: ").append(storyFragment.getMotivation()).append("\n").append("\n");
             info.append("Actions: ").append("\n");
             int index = 1;
-            for (String action : storyFragment.getActions()){
+            for (String action : storyFragment.getActions()) {
                 info.append(index).append(". ").append(action).append("\n");
                 index++;
             }
