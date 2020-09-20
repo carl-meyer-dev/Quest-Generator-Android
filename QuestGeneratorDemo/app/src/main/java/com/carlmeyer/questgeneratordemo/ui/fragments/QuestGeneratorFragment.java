@@ -111,7 +111,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
 
-        int minimumComplexity = 8;
+        int minimumComplexity = 1;
 
         quest = questGenerator.getQuest(questMotivation, minimumComplexity);
 

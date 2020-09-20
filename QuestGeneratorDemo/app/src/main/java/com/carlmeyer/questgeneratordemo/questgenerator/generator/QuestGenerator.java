@@ -129,10 +129,9 @@ public class QuestGenerator {
 
         // Todo: This might have to be reworked to include previous NPC, ENEMY, ITEM to maintain coherence or context
 
-        NPC npcToReportTo = null;
-        Enemy enemyToAttack = null;
-        Item itemToAcquire = null;
-        Item itemToUse = null;
+        NPC npc = null;
+        Enemy enemy = null;
+        Item item = null;
 
         List<Action> rootActions = new ArrayList<>();
 
@@ -144,60 +143,38 @@ public class QuestGenerator {
                 */
 
         for (String action : reversedActions) {
+            Log.d("##", "action: " + action);
+            String config = "";
             if (action.contains("-")) {
-                Log.d("##", "Action has configuration");
                 String[] split = action.split("-", 2);
                 action = split[0];
-                String config = split[1];
-                Log.d("##", "action: " + action);
-                Log.d("##", "config: " + config);
-            } else {
-                Log.d("##", "Action does not have configuration");
+                config = split[1];
             }
 
             switch (action) {
                 case Actions.GET:
-                    if (itemToUse != null) {
-                        rootActions.add(new Get(itemToUse));
-                        itemToUse = null;
-                    } else {
-                        rootActions.add(new Get(getItem()));
-                    }
+                    get(rootActions, item);
                     break;
                 case Actions.GOTO:
-                    if (npcToReportTo != null) {
-                        // An npc was selected to report to, go to them
-                        rootActions.add(new Goto(npcToReportTo));
-                        npcToReportTo = null;
-                    } else if (enemyToAttack != null) {
-                        // An enemy was selected to attack, get his location
-                        rootActions.add(new Goto(enemyToAttack));
-                        enemyToAttack = null;
-                    } else {
-                        // Default to a random location
-                        rootActions.add(new Goto(getLocation()));
-                    }
+                    go_to(rootActions, config, npc, enemy);
                     break;
                 case Actions.USE:
-                    itemToUse = getItem();
-                    rootActions.add(new Use(itemToUse));
+                    use(rootActions, item);
                     break;
                 case Actions.STEAL:
-                    rootActions.add(new Steal(getItem(), getEnemy()));
+                    steal(rootActions);
                     break;
                 case Actions.LEARN:
-                    rootActions.add(new Learn(getNPC()));
+                    learn(rootActions, config);
                     break;
                 case Actions.REPORT:
-                    npcToReportTo = getNPC();
-                    rootActions.add(new Report(npcToReportTo));
+                    report(rootActions, npc);
                     break;
                 case Actions.KILL:
-                    enemyToAttack = getEnemy();
-                    rootActions.add(new Kill(enemyToAttack));
+                    kill(rootActions, enemy);
                     break;
                 case Actions.LISTEN:
-                    rootActions.add(new Listen(getNPC()));
+                    listen(rootActions, config, npc, enemy);
                     break;
             }
         }
@@ -208,6 +185,120 @@ public class QuestGenerator {
         return rootActions; // might have to change type back to String[] just be mindful
 
     }
+
+    /**
+     * Assign Action Methods
+     * =============================================================================================
+     */
+    private void get(List<Action> rootActions, Item item) {
+        if (item != null) {
+            rootActions.add(new Get(item));
+            item = null;
+        } else {
+            rootActions.add(new Get(getItem()));
+        }
+    }
+
+    private void go_to(List<Action> rootActions, String config, NPC npc, Enemy enemy) {
+        if (config.isEmpty()) {
+            if (npc != null) {
+                // An npc was selected to report to, go to them
+                rootActions.add(new Goto(npc));
+                npc = null;
+            } else if (enemy != null) {
+                // An enemy was selected to attack, get his location
+                rootActions.add(new Goto(enemy));
+                enemy = null;
+            } else {
+                // Default to a random location
+                rootActions.add(new Goto(getLocation()));
+            }
+        } else {
+            switch (config) {
+                case "location":
+                    rootActions.add(new Goto(getLocation()));
+                    break;
+                case "npc":
+                    rootActions.add(new Goto(getNPC()));
+                    break;
+                case "enemy":
+                    rootActions.add(new Goto(getEnemy()));
+                    break;
+            }
+        }
+    }
+
+    private void use(List<Action> rootActions, Item item) {
+        if(item == null){
+            item = getItem();
+        }
+        rootActions.add(new Use(item));
+    }
+
+    private void steal(List<Action> rootActions) {
+        rootActions.add(new Steal(getItem(), getEnemy()));
+    }
+
+    private void listen(List<Action> rootActions, String config,  NPC npc, Enemy enemy) {
+        Log.d("##", "Listen");
+        if(config.isEmpty()){
+            Log.d("##", "no config");
+            if(npc != null){
+                rootActions.add(new Listen(npc));
+            }else{
+                rootActions.add(new Listen(enemy));
+            }
+        }else{
+            Log.d("##", "config");
+
+            switch (config) {
+                case "npc":
+                    rootActions.add(new Listen(getNPC()));
+                    Log.d("##", "add listen npc");
+                    break;
+                case "enemy":
+                    rootActions.add(new Listen(getEnemy()));
+                    Log.d("##", "add listen enemy");
+                    break;
+            }
+        }
+    }
+
+    private void kill(List<Action> rootActions, Enemy enemyToAttack) {
+        if (enemyToAttack == null) {
+            enemyToAttack = getEnemy();
+        }
+        rootActions.add(new Kill(enemyToAttack));
+    }
+
+    private void report(List<Action> rootActions, NPC npcToReportTo) {
+        if (npcToReportTo == null) {
+            npcToReportTo = getNPC();
+        }
+        rootActions.add(new Report(npcToReportTo));
+    }
+
+    private void learn(List<Action> rootActions, String config) {
+        if(config.isEmpty()){
+            rootActions.add(new Learn(getNPC()));
+        }else{
+            switch (config) {
+                case "location":
+                    rootActions.add(new Learn(getLocation()));
+                    break;
+                case "npc":
+                    rootActions.add(new Learn(getNPC()));
+                    break;
+                case "enemy":
+                    rootActions.add(new Learn(getEnemy()));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * =============================================================================================
+     */
 
     // Get random enemy
     public Enemy getEnemy() {
@@ -243,6 +334,16 @@ public class QuestGenerator {
 
     // Get random location
     public Location getLocation() {
+        if (locations.size() > 1) {
+            int index = random.nextInt(locations.size() - 1);
+            return locations.get(index);
+        } else {
+            return locations.get(0);
+        }
+    }
+
+    // Get random location
+    public Location getLocation(NPC npc) {
         if (locations.size() > 1) {
             int index = random.nextInt(locations.size() - 1);
             return locations.get(index);
