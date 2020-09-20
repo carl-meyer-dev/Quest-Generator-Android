@@ -127,15 +127,20 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         });
 
-        if(edit && editStoryFragment != null){
+        if (edit && editStoryFragment != null) {
             txtMotivation.setText(editStoryFragment.getMotivation());
             txtDescription.setText(editStoryFragment.getDescription());
-            if(editStoryFragment.getQuestDialog() != null){
+            if (editStoryFragment.getQuestDialog() != null) {
                 txtStoryFragmentDialog.setText(editStoryFragment.getQuestDialog());
             }
-            for (String action : editStoryFragment.getActions()){
+            for (String action : editStoryFragment.getActions()) {
                 DBAction dbaction = realm.where(DBAction.class).equalTo("action", action).findFirst();
-                // Todo: get config from string action (something like substring | )
+                /* Todo: get config from string action (something like substring | )
+                    go to|location -> go to specific location
+                    go to|npc -> go to specific npc
+                    go to|enemy -> go to specific enemy
+                    go to - > go to random configuration
+                */
                 actions.add(dbaction);
             }
 
@@ -143,6 +148,12 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     }
 
     private void saveStoryFragment() {
+
+        boolean passedValidation = validateFields();
+
+        if(!passedValidation){
+            return;
+        }
 
         if (edit) {
             realm.executeTransaction(r -> {
@@ -152,21 +163,83 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 sf.setActions(actions);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
             });
-            Navigation.findNavController(root).popBackStack();
         } else {
             realm.executeTransaction(r -> {
-                long nextID = (long) (r.where(StoryFragment.class).max("id")) + 1;
+                long nextID;
+                try {
+                    nextID = (long) (r.where(StoryFragment.class).max("id")) + 1;
+                } catch (Exception e) {
+                    // if there are no story fragments then the above line will cause an exception
+                    // in this case we then just assing 1 as the next ID since it will be the first
+                    // story fragment in the DB
+                    nextID = 1;
+                }
                 StoryFragment sf = r.createObject(StoryFragment.class, nextID);
                 sf.setMotivation(txtMotivation.getText().toString());
                 sf.setDescription(txtDescription.getText().toString().toLowerCase());
                 sf.setActions(actions);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
-            });
 
-            Navigation.findNavController(root).popBackStack();
+                Motivation m = r.where(Motivation.class).equalTo("motivation", txtMotivation.getText().toString()).findFirst();
+                m.addStoryFragment(sf);
+            });
 
 
         }
+        Navigation.findNavController(root).popBackStack();
+    }
+
+    private boolean validateFields() {
+        boolean pass = true;
+        if (txtMotivation.getText().toString().isEmpty()) {
+            pass = false;
+            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                    .setTopColorRes(R.color.colorPrimary)
+                    .setButtonsColorRes(R.color.colorAccent)
+                    .setIcon(R.drawable.alert_box_light)
+                    .setTitle(R.string.invalid_field)
+                    .setMessage(R.string.motivation_may_not_be_empty)
+                    .setPositiveButton(android.R.string.ok, v2 -> {
+                    })
+                    .show();
+        }
+        if (txtDescription.getText().toString().isEmpty()) {
+            pass = false;
+            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                    .setTopColorRes(R.color.colorPrimary)
+                    .setButtonsColorRes(R.color.colorAccent)
+                    .setIcon(R.drawable.alert_box_light)
+                    .setTitle(R.string.invalid_field)
+                    .setMessage(R.string.description_may_not_be_empty)
+                    .setPositiveButton(android.R.string.ok, v2 -> {
+                    })
+                    .show();
+        }
+        if (actions.isEmpty()) {
+            pass = false;
+            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                    .setTopColorRes(R.color.colorPrimary)
+                    .setButtonsColorRes(R.color.colorAccent)
+                    .setIcon(R.drawable.alert_box_light)
+                    .setTitle(R.string.invalid_field)
+                    .setMessage(R.string.you_need_to_choose_actions)
+                    .setPositiveButton(android.R.string.ok, v2 -> {
+                    })
+                    .show();
+        }
+        if (txtStoryFragmentDialog.getText().toString().isEmpty()) {
+            pass = false;
+            new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.VERTICAL)
+                    .setTopColorRes(R.color.colorPrimary)
+                    .setButtonsColorRes(R.color.colorAccent)
+                    .setIcon(R.drawable.alert_box_light)
+                    .setTitle(R.string.invalid_field)
+                    .setMessage(R.string.quest_dialog_may_not_be_empty)
+                    .setPositiveButton(android.R.string.ok, v2 -> {
+                    })
+                    .show();
+        }
+        return pass;
     }
 
     /**

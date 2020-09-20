@@ -136,7 +136,25 @@ public class QuestGenerator {
 
         List<Action> rootActions = new ArrayList<>();
 
+        /* get config from string action (something like substring | )
+                    goto-location -> go to specific location
+                    goto-npc -> go to specific npc
+                    goto-enemy -> go to specific enemy
+                    goto - > go to random configuration
+                */
+
         for (String action : reversedActions) {
+            if (action.contains("-")) {
+                Log.d("##", "Action has configuration");
+                String[] split = action.split("-", 2);
+                action = split[0];
+                String config = split[1];
+                Log.d("##", "action: " + action);
+                Log.d("##", "config: " + config);
+            } else {
+                Log.d("##", "Action does not have configuration");
+            }
+
             switch (action) {
                 case Actions.GET:
                     if (itemToUse != null) {

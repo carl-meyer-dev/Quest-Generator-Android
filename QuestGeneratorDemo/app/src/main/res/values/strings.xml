@@ -125,4 +125,8 @@
     <string name="edit">edit</string>
     <string name="are_you_sure_you_want_delete">Are you sure  you want to delete this story fragment?</string>
     <string name="cancel">cancel</string>
+    <string name="invalid_field">Invalid Field</string>
+    <string name="description_may_not_be_empty">Description May not be Empty</string>
+    <string name="you_need_to_choose_actions">You need to choose actions for this quest</string>
+    <string name="quest_dialog_may_not_be_empty">Quest Dialog may not be empty</string>
 </resources>

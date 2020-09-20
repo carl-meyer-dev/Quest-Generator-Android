@@ -1,5 +1,7 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.models;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,8 +63,12 @@ public class StoryFragment extends RealmObject implements Serializable {
         RealmList<String> realmListOfActions = new RealmList<>();
 
         for (DBAction action : actions){
-            realmListOfActions.add(action.getAction());
-            //TODO: need to take configuration into account
+            String stringAction = action.getAction();
+            if(action.getConfig() != null){
+                stringAction = stringAction + "-" + action.getConfig();
+            }
+            realmListOfActions.add(stringAction);
+            Log.d("Test", stringAction);
         }
 
         return realmListOfActions;

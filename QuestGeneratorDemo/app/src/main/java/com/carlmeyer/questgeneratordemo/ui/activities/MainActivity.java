@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
                 storyFragment.setActions(sf.getActions());
                 Motivation motivation = r.where(Motivation.class).equalTo("motivation",sf.getMotivation()).findFirst();
                 storyFragment.setMotivation(sf.getMotivation());
-                // TODO: Figure out why it is only adding the last story fragment to the motivation
                 if(motivation != null){
                     motivation.addStoryFragment(sf);
                 }

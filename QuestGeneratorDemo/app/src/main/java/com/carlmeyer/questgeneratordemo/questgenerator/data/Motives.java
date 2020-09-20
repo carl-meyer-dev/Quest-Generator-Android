@@ -16,8 +16,8 @@ public class Motives {
         List<String> motives = new ArrayList<>();
 
         motives.add(KNOWLEDGE);
-        motives.add(COMFORT);
-        motives.add(JUSTICE);
+//        motives.add(COMFORT);
+//        motives.add(JUSTICE);
 
         return motives;
     }

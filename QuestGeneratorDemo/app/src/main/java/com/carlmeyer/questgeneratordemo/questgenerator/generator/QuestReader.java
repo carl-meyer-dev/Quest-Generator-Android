@@ -38,8 +38,15 @@ public class QuestReader {
         //read the sub-actions of the quest
         readSubActions(quest.root, 0);
 
-        //generate the Quest Dialog
-        generateDialog(quest, questSteps);
+        String questDialog;
+        if (quest.storyFragment.questDialog != null) {
+            questDialog = quest.storyFragment.questDialog;
+        } else {
+            questDialog = generateDialog(quest, questSteps);
+        }
+
+        quest.dialog = questDialog;
+
     }
 
     /**
@@ -115,7 +122,7 @@ public class QuestReader {
         return questStepsText.toString();
     }
 
-    private void generateDialog(Quest quest, List<Action> questSteps){
+    private String generateDialog(Quest quest, List<Action> questSteps) {
         StringBuilder questDialog = new StringBuilder();
         StoryFragment storyFragment = quest.storyFragment;
         // Explain the Quest Motivation and what the quest is about.
@@ -127,11 +134,16 @@ public class QuestReader {
         quest.questText = questDialog.toString();
         questDialog.append("\n").append("\n");
         int step = 1;
-        for (Action action : quest.root.subActions){
+        for (Action action : quest.root.subActions) {
             questDialog.append(step).append(". ").append(action.actionDescription).append("\n").append("\n");
             step++;
         }
         questDialog.append("Complete these actions and I shall reward you greatly!");
-        quest.dialog = questDialog.toString();
+        return questDialog.toString();
+    }
+
+    private void questDialogMapper(Quest quest, List<Action> questSteps) {
+        // TODO: get all the npcs, items, locations and enemies from the quest steps & Map them to the quest dialog
+        // Use some form of String formatting function to replace $npc, $location, $enemy, $item
     }
 }
