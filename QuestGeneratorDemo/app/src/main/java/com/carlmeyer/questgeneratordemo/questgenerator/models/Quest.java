@@ -15,7 +15,7 @@ public class Quest {
         this.root = root;
 
         this.name = storyFragment.getDescription();
-        this.description = root.actionText;
+        this.description = root.actionDescription;
         this.motivation = storyFragment.getMotivation();
         this.storyFragment = storyFragment;
     }

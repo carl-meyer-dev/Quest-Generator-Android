@@ -46,7 +46,7 @@ public class LocationsFragment extends Fragment implements LocationViewHolder.On
 
         View root = inflater.inflate(R.layout.fragment_locations, container, false);
         rvLocations = root.findViewById(R.id.rvLocations);
-        realm = Realm.getDefaultInstance();
+            realm = Realm.getDefaultInstance();
         btnAddLocation = root.findViewById(R.id.btnAddLocation);
         rvLocations = root.findViewById(R.id.rvLocations);
         getLocations();

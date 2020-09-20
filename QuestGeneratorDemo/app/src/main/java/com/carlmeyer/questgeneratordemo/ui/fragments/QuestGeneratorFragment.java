@@ -67,7 +67,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         rvActions = root.findViewById(R.id.rvActions);
 
-        konfettiView =  root.findViewById(R.id.viewKonfetti);
+        konfettiView = root.findViewById(R.id.viewKonfetti);
 
         motives = realm.where(Motivation.class).findAll();
 
@@ -101,7 +101,13 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .filter(motivation -> motivation.getStoryFragments().size() > 0)
                 .collect(Collectors.toList());
 
-        Motivation questMotivation = motivesWithStoryFragments.get(random.nextInt(motives.size() - 1));
+        Motivation questMotivation;
+
+        if (motivesWithStoryFragments.size() == 1) {
+            questMotivation = motivesWithStoryFragments.get(0);
+        } else {
+            questMotivation = motivesWithStoryFragments.get(random.nextInt(motives.size() - 1));
+        }
 
         Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
 
@@ -161,7 +167,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.human_greeting_light)
-                .setTitle(selectedAction.actionText + "?")
+                .setTitle(selectedAction.actionDescription + "?")
                 .setMessage(selectedAction.actionDialog)
                 .setPositiveButton(R.string.yes, v2 -> {
                     if (position == 0) {
@@ -198,17 +204,16 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.check_bold)
-                .setMessage("You " + action.actionText)
+                .setMessage("You " + action.actionDescription)
                 .setPositiveButton(R.string.ok, v2 -> {
                     questSteps.remove(0);
                     actionsAdapter.notifyItemRemoved(0);
-                    if(questSteps.size() == 0){
+                    if (questSteps.size() == 0) {
                         completeQuest();
                     }
                 })
                 .show();
     }
-
 
 
     /**
@@ -220,14 +225,14 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         StringBuilder subQuestText = new StringBuilder();
         subQuestText
                 .append("Before you can ")
-                .append(root.actionText)
+                .append(root.actionDescription)
                 .append(" you need to do the following: ").append("\n").append("\n");
 
         int step = 1;
         for (Action action : root.subActions) {
             subQuestText
                     .append(step).append(". ")
-                    .append(action.actionText)
+                    .append(action.actionDescription)
                     .append("\n")
                     .append("\n");
             step++;
@@ -244,11 +249,11 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .show();
     }
 
-    private void addSubquest(Action subQuest){
+    private void addSubquest(Action subQuest) {
 
         Collections.reverse(subQuest.subActions);
 
-        for (Action action : subQuest.subActions){
+        for (Action action : subQuest.subActions) {
             questSteps.add(0, action);
         }
 
@@ -266,9 +271,9 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         performPreviousText
                 .append("Before you can ")
-                .append(action.actionText)
+                .append(action.actionDescription)
                 .append(" you first need to ")
-                .append(parentAction.actionText);
+                .append(parentAction.actionDescription);
 
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
@@ -281,7 +286,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .show();
     }
 
-    private void completeQuest(){
+    private void completeQuest() {
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
@@ -294,7 +299,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .show();
     }
 
-    private void throwConfetti(){
+    private void throwConfetti() {
         konfettiView.build()
                 .addColors(
                         getContext().getColor(R.color.colorPrimary),
@@ -314,7 +319,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .burst(1000);
     }
 
-    private String generateCompleteQuestDialog(){
+    private String generateCompleteQuestDialog() {
         StringBuilder completeQuestDialog = new StringBuilder();
         completeQuestDialog.append("Well done adventurer!").append("\n").append("\n");
         completeQuestDialog.append("Thank you for completing the quest!").append("\n").append("\n");

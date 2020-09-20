@@ -14,7 +14,9 @@ public class Gather extends Action {
      * @param item - item to gather
      */
     public Gather(Item item) {
-        this.actionText = "gather a " + item.getName();
+        this.actionName = Actions.GATHER;
+        this.actionDescription = "gather a " + item.getName();
+        this.config = "item";
         this.subActions = new ArrayList<>();
         initialize();
     }

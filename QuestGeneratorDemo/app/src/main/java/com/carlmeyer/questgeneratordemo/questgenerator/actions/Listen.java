@@ -16,7 +16,9 @@ public class Listen extends Action {
      * @param npc - npc to listen to
      */
     public Listen(NPC npc) {
-        this.actionText = "Listen to " + npc.getName();
+        this.actionName = Actions.LISTEN;
+        this.actionDescription = "Listen to " + npc.getName();
+        this.config = "npc";
         this.subActions = new ArrayList<>();
         initialize();
     }
@@ -27,7 +29,9 @@ public class Listen extends Action {
      * @param enemy - enemy to listen to
      */
     public Listen(Enemy enemy) {
-        this.actionText = "Listen to " + enemy.getName();
+        this.actionName = Actions.LISTEN;
+        this.actionDescription = "Listen to " + enemy.getName();
+        this.config = "enemy";
         this.subActions = new ArrayList<>();
         initialize();
     }

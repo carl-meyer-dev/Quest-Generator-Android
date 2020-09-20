@@ -1,26 +1,30 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.models;
 
+import android.util.Log;
+
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class StoryFragment extends RealmObject {
+public class StoryFragment extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
     private String motivation;
     private String description;
     public RealmList<String> actions;
+    public String questDialog;
 
     public StoryFragment(int id, String motivation, String description, String[] actions) {
         this.id = id;
         this.motivation = motivation;
         this.description = description;
         this.actions = getRealmListOfActions(actions);
-
-
     }
 
     public StoryFragment() {
@@ -51,6 +55,25 @@ public class StoryFragment extends RealmObject {
         this.actions = getRealmListOfActions(actions);
     }
 
+    public void setActions(List<DBAction> actions){
+        this.actions = getRealmListOfActions(actions);
+    }
+
+    private RealmList<String> getRealmListOfActions(List<DBAction> actions) {
+        RealmList<String> realmListOfActions = new RealmList<>();
+
+        for (DBAction action : actions){
+            String stringAction = action.getAction();
+            if(action.getConfig() != null){
+                stringAction = stringAction + "-" + action.getConfig();
+            }
+            realmListOfActions.add(stringAction);
+            Log.d("Test", stringAction);
+        }
+
+        return realmListOfActions;
+    }
+
     public int getId() {
         return id;
     }
@@ -76,4 +99,15 @@ public class StoryFragment extends RealmObject {
         return stringArrayOfActions;
     }
 
+    public void setActions(RealmList<String> actions) {
+        this.actions = actions;
+    }
+
+    public String getQuestDialog() {
+        return questDialog;
+    }
+
+    public void setQuestDialog(String questDialog) {
+        this.questDialog = questDialog;
+    }
 }
