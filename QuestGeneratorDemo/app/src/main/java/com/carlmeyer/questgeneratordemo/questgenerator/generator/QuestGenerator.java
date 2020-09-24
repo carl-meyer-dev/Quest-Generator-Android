@@ -229,7 +229,7 @@ public class QuestGenerator {
     }
 
     private void use(List<Action> rootActions, Item item) {
-        if(item == null){
+        if (item == null) {
             item = getItem();
         }
         rootActions.add(new Use(item));
@@ -239,16 +239,23 @@ public class QuestGenerator {
         rootActions.add(new Steal(getItem(), getEnemy()));
     }
 
-    private void listen(List<Action> rootActions, String config,  NPC npc, Enemy enemy) {
+    private void listen(List<Action> rootActions, String config, NPC npc, Enemy enemy) {
         Log.d("##", "Listen");
-        if(config.isEmpty()){
+        if (config.isEmpty()) {
             Log.d("##", "no config");
-            if(npc != null){
+            if (npc != null) {
                 rootActions.add(new Listen(npc));
-            }else{
+            } else if (enemy != null) {
                 rootActions.add(new Listen(enemy));
+            } else {
+                if (random.nextBoolean()) {
+                    rootActions.add(new Listen(getNPC()));
+
+                } else {
+                    rootActions.add(new Listen(getEnemy()));
+                }
             }
-        }else{
+        } else {
             Log.d("##", "config");
 
             switch (config) {
@@ -279,9 +286,9 @@ public class QuestGenerator {
     }
 
     private void learn(List<Action> rootActions, String config) {
-        if(config.isEmpty()){
+        if (config.isEmpty()) {
             rootActions.add(new Learn(getNPC()));
-        }else{
+        } else {
             switch (config) {
                 case "location":
                     rootActions.add(new Learn(getLocation()));

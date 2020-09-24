@@ -55,16 +55,16 @@ public class StoryFragment extends RealmObject implements Serializable {
         this.actions = getRealmListOfActions(actions);
     }
 
-    public void setActions(List<DBAction> actions){
+    public void setActions(List<DBAction> actions) {
         this.actions = getRealmListOfActions(actions);
     }
 
     private RealmList<String> getRealmListOfActions(List<DBAction> actions) {
         RealmList<String> realmListOfActions = new RealmList<>();
 
-        for (DBAction action : actions){
+        for (DBAction action : actions) {
             String stringAction = action.getAction();
-            if(action.getConfig() != null){
+            if (action.getConfig() != null) {
                 stringAction = stringAction + "-" + action.getConfig();
             }
             realmListOfActions.add(stringAction);
@@ -82,7 +82,7 @@ public class StoryFragment extends RealmObject implements Serializable {
         this.id = id;
     }
 
-    private RealmList<String> getRealmListOfActions(String[] actions){
+    private RealmList<String> getRealmListOfActions(String[] actions) {
 
         RealmList<String> realmListOfActions = new RealmList<>();
 
@@ -91,7 +91,7 @@ public class StoryFragment extends RealmObject implements Serializable {
         return realmListOfActions;
     }
 
-    private String[] getStringArrayOfActions(RealmList<String> actions){
+    private String[] getStringArrayOfActions(RealmList<String> actions) {
         String[] stringArrayOfActions = new String[actions.size()];
         for (int i = 0; i < actions.size(); i++) {
             stringArrayOfActions[i] = actions.get(i);

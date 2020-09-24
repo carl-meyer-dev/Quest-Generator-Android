@@ -67,7 +67,7 @@ public class StoryFragments {
             "gather items",
             new String[]{
                     Actions.GOTO,
-                    Actions.GATHER,
+                    Actions.GET,
                     Actions.GOTO,
                     Actions.REPORT,
             }

@@ -23,7 +23,7 @@ public class Steal extends Action {
     public Steal(Item item, Enemy enemy) {
         this.actionName = Actions.STEAL;
         this.actionDescription = "Steal " + item.getName() + " from the " + enemy.getName();
-        this.config = "steal";
+        this.config = "item from enemy";
         this.subActions = new ArrayList<>();
         initialize(item, enemy);
     }

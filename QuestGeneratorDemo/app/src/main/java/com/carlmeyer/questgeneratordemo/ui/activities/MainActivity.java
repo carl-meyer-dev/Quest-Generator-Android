@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void InitializeDB(Context context) {
         Realm.init(context);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("questgenerator.realm").build();
+        RealmConfiguration config = new RealmConfiguration.Builder().name("questgenerator.realm").deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
         // Clear the Realm if the example was previously run.
-        if (Realm.getDefaultConfiguration() != null) {
-            Realm.deleteRealm(Realm.getDefaultConfiguration());
-        }
+//        if (Realm.getDefaultConfiguration() != null) {
+//            Realm.deleteRealm(Realm.getDefaultConfiguration());
+//        }
     }
 
     /**
