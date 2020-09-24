@@ -20,6 +20,7 @@ public class Listen extends Action {
         this.actionDescription = "Listen to " + npc.getName();
         this.config = "npc";
         this.subActions = new ArrayList<>();
+        this.actionSubject = npc.getName();
         initialize();
     }
 
@@ -33,6 +34,7 @@ public class Listen extends Action {
         this.actionDescription = "Listen to " + enemy.getName();
         this.config = "enemy";
         this.subActions = new ArrayList<>();
+        this.actionSubject = enemy.getName();
         initialize();
     }
 

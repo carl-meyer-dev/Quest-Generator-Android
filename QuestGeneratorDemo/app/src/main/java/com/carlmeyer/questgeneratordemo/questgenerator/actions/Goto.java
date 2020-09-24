@@ -24,6 +24,7 @@ public class Goto extends Action {
         this.actionDescription = "Go to the " + npc.getLocation().getName();
         this.config = "npc";
         this.subActions = new ArrayList<>();
+        this.actionSubject = npc.getName();
         initialize(npc);
     }
 
@@ -37,6 +38,7 @@ public class Goto extends Action {
         this.actionDescription = "Go to the " + enemy.getLocation().getName();
         this.config = "enemy";
         this.subActions = new ArrayList<>();
+        this.actionSubject = enemy.getName();
         initialize(enemy);
     }
 
@@ -50,6 +52,7 @@ public class Goto extends Action {
         this.actionDescription = "Go to the " + location.getName();
         this.config = "location";
         this.subActions = new ArrayList<>();
+        this.actionSubject = location.getName();
         // No initialize for location since you simply need to goto the location
     }
 

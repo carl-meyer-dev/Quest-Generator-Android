@@ -18,6 +18,7 @@ public class Loot extends Action {
         this.actionDescription = "Loot a " + item.getName();
         this.config = "item";
         this.subActions = new ArrayList<>();
+        this.actionSubject = item.getName();
         initialize();
     }
 

@@ -18,6 +18,7 @@ public class StoryFragment extends RealmObject implements Serializable {
     private String motivation;
     private String description;
     public RealmList<String> actions;
+    public RealmList<String> dialogKeys;
     public String questDialog;
 
     public StoryFragment(int id, String motivation, String description, String[] actions) {
@@ -109,5 +110,22 @@ public class StoryFragment extends RealmObject implements Serializable {
 
     public void setQuestDialog(String questDialog) {
         this.questDialog = questDialog;
+    }
+
+    public RealmList<String> getDialogKeys() {
+        return dialogKeys;
+    }
+
+    public void setDialogKeys(List<String> dialogKeys) {
+        this.dialogKeys = getRealmListOfDialogKeys(dialogKeys);
+    }
+
+    private RealmList<String> getRealmListOfDialogKeys(List<String> dialogKeys) {
+
+        RealmList<String> realmListOfDialogKeys = new RealmList<>();
+
+        realmListOfDialogKeys.addAll(dialogKeys);
+
+        return realmListOfDialogKeys;
     }
 }

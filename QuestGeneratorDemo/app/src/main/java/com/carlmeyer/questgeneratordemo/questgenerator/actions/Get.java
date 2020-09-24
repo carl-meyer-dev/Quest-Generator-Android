@@ -23,6 +23,7 @@ public class Get extends Action {
         this.actionDescription = "Acquire a " + item.getName();
         this.config = "item";
         this.subActions = new ArrayList<>();
+        this.actionSubject = item.getName();
         initialize(item);
     }
 

@@ -45,7 +45,6 @@ public class QuestReader {
         String questDialog;
         if (quest.storyFragment.questDialog != null) {
             questDialog = quest.storyFragment.questDialog;
-            questDialogMapper(quest, questSteps);
         } else {
             questDialog = generateDialog(quest, questSteps);
         }
@@ -145,20 +144,5 @@ public class QuestReader {
         }
         questDialog.append("Complete these actions and I shall reward you greatly!");
         return questDialog.toString();
-    }
-
-    private void questDialogMapper(Quest quest, List<Action> questSteps) {
-        // TODO: get all the npcs, items, locations and enemies from the quest steps & Map them to the quest dialog
-        // Use some form of String formatting function to replace $npc, $location, $enemy, $item
-        Log.d("$$", "Testing Dialog Mapper");
-        Log.d("$$", "=============================");
-       for (String action : quest.storyFragment.getActions()){
-           Log.d("$$", "Action: " + action);
-       }
-        Log.d("$$", "Testing Quest.root.subActions");
-        Log.d("$$", "=============================");
-        for (Action action : quest.root.subActions) {
-            Log.d("$$", "Action: " + action.actionName);
-        }
     }
 }

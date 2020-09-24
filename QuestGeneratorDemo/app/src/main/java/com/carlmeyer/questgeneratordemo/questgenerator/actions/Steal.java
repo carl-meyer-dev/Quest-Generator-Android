@@ -25,6 +25,7 @@ public class Steal extends Action {
         this.actionDescription = "Steal " + item.getName() + " from the " + enemy.getName();
         this.config = "item from enemy";
         this.subActions = new ArrayList<>();
+        this.actionSubject = enemy.getName();
         initialize(item, enemy);
     }
 

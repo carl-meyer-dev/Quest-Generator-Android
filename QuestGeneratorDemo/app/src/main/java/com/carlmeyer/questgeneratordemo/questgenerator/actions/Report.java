@@ -19,6 +19,7 @@ public class Report extends Action {
         this.actionDescription = "Report to the " + npc.getName();
         this.config = "npc";
         subActions = new ArrayList<>();
+        this.actionSubject = npc.getName();
         initialize(npc);
     }
 
