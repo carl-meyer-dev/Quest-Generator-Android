@@ -111,7 +111,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
 
-        int minimumComplexity = 8;
+        int minimumComplexity = 1;
 
         quest = questGenerator.getQuest(questMotivation, minimumComplexity);
 
@@ -146,6 +146,10 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     }
 
     private void showQuestDialog(Quest quest) {
+
+        mapQuestDialog(quest);
+
+
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
@@ -155,6 +159,28 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .setPositiveButton(R.string.accept, v2 -> {
                 })
                 .show();
+    }
+
+    private void mapQuestDialog(Quest quest) {
+        int index = 0;
+
+        Log.d("&&", "Quest Dialog");
+        Log.d("&&", quest.dialog);
+        Log.d("&&", "===========================");
+        Log.d("&&", "Dialog Keys");
+
+        for (String dialogKey : quest.storyFragment.dialogKeys) {
+            Log.d("&&", dialogKey);
+        }
+        Log.d("&&", "===========================");
+        Log.d("&&", "Action Subjects");
+        for (Action action : questSteps) {
+            Log.d("&&", "Dialog Key: " + quest.storyFragment.dialogKeys.get(index) + " | Action Subject: " + action.actionSubject);
+
+            quest.dialog = quest.dialog.replace(quest.storyFragment.dialogKeys.get(index), action.actionSubject);
+            index++;
+        }
+
     }
 
     @Override

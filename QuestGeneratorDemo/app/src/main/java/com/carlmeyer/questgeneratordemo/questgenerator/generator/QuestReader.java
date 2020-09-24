@@ -1,11 +1,15 @@
 package com.carlmeyer.questgeneratordemo.questgenerator.generator;
 
 
+import android.util.Log;
+
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class QuestReader {
@@ -69,7 +73,7 @@ public class QuestReader {
 
         questStepsText.append("\n");
 
-        for (int i = 0; i < depth; i++) {
+        for (int i = 0; i <= depth; i++) {
             questStepsText.append(indent);
         }
 
@@ -140,10 +144,5 @@ public class QuestReader {
         }
         questDialog.append("Complete these actions and I shall reward you greatly!");
         return questDialog.toString();
-    }
-
-    private void questDialogMapper(Quest quest, List<Action> questSteps) {
-        // TODO: get all the npcs, items, locations and enemies from the quest steps & Map them to the quest dialog
-        // Use some form of String formatting function to replace $npc, $location, $enemy, $item
     }
 }

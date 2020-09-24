@@ -20,7 +20,6 @@ public class Actions {
     public static final String REPORT = "report";
     public static final String KILL = "kill";
     public static final String LISTEN = "listen";
-    public static final String GATHER = "gather";
     public static final String LOOT = "loot";
     public static final String SUBQUEST = "subquest";
     /* list of predefined DB Actions that we will use to seed the DB. Note that I added a list of
@@ -33,7 +32,6 @@ public class Actions {
     DBAction Report = new DBAction(6, REPORT, new String[]{"npc"});
     DBAction Kill = new DBAction(7, KILL, new String[]{"enemy"});
     DBAction Listen = new DBAction(8, LISTEN, new String[]{"npc", "enemy"});
-    DBAction Gather = new DBAction(9, GATHER, new String[]{"item"});
     DBAction Loot = new DBAction(10, LOOT, new String[]{"item"});
 
     /**
@@ -52,7 +50,6 @@ public class Actions {
         actions.add(REPORT);
         actions.add(KILL);
         actions.add(LISTEN);
-        actions.add(GATHER);
         actions.add(LOOT);
 
         return actions;
@@ -74,7 +71,6 @@ public class Actions {
         dbActions.add(Report);
         dbActions.add(Kill);
         dbActions.add(Listen);
-        dbActions.add(Gather);
         dbActions.add(Loot);
 
         return dbActions;

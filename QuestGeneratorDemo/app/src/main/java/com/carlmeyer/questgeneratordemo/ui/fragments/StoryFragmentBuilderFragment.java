@@ -92,11 +92,12 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         setMotivationNames();
 
-        setUpUI();
 
         setUpActionsRecyclerView();
 
         setupTemplateHelperRecyclerView();
+
+        setUpUI();
 
         return root;
     }
@@ -133,25 +134,35 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             if (editStoryFragment.getQuestDialog() != null) {
                 txtStoryFragmentDialog.setText(editStoryFragment.getQuestDialog());
             }
-            for (String action : editStoryFragment.getActions()) {
-                DBAction dbaction = realm.where(DBAction.class).equalTo("action", action).findFirst();
-                /* Todo: get config from string action (something like substring | )
-                    go to|location -> go to specific location
-                    go to|npc -> go to specific npc
-                    go to|enemy -> go to specific enemy
-                    go to - > go to random configuration
-                */
-                actions.add(dbaction);
-            }
 
+            realm.executeTransaction(r -> {
+                String config = "";
+                for (String action : editStoryFragment.getActions()) {
+                    if (action.contains("-")) {
+                        String[] split = action.split("-", 2);
+                        action = split[0];
+                        config = split[1];
+                    }
+                    DBAction dbaction = r.where(DBAction.class).equalTo("action", action).findFirst();
+
+                    if (!config.isEmpty()) {
+                        dbaction.setConfig(config);
+                    }
+                    actions.add(dbaction);
+                }
+
+            });
+
+            updateDialogQuestTemplateHelper();
         }
+
     }
 
     private void saveStoryFragment() {
 
         boolean passedValidation = validateFields();
 
-        if(!passedValidation){
+        if (!passedValidation) {
             return;
         }
 
@@ -161,6 +172,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 sf.setMotivation(txtMotivation.getText().toString());
                 sf.setDescription(txtDescription.getText().toString().toLowerCase());
                 sf.setActions(actions);
+                sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
             });
         } else {
@@ -178,6 +190,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 sf.setMotivation(txtMotivation.getText().toString());
                 sf.setDescription(txtDescription.getText().toString().toLowerCase());
                 sf.setActions(actions);
+                sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
 
                 Motivation m = r.where(Motivation.class).equalTo("motivation", txtMotivation.getText().toString()).findFirst();

@@ -23,6 +23,7 @@ public class Get extends Action {
         this.actionDescription = "Acquire a " + item.getName();
         this.config = "item";
         this.subActions = new ArrayList<>();
+        this.actionSubject = item.getName();
         initialize(item);
     }
 
@@ -41,8 +42,6 @@ public class Get extends Action {
         questPatterns.add(new String[]{Actions.STEAL});
         // Learn about an enemy that has the item and then steal it from them
         questPatterns.add(new String[]{Actions.LEARN, Actions.STEAL});
-        // Gather the item
-        questPatterns.add(new String[]{Actions.GATHER});
 
         Random random = new Random();
         // Choose a random questPattern and add subActions
@@ -59,9 +58,6 @@ public class Get extends Action {
                     break;
                 case Actions.GOTO:
                     subActions.add(new Goto(questGenerator.getLocation()));
-                    break;
-                case Actions.GATHER:
-                    subActions.add(new Gather(item));
                     break;
             }
         }

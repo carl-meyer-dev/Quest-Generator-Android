@@ -23,6 +23,7 @@ public class Use extends Action {
         this.actionDescription = "Use the " + item.getName();
         this.config = "item";
         this.subActions = new ArrayList<>();
+        this.actionSubject = item.getName();
         initialize(item);
     }
 
