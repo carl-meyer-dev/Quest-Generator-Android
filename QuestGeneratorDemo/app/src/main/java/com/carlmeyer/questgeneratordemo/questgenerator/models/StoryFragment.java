@@ -3,6 +3,8 @@ package com.carlmeyer.questgeneratordemo.questgenerator.models;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +23,13 @@ public class StoryFragment extends RealmObject implements Serializable {
     public RealmList<String> dialogKeys;
     public String questDialog;
 
-    public StoryFragment(int id, String motivation, String description, String[] actions) {
+    public StoryFragment(int id, String motivation, String description, String[] actions, String questDialog, String[] dialogKeys) {
         this.id = id;
         this.motivation = motivation;
         this.description = description;
         this.actions = getRealmListOfActions(actions);
+        this.questDialog = questDialog;
+        this.dialogKeys = getRealmListOfDialogKeys(Arrays.asList(dialogKeys));
     }
 
     public StoryFragment() {

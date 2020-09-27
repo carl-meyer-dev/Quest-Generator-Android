@@ -13,14 +13,28 @@ import io.realm.RealmList;
 public class Actions {
     // The possible actions for the quest generator algorithm
     public static final String GET = "get";
+    public static final String GET_ITEM = "get-item";
     public static final String GOTO = "goto";
+    public static final String GOTO_LOC = "goto-location";
+    public static final String GOTO_NPC = "goto-npc";
+    public static final String GOTO_ENEMY = "goto-enemy";
     public static final String USE = "use";
+    public static final String USE_ITEM = "use-item";
     public static final String STEAL = "steal";
+    public static final String STEAL_IFE = "steal-item from enemy";
     public static final String LEARN = "learn";
+    public static final String LEARN_LOC = "learn-location";
+    public static final String LEARN_NPC = "learn-npc";
+    public static final String LEARN_ENEMY = "learn-enemy";
     public static final String REPORT = "report";
+    public static final String REPORT_NPC = "report-npc";
     public static final String KILL = "kill";
+    public static final String KILL_ENEMY = "kill-enemy";
     public static final String LISTEN = "listen";
+    public static final String LISTEN_NPC = "listen-npc";
+    public static final String LISTEN_ENEMY = "listen-enemy";
     public static final String LOOT = "loot";
+    public static final String LOOT_ITEM = "loot-item";
     public static final String SUBQUEST = "subquest";
     /* list of predefined DB Actions that we will use to seed the DB. Note that I added a list of
      of options to each action to define the different parameters for each action. */

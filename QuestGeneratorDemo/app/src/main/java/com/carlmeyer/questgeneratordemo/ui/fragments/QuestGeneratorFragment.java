@@ -147,8 +147,9 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
     private void showQuestDialog(Quest quest) {
 
-        mapQuestDialog(quest);
-
+        if(quest.storyFragment.dialogKeys.size() > 0){
+            mapQuestDialog(quest);
+        }
 
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
@@ -175,9 +176,10 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         Log.d("&&", "===========================");
         Log.d("&&", "Action Subjects");
         for (Action action : questSteps) {
-            Log.d("&&", "Dialog Key: " + quest.storyFragment.dialogKeys.get(index) + " | Action Subject: " + action.actionSubject);
-
-            quest.dialog = quest.dialog.replace(quest.storyFragment.dialogKeys.get(index), action.actionSubject);
+            if (quest.storyFragment.dialogKeys.get(index) != null) {
+                Log.d("&&", "Dialog Key: " + quest.storyFragment.dialogKeys.get(index) + " | Action Subject: " + action.actionSubject);
+                quest.dialog = quest.dialog.replace(quest.storyFragment.dialogKeys.get(index), action.actionSubject);
+            }
             index++;
         }
 

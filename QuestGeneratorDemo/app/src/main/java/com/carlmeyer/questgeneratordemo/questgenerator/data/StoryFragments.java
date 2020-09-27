@@ -21,9 +21,16 @@ public class StoryFragments {
             "deliver item for study",
 
             new String[]{
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.REPORT
+                    Actions.GET_ITEM,
+                    Actions.GOTO_LOC,
+                    Actions.REPORT_NPC
+            },
+            "Dear Adventurer, I need someone to deliver an item of great importance that needs to be studied. " +
+                    "Could you please deliver the $item1 to the $npc1 in $location1?. I will reward you once the item has been delivered.",
+            new String[]{
+                    "$item1",
+                    "$location1",
+                    "$npc1"
             }
     );
 
@@ -32,23 +39,20 @@ public class StoryFragments {
             Motives.KNOWLEDGE,
             "interview an NPC",
             new String[]{
-                    Actions.GOTO,
-                    Actions.LISTEN,
-                    Actions.GOTO,
-                    Actions.REPORT
-            }
-    );
-
-    StoryFragment useItem = new StoryFragment(
-            3,
-            Motives.KNOWLEDGE,
-            "use an item in the field",
+                    Actions.GOTO_LOC,
+                    Actions.LISTEN_NPC,
+                    Actions.GOTO_LOC,
+                    Actions.REPORT_NPC
+            },
+            "Dear Adventurer, " +
+                    "I need you to help me interview someone in the $location1. " +
+                    "Go to the $location1 and talk to the $npc1. Afterwards go to the $location2 and tell the $npc2 all that you have learned. " +
+                    "You will be rewarded for your efforts.",
             new String[]{
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.USE,
-                    Actions.GOTO,
-                    Actions.REPORT,
+                    "$location1",
+                    "$npc1",
+                    "$location2",
+                    "$npc2"
             }
     );
 
@@ -56,50 +60,32 @@ public class StoryFragments {
         List<StoryFragment> knowledgeStoryFragments = new ArrayList<>();
         knowledgeStoryFragments.add(deliverItem);
         knowledgeStoryFragments.add(interviewNPC);
-        knowledgeStoryFragments.add(useItem);
         return knowledgeStoryFragments;
     }
-
-    // Comfort Story Fragments
-    StoryFragment gatherItems = new StoryFragment(
-            4,
-            Motives.COMFORT,
-            "gather items",
-            new String[]{
-                    Actions.GOTO,
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.REPORT,
-            }
-    );
-
-    StoryFragment getLuxuries = new StoryFragment(
-            5,
-            Motives.COMFORT,
-            "get luxuries",
-            new String[]{
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.REPORT,
-            }
-    );
 
     StoryFragment killPests = new StoryFragment(
             6,
             Motives.COMFORT,
             "kill pests",
             new String[]{
-                    Actions.GOTO,
-                    Actions.KILL,
-                    Actions.GOTO,
-                    Actions.REPORT,
+                    Actions.GOTO_LOC,
+                    Actions.KILL_ENEMY,
+                    Actions.REPORT_NPC,
+            },
+            "Dear Adventurer,  " +
+                    "we have had troubles with a monster roaming at a nearby location. " +
+                    "Please go to the $location1 and kill the $enemy1 in that area. " +
+                    "Afterwards you can speak with the $npc1 to claim your reward. ",
+            new String[]{
+                    "$location1",
+                    "$enemy1",
+                    "$npc1"
             }
+
     );
 
     public List<StoryFragment> getComfortFragments() {
         List<StoryFragment> comfortStoryFragments = new ArrayList<>();
-        comfortStoryFragments.add(gatherItems);
-        comfortStoryFragments.add(getLuxuries);
         comfortStoryFragments.add(killPests);
         return comfortStoryFragments;
     }
@@ -110,60 +96,41 @@ public class StoryFragments {
             Motives.JUSTICE,
             "get revenge",
             new String[]{
-                    Actions.GOTO,
-                    Actions.KILL,
-                    Actions.REPORT,
+                    Actions.GOTO_LOC,
+                    Actions.KILL_ENEMY,
+                    Actions.REPORT_NPC,
+            },
+            "I am looking for a mercenary that can help me with revenge. " +
+                    "My father was killed by the $enemy1. " +
+                    "The $enemy1 has last been spotted at the $location1. " +
+                    "Go to the $location1 and kill the $enemy and I shall reward you handsomely. " +
+                    "You can collect your rewards from the $npc1 when you have completed my task.",
+            new String[]{
+                    "$location1",
+                    "$enemy1",
+                    "$npc1"
             }
     );
 
-    StoryFragment recoverStolenItems = new StoryFragment(
-            8,
-            Motives.JUSTICE,
-            "recover stolen items",
-            new String[]{
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.REPORT,
-            }
-    );
-
-    StoryFragment stealBackStolenItems = new StoryFragment(
-            9,
-            Motives.JUSTICE,
-            "steal back stolen items",
-            new String[]{
-                    Actions.GOTO,
-                    Actions.GET,
-                    Actions.GOTO,
-                    Actions.REPORT,
-            }
-    );
 
     public List<StoryFragment> getJusticeStoryFragments() {
         List<StoryFragment> justiceStoryFragments = new ArrayList<>();
         justiceStoryFragments.add(getRevenge);
-        justiceStoryFragments.add(recoverStolenItems);
-        justiceStoryFragments.add(stealBackStolenItems);
         return justiceStoryFragments;
     }
 
     public List<StoryFragment> getAllStoryFragments() {
         List<StoryFragment> storyFragments = new ArrayList<>();
-//        storyFragments.add(deliverItem);
-//        storyFragments.add(interviewNPC);
-//        storyFragments.add(useItem);
-//        storyFragments.add(gatherItems);
-//        storyFragments.add(getLuxuries);
-//        storyFragments.add(killPests);
-//        storyFragments.add(getRevenge);
-//        storyFragments.add(recoverStolenItems);
-//        storyFragments.add(stealBackStolenItems);
+        storyFragments.add(deliverItem);
+        storyFragments.add(interviewNPC);
+        storyFragments.add(killPests);
+        storyFragments.add(getRevenge);
         return storyFragments;
     }
 
-    public StoryFragment getStoryFragmentById(int id){
-        for (StoryFragment storyFragment: getAllStoryFragments()) {
-            if (storyFragment.getId() == id){
+    public StoryFragment getStoryFragmentById(int id) {
+        for (StoryFragment storyFragment : getAllStoryFragments()) {
+            if (storyFragment.getId() == id) {
                 return storyFragment;
             }
         }

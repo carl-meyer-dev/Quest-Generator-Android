@@ -18,14 +18,15 @@ import com.carlmeyer.questgeneratordemo.questgenerator.data.Data;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.Motives;
 import com.carlmeyer.questgeneratordemo.questgenerator.data.StoryFragments;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Item;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Location;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -82,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
         Realm.init(context);
         RealmConfiguration config = new RealmConfiguration.Builder().name("questgenerator.realm").deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
-        // Clear the Realm if the example was previously run.
-//        if (Realm.getDefaultConfiguration() != null) {
-//            Realm.deleteRealm(Realm.getDefaultConfiguration());
-//        }
+//         Clear the Realm if the example was previously run.
+        if (Realm.getDefaultConfiguration() != null) {
+            Realm.deleteRealm(Realm.getDefaultConfiguration());
+        }
     }
 
     /**
@@ -101,14 +102,7 @@ public class MainActivity extends AppCompatActivity {
          */
         Data data = new Data();
         // Start a transaction to add all the information to the realm db.
-        // TODO: make async so that we do not cause the UI thread to wait for this transaction to finish
-        //  note if we do above we need to deactivate generate button until the data has been added to the DB
         realm.executeTransaction(r -> {
-
-            // TODO: Maybe thing about error handling. Maybe add try and catch when adding each data
-            //  item so that the whole transaction doesn't fail and exit if by mistake there are
-            //  conflicting primary keys. (e.g. if adding "rat" and add another "rat" and exception
-            //  will be thrown since 2 primary keys with the same name may not exist.
 
             // Add all the Locations from Data to the DB
             int idCounter = 1;
@@ -172,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 StoryFragment storyFragment = r.createObject(StoryFragment.class, idCounter);
                 storyFragment.setDescription(sf.getDescription());
                 storyFragment.setActions(sf.getActions());
+                // we need to grab all the configurations of the default fragment and add it to the story fragment
+                storyFragment.setDialogKeys(sf.dialogKeys);
+                storyFragment.setQuestDialog(sf.questDialog);
                 Motivation motivation = r.where(Motivation.class).equalTo("motivation",sf.getMotivation()).findFirst();
                 storyFragment.setMotivation(sf.getMotivation());
                 if(motivation != null){
