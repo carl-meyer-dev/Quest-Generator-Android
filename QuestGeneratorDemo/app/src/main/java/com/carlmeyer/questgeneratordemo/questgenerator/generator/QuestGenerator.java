@@ -69,7 +69,7 @@ public class QuestGenerator {
         }
     }
 
-    private Quest getQuestFromStoryFragment(StoryFragment storyFragment) {
+    public Quest getQuestFromStoryFragment(StoryFragment storyFragment) {
         // get the list of root actions provided by the story fragment
         List<Action> rootActions = assignActions(storyFragment.getActions());
 

@@ -170,7 +170,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             realm.executeTransaction(r -> {
                 StoryFragment sf = r.where(StoryFragment.class).equalTo("id", editStoryFragment.getId()).findFirst();
                 sf.setMotivation(txtMotivation.getText().toString());
-                sf.setDescription(txtDescription.getText().toString().toLowerCase());
+                sf.setDescription(txtDescription.getText().toString());
                 sf.setActions(actions);
                 sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
@@ -188,7 +188,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 }
                 StoryFragment sf = r.createObject(StoryFragment.class, nextID);
                 sf.setMotivation(txtMotivation.getText().toString());
-                sf.setDescription(txtDescription.getText().toString().toLowerCase());
+                sf.setDescription(txtDescription.getText().toString());
                 sf.setActions(actions);
                 sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
@@ -349,10 +349,8 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     }
 
     private void updateDialogQuestTemplateHelper() {
-
         templateHelpers.clear();
         HashMap<String, Integer> configCounters = new HashMap<>();
-
         for (DBAction action : actions) {
             int count = 0;
             String config = action.getConfig();
@@ -363,8 +361,9 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             count++;
             configCounters.put(action.getConfig(), count);
             String key = "$" + action.getConfig() + count;
-            action.setDialogKey(key);
-
+            realm.executeTransaction(r -> {
+                action.setDialogKey(key);
+            });
             templateHelpers.add(key);
         }
         templateHelperAdapter.notifyDataSetChanged();

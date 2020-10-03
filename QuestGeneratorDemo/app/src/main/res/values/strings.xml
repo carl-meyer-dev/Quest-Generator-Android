@@ -131,4 +131,8 @@
     <string name="quest_dialog_may_not_be_empty">Quest Dialog may not be empty</string>
     <string name="dialog_key">Dialog Key</string>
     <string name="select">Select</string>
+    <string name="random">random</string>
+    <string name="could_not_find_storyfragment">could not find selected story fragment. Make sure that you can see it under the story fragments tab then you can try to select it again.</string>
+    <string name="could_not_find_story_fragment_title">Could not get selected story fragment!</string>
+    <string name="choose_a_storyfragment">Choose a Story Fragment</string>
 </resources>

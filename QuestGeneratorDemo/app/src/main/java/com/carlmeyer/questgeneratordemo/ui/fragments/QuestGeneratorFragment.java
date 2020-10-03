@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,10 +22,13 @@ import com.carlmeyer.questgeneratordemo.questgenerator.generator.QuestReader;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Action;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.Quest;
+import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.carlmeyer.questgeneratordemo.ui.adapters.ActionsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.ActionViewHolder;
+import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -32,6 +36,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import nl.dionsegijn.konfetti.KonfettiView;
 import nl.dionsegijn.konfetti.models.Shape;
 import nl.dionsegijn.konfetti.models.Size;
@@ -44,12 +49,15 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     private List<Motivation> motives;
 
     private TextView tvQuestText;
+    private EditText txtChosenStoryFragment;
 
     private RecyclerView rvActions;
     private ActionsAdapter actionsAdapter;
     private List<Action> questSteps;
     private Quest quest;
     private KonfettiView konfettiView;
+
+    private List<String> storyFragments = new ArrayList<>();
 
     private Stack<List<Action>> questStack = new Stack<>();
 
@@ -62,6 +70,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
         View root = inflater.inflate(R.layout.fragment_quest_generator, container, false);
 
         tvQuestText = root.findViewById(R.id.tvQuestText);
+        txtChosenStoryFragment = root.findViewById(R.id.txtSelectStoryFragment);
 
         Button btnGenerateQuest = root.findViewById(R.id.btnQuestGenerator);
 
@@ -71,6 +80,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
         motives = realm.where(Motivation.class).findAll();
 
+        setStoryFragments();
+
 
         btnGenerateQuest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,41 +90,100 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
             }
         });
 
+        txtChosenStoryFragment.setOnFocusChangeListener((v1, hasFocus) -> {
+            // when location edit text is clicked and gains focus display a choice dialog of locations
+            if (hasFocus) {
+                new LovelyChoiceDialog(getContext())
+                        .setTopColorRes(R.color.colorPrimary)
+                        .setTitle(R.string.story_fragment)
+                        .setIcon(R.drawable.puzzle)
+                        .setMessage(R.string.choose_a_storyfragment)
+                        .setItems(storyFragments, (position, motivation) -> {
+                            // when a location is selected, set the location txt of the enemy and dismiss
+                            txtChosenStoryFragment.setText(motivation);
+                            // clear focus so that you can click on it again once dialog closes
+                            txtChosenStoryFragment.clearFocus();
+                        })
+                        .show();
+            }
+
+        });
+
         return root;
+    }
+
+    private void setStoryFragments() {
+
+        storyFragments = new ArrayList<>();
+        storyFragments.add("random");
+        RealmResults<StoryFragment> storyFragmentsFromDB = realm.where(StoryFragment.class).findAll();
+
+        for (StoryFragment sf : storyFragmentsFromDB) {
+            Log.d("Story fragments From DB", sf.getDescription());
+            storyFragments.add(sf.getDescription());
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private void generateQuest() {
-        Random random = new Random();
         QuestGenerator questGenerator = QuestGenerator.getInstance();
+        if(txtChosenStoryFragment.getText().toString().equals("random")){
+            Random random = new Random();
 
-        quest = null;
 
-        // get a random quest motivation
+            quest = null;
+
+            // get a random quest motivation
 
         /*
         We need to filter out any motivations that do not have any story fragments.
         This might happen when the user has just created a new motivation there are no
         story fragments for that motivation yet.
         */
-        List<Motivation> motivesWithStoryFragments = motives
-                .stream()
-                .filter(motivation -> motivation.getStoryFragments().size() > 0)
-                .collect(Collectors.toList());
+            List<Motivation> motivesWithStoryFragments = motives
+                    .stream()
+                    .filter(motivation -> motivation.getStoryFragments().size() > 0)
+                    .collect(Collectors.toList());
 
-        Motivation questMotivation;
+            Motivation questMotivation;
 
-        if (motivesWithStoryFragments.size() == 1) {
-            questMotivation = motivesWithStoryFragments.get(0);
-        } else {
-            questMotivation = motivesWithStoryFragments.get(random.nextInt(motives.size() - 1));
+            if (motivesWithStoryFragments.size() == 1) {
+                questMotivation = motivesWithStoryFragments.get(0);
+            } else {
+                questMotivation = motivesWithStoryFragments.get(random.nextInt(motives.size() - 1));
+            }
+
+            Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
+
+            int minimumComplexity = 1;
+
+            quest = questGenerator.getQuest(questMotivation, minimumComplexity);
+        }else{
+
+            realm.executeTransaction(r -> {
+
+                StoryFragment storyFragment = r.where(StoryFragment.class)
+                        .equalTo("description", txtChosenStoryFragment.getText().toString())
+                        .findFirst();
+
+                if(storyFragment != null){
+                    quest = questGenerator.getQuestFromStoryFragment(storyFragment);
+                }else{
+                    new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                            .setTopColorRes(R.color.colorPrimary)
+                            .setButtonsColorRes(R.color.colorAccent)
+                            .setIcon(R.drawable.alert_box_light)
+                            .setTitle(R.string.could_not_find_story_fragment_title)
+                            .setMessage(R.string.could_not_find_storyfragment)
+                            .setPositiveButton(R.string.ok, v2 -> {
+                            })
+                            .show();
+                }
+            });
+
         }
 
-        Log.d("Quest Motivation", "The generated quest motivation is " + questMotivation);
 
-        int minimumComplexity = 1;
-
-        quest = questGenerator.getQuest(questMotivation, minimumComplexity);
 
 
         QuestReader questReader = new QuestReader();
@@ -127,7 +197,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
             setUpRecyclerView();
 
-            tvQuestText.setText(quest.questText);
+
             showQuestDialog(quest);
 
         }
@@ -182,6 +252,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
             }
             index++;
         }
+
+        tvQuestText.setText(quest.dialog);
 
     }
 

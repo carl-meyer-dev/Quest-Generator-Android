@@ -22,6 +22,7 @@ public class ActionViewHolder extends RecyclerView.ViewHolder implements View.On
         tvAction = itemView.findViewById(R.id.tvAction);
         tvStep = itemView.findViewById(R.id.tvStep);
         tvActionType = itemView.findViewById(R.id.tvActionType);
+        tvActionType.setVisibility(View.INVISIBLE);
         this.onActionListener = onActionListener;
         itemView.setOnClickListener(this);
     }
