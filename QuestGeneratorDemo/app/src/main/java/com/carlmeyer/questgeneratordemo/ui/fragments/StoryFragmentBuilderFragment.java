@@ -362,8 +362,10 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
             }
             count++;
             configCounters.put(action.getConfig(), count);
+            String key = "$" + action.getConfig() + count;
+            action.setDialogKey(key);
 
-            templateHelpers.add("$" + action.getConfig() + count);
+            templateHelpers.add(key);
         }
         templateHelperAdapter.notifyDataSetChanged();
     }

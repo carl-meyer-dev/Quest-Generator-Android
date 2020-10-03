@@ -129,4 +129,6 @@
     <string name="description_may_not_be_empty">Description May not be Empty</string>
     <string name="you_need_to_choose_actions">You need to choose actions for this quest</string>
     <string name="quest_dialog_may_not_be_empty">Quest Dialog may not be empty</string>
+    <string name="dialog_key">Dialog Key</string>
+    <string name="select">Select</string>
 </resources>

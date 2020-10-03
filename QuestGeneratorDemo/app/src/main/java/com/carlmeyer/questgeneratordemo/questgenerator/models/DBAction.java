@@ -20,20 +20,22 @@ public class DBAction extends RealmObject {
     private String action;
 
     private RealmList<String> configs;
-    
+
     private String config;
 
-    public DBAction(){
+    private String dialogKey;
+
+    public DBAction() {
 
     }
 
-    public DBAction(int id, String action, String[] configs){
+    public DBAction(int id, String action, String[] configs) {
         this.id = id;
         this.action = action;
         this.configs = getRealmListOfConfigs(configs);
     }
 
-    public DBAction(int id, String action, RealmList<String> configs, String config){
+    public DBAction(int id, String action, RealmList<String> configs, String config) {
         this.id = id;
         this.action = action;
         this.configs = configs;
@@ -74,10 +76,11 @@ public class DBAction extends RealmObject {
 
     /**
      * A method to convert the String[] of configurations in to a RealmList
+     *
      * @param configs - list of configurations (this relates to the Action's constructors)
      * @return a realmList of configurations
      */
-    private RealmList<String> getRealmListOfConfigs(String[] configs){
+    private RealmList<String> getRealmListOfConfigs(String[] configs) {
         RealmList<String> realmListOfConfigs = new RealmList<>();
 
         realmListOfConfigs.addAll(Arrays.asList(configs));
@@ -85,11 +88,19 @@ public class DBAction extends RealmObject {
         return realmListOfConfigs;
     }
 
-    private String[] getStringArrayOfConfigs(RealmList<String> configs){
+    private String[] getStringArrayOfConfigs(RealmList<String> configs) {
         String[] stringArrayOfConfigs = new String[configs.size()];
         for (int i = 0; i < configs.size(); i++) {
             stringArrayOfConfigs[i] = configs.get(i);
         }
         return stringArrayOfConfigs;
+    }
+
+    public String getDialogKey() {
+        return dialogKey;
+    }
+
+    public void setDialogKey(String dialogKey) {
+        this.dialogKey = dialogKey;
     }
 }

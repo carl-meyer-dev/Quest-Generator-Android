@@ -1,7 +1,6 @@
 package com.carlmeyer.questgeneratordemo.ui.adapters;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +53,9 @@ public class DBActionsAdapter extends RecyclerView.Adapter<DBActionViewHolder> i
             return false;
         });
         holder.tvAction.setText(action.getAction());
-        holder.tvActionConfig.setText(action.getConfig());
+        if (action.getDialogKey() != null) {
+            holder.tvDialogKey.setText(action.getDialogKey());
+        }
     }
 
     @Override
