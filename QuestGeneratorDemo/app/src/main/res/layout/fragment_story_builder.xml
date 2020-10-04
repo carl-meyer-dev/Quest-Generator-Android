@@ -89,6 +89,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="similarly add a message that will be displayed when the quest is completed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtStoryFragmentDialog" />
+
         <EditText
             android:id="@+id/txtStoryFragmentDialog"
             android:layout_width="0dp"
@@ -108,6 +120,24 @@
             app:layout_constraintTop_toBottomOf="@+id/rvTemplateHelper"
             app:layout_constraintVertical_bias="0.0" />
 
+
+        <EditText
+            android:id="@+id/txtStoryFragmentCompleteDialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/story_fragment_completed_dialog"
+            android:inputType="textMultiLine"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
         <Button
             android:id="@+id/btnSaveStoryFragment"
             android:layout_width="0dp"
@@ -115,14 +145,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:text="@string/save_story_fragment"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtStoryFragmentDialog" />
+            app:layout_constraintTop_toBottomOf="@+id/txtStoryFragmentCompleteDialog" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTemplateHelper"
@@ -140,10 +168,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="941dp" />
+            app:layout_constraintTop_toBottomOf="@+id/btnSaveStoryFragment" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
