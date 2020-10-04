@@ -26,7 +26,10 @@ public class StoryFragments {
                     Actions.REPORT_NPC
             },
             "Dear Adventurer, I need someone to deliver an item of great importance that needs to be studied. " +
-                    "Could you please deliver the $item1 to the $npc1 in $location1?. I will reward you once the item has been delivered.",
+                    "Could you please deliver the $item1 to the $npc1 in the $location1?. You will be rewarded once the item has been delivered.",
+            "Ah! Thank you for delivering the $item1. " +
+                    "I will start studying it immediately! " +
+                    "As promised by my associate, here is your reward.",
             new String[]{
                     "$item1",
                     "$location1",
@@ -48,6 +51,9 @@ public class StoryFragments {
                     "I need you to help me interview someone in the $location1. " +
                     "Go to the $location1 and talk to the $npc1. Afterwards go to the $location2 and tell the $npc2 all that you have learned. " +
                     "You will be rewarded for your efforts.",
+            "Thank you for telling me what you have learned. " +
+                    "The information you obtained from $npc1 is valuable to my research. " +
+                    "Here is a reward for your efforts.",
             new String[]{
                     "$location1",
                     "$npc1",
@@ -76,6 +82,8 @@ public class StoryFragments {
                     "we have had troubles with a monster roaming at a nearby location. " +
                     "Please go to the $location1 and kill the $enemy1 in that area. " +
                     "Afterwards you can speak with the $npc1 to claim your reward. ",
+            "Adventurer, Thank you for slaying the $enemy1! " +
+                    "Here is your reward for completing the quest.",
             new String[]{
                     "$location1",
                     "$enemy1",
@@ -103,8 +111,11 @@ public class StoryFragments {
             "I am looking for a mercenary that can help me with revenge. " +
                     "My father was killed by the $enemy1. " +
                     "The $enemy1 has last been spotted at the $location1. " +
-                    "Go to the $location1 and kill the $enemy and I shall reward you handsomely. " +
+                    "Go to the $location1 and kill the $enemy1 and I shall reward you handsomely. " +
                     "You can collect your rewards from the $npc1 when you have completed my task.",
+            "Thank you mercenary! " +
+                    "You have brought justice by killing the $enemy1 and avenging that poor family. " +
+                    "As a token of my gratitude please accept this gift. ",
             new String[]{
                     "$location1",
                     "$enemy1",

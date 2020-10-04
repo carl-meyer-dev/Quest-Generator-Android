@@ -49,10 +49,12 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
     private EditText txtMotivation;
     private EditText txtDescription;
     private EditText txtStoryFragmentDialog;
+    private EditText txtStoryFragmentCompleteDialog;
     private ItemTouchHelper touchHelper;
     private Button btnSaveStoryFragment;
     private Boolean edit = false;
     private RecyclerView rvTemplateHelper;
+    private RecyclerView rvTemplateHelper2;
     private TemplateHelperAdapter templateHelperAdapter;
     private List<String> templateHelpers = new ArrayList<>();
     private View root;
@@ -70,6 +72,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         rvActions = root.findViewById(R.id.rvStoryBuilderActions);
 
         rvTemplateHelper = root.findViewById(R.id.rvTemplateHelper);
+        rvTemplateHelper2 = root.findViewById(R.id.rvTemplateHelper2);
 
         btnAddAction = root.findViewById(R.id.btnAddAction);
 
@@ -80,6 +83,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
         txtDescription = root.findViewById(R.id.txtStoryFragmentDescription);
 
         txtStoryFragmentDialog = root.findViewById(R.id.txtStoryFragmentDialog);
+        txtStoryFragmentCompleteDialog = root.findViewById(R.id.txtStoryFragmentCompleteDialog);
 
         Bundle bundle = getArguments();
 
@@ -174,6 +178,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 sf.setActions(actions);
                 sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
+                sf.setQuestCompleteDialog(txtStoryFragmentCompleteDialog.getText().toString());
             });
         } else {
             realm.executeTransaction(r -> {
@@ -192,6 +197,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 sf.setActions(actions);
                 sf.setDialogKeys(templateHelpers);
                 sf.setQuestDialog(txtStoryFragmentDialog.getText().toString());
+                sf.setQuestCompleteDialog(txtStoryFragmentCompleteDialog.getText().toString());
 
                 Motivation m = r.where(Motivation.class).equalTo("motivation", txtMotivation.getText().toString()).findFirst();
                 m.addStoryFragment(sf);
@@ -277,9 +283,15 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 .build();
 
+        ChipsLayoutManager chipsLayoutManager2 = ChipsLayoutManager.newBuilder(requireContext())
+                .setOrientation(ChipsLayoutManager.HORIZONTAL)
+                .build();
+
         rvTemplateHelper.setLayoutManager(chipsLayoutManager);
+        rvTemplateHelper2.setLayoutManager(chipsLayoutManager2);
         templateHelperAdapter = new TemplateHelperAdapter(templateHelpers, this::onTemplateHelperClick);
         rvTemplateHelper.setAdapter(templateHelperAdapter);
+        rvTemplateHelper2.setAdapter(templateHelperAdapter);
         templateHelperAdapter.notifyDataSetChanged();
 
     }
@@ -314,9 +326,9 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         new LovelyChoiceDialog(getContext())
                 .setTopColorRes(R.color.colorPrimary)
-                .setTitle(R.string.actions)
+                .setTitle(R.string.choose_an_option)
                 .setIcon(R.drawable.google_maps_light)
-                .setMessage(R.string.choose_an_action)
+                .setMessage(selectedAction.getAction() + " a :")
                 .setItems(configs, (position, config) -> {
 
                     DBAction action = new DBAction(
@@ -412,7 +424,14 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         String selectedTemplateHelper = templateHelperAdapter.getItem(position);
 
-        txtStoryFragmentDialog.getText().insert(txtStoryFragmentDialog.getSelectionStart(), selectedTemplateHelper);
+        if(txtStoryFragmentDialog.hasFocus()){
+            txtStoryFragmentDialog.getText().insert(txtStoryFragmentDialog.getSelectionStart(), " " + selectedTemplateHelper + " ");
+        }
+
+        if(txtStoryFragmentCompleteDialog.hasFocus()){
+            txtStoryFragmentCompleteDialog.getText().insert(txtStoryFragmentCompleteDialog.getSelectionStart(), selectedTemplateHelper);
+        }
+
     }
 
     @Override

@@ -59,22 +59,36 @@
     <EditText
         android:id="@+id/txtSelectStoryFragment"
         android:layout_width="0dp"
-        android:editable="false"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:editable="false"
         android:text="@string/random"
         app:layout_constraintBottom_toTopOf="@+id/btnQuestGenerator"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Story Fragment:"
+        android:text="Quest"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
+        app:layout_constraintStart_toStartOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Choose a quest that you would like to generate:"
         app:layout_constraintBottom_toTopOf="@+id/txtSelectStoryFragment"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txtSelectStoryFragment" />
 </androidx.constraintlayout.widget.ConstraintLayout>

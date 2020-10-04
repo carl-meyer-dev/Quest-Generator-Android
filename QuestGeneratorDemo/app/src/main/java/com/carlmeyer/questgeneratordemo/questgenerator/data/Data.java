@@ -48,14 +48,14 @@ public class Data {
     private Location sewers = new Location("Sewers");
     private Location caves = new Location("Caves");
     private Location dwarvenCity = new Location("Dwarven City");
-    private Location demonHalls = new Location("Demon Halls");
+    private Location dragonsLair = new Location("Dragon's Lair ");
     private Location town = new Location("Town");
 
     public List<Location> getLocations() {
         locations.add(sewers);
         locations.add(caves);
         locations.add(dwarvenCity);
-        locations.add(demonHalls);
+        locations.add(dragonsLair);
         locations.add(town);
         return locations;
     }
@@ -243,10 +243,10 @@ public class Data {
     private Enemy dwarfWarlock = new Enemy("Dwarf Warlock", dwarvenCity);
     private Enemy dwarfMonk = new Enemy("Dwarf Monk", dwarvenCity);
     private Enemy golem = new Enemy("Golem", dwarvenCity);
-    private Enemy succubus = new Enemy("Succubus", demonHalls);
-    private Enemy evilEye = new Enemy("Evil Eye", demonHalls);
-    private Enemy scorpion = new Enemy("Scorpion", demonHalls);
-    private Enemy acidScorpion = new Enemy("Acid Scorpion", demonHalls);
+    private Enemy dragon = new Enemy("Dragon", dragonsLair);
+    private Enemy youngDragon = new Enemy("Young Dragon", dragonsLair);
+    private Enemy scorpion = new Enemy("Scorpion", dragonsLair);
+    private Enemy acidScorpion = new Enemy("Acid Scorpion", dragonsLair);
     private Enemy wraith = new Enemy("Wraith", "special");
     private Enemy animatedStatue = new Enemy("Animated Statue", "special");
     private Enemy giantPiranha = new Enemy("Giant Piranha", "special");
@@ -282,8 +282,8 @@ public class Data {
         enemies.add(dwarfWarlock);
         enemies.add(dwarfMonk);
         enemies.add(golem);
-        enemies.add(succubus);
-        enemies.add(evilEye);
+        enemies.add(dragon);
+        enemies.add(youngDragon);
         enemies.add(scorpion);
         enemies.add(acidScorpion);
         /* These enemies don't have locations which will cause null exceptions. I'll keep them commented for now */

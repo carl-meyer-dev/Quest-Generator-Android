@@ -6,27 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlmeyer.questgeneratordemo.R;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.DBAction;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.Enemy;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
-import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.ui.adapters.StoryFragmentsAdapter;
 import com.carlmeyer.questgeneratordemo.ui.viewholders.StoryFragmentViewHolder;
-import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
-import com.yarolegovich.lovelydialog.LovelyCustomDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.OrderedRealmCollection;
@@ -90,7 +82,7 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
      */
     private void getStoryFragments() {
         storyFragments = realm.where(StoryFragment.class).findAll();
-        storyFragments = storyFragments.sort("id");
+        storyFragments = storyFragments.sort("description");
     }
 
     private void deleteStoryFragmentDialog(StoryFragment storyFragment) {
@@ -227,6 +219,19 @@ public class StoryFragmentsFragment extends Fragment implements StoryFragmentVie
         bundle.putBoolean("edit", true);
         bundle.putSerializable("storyfragment", selectedStoryFragment);
         NavHostFragment.findNavController(this).navigate(R.id.nav_story_fragment_builder, bundle);
+    }
+
+    private void scrollToItem(String storyFragment) {
+        // get the position of the item that has been inserted alphabetically into the list
+        int position = 0;
+        for (StoryFragment sf : storyFragments) {
+            if (sf.getDescription().equals(storyFragment)) {
+                break;
+            }
+            position++;
+        }
+        // scroll to that position
+        rvStoryFragments.smoothScrollToPosition(position);
     }
 
 

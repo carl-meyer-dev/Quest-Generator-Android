@@ -249,6 +249,8 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
             if (quest.storyFragment.dialogKeys.get(index) != null) {
                 Log.d("&&", "Dialog Key: " + quest.storyFragment.dialogKeys.get(index) + " | Action Subject: " + action.actionSubject);
                 quest.dialog = quest.dialog.replace(quest.storyFragment.dialogKeys.get(index), action.actionSubject);
+                quest.completedDialog = quest.completedDialog.replace(quest.storyFragment.dialogKeys.get(index), action.actionSubject);
+
             }
             index++;
         }
@@ -387,11 +389,13 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
     }
 
     private void completeQuest() {
+
+
         new LovelyStandardDialog(getContext(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
                 .setTopColorRes(R.color.colorPrimary)
                 .setButtonsColorRes(R.color.colorAccent)
                 .setIcon(R.drawable.check_bold)
-                .setMessage(generateCompleteQuestDialog())
+                .setMessage(quest.completedDialog)
                 .setPositiveButton(R.string.ok, v2 -> {
                     tvQuestText.setText("");
                     throwConfetti();
@@ -419,11 +423,9 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 .burst(1000);
     }
 
-    private String generateCompleteQuestDialog() {
-        StringBuilder completeQuestDialog = new StringBuilder();
-        completeQuestDialog.append("Well done adventurer!").append("\n").append("\n");
-        completeQuestDialog.append("Thank you for completing the quest!").append("\n").append("\n");
-        completeQuestDialog.append("As promised here is your reward.");
-        return completeQuestDialog.toString();
+    @Override
+    public void onResume() {
+        txtChosenStoryFragment.setText("random");
+        super.onResume();
     }
 }

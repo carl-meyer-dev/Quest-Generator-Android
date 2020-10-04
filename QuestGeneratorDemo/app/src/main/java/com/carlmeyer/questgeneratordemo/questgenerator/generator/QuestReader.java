@@ -51,6 +51,20 @@ public class QuestReader {
 
         quest.dialog = questDialog;
 
+        if(quest.storyFragment.questCompleteDialog != null){
+            quest.completedDialog = quest.storyFragment.questCompleteDialog;
+        }else{
+            quest.completedDialog = generateCompleteQuestDialog();
+        }
+
+    }
+
+    private String generateCompleteQuestDialog() {
+        StringBuilder completeQuestDialog = new StringBuilder();
+        completeQuestDialog.append("Well done adventurer!").append("\n").append("\n");
+        completeQuestDialog.append("Thank you for completing the quest!").append("\n").append("\n");
+        completeQuestDialog.append("As promised here is your reward.");
+        return completeQuestDialog.toString();
     }
 
     /**
