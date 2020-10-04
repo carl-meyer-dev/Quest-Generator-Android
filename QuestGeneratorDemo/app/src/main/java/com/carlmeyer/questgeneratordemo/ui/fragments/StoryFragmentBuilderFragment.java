@@ -412,7 +412,7 @@ public class StoryFragmentBuilderFragment extends Fragment implements ActionView
 
         String selectedTemplateHelper = templateHelperAdapter.getItem(position);
 
-        txtStoryFragmentDialog.append(" " + selectedTemplateHelper + " ");
+        txtStoryFragmentDialog.getText().insert(txtStoryFragmentDialog.getSelectionStart(), selectedTemplateHelper);
     }
 
     @Override
