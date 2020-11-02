@@ -87,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
         RealmConfiguration config = new RealmConfiguration.Builder().name("questgenerator.realm").deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
 //         Clear the Realm if the example was previously run.
-        if (Realm.getDefaultConfiguration() != null) {
-            Realm.deleteRealm(Realm.getDefaultConfiguration());
-        }
+        /* Enable the next if statement if you want to reset the DB each time you run the app */
+//        if (Realm.getDefaultConfiguration() != null) {
+//            Realm.deleteRealm(Realm.getDefaultConfiguration());
+//        }
     }
 
     /**
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         RealmResults<StoryFragment> storyFragments = realm.where(StoryFragment.class).findAll();
-        for (StoryFragment sf : storyFragments){
+        for (StoryFragment sf : storyFragments) {
             Log.d("--", sf.getId() + "\n" + sf.getDescription() + "\n" + sf.getMotivation() + "\n");
         }
 
