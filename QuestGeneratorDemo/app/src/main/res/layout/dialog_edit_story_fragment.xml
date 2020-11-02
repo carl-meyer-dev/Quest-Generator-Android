@@ -36,7 +36,7 @@
 
     <Button
         android:id="@+id/btnDialogSave"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -50,7 +50,7 @@
 
     <Button
         android:id="@+id/btnDialogDelete"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
