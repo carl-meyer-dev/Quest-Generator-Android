@@ -148,5 +148,4 @@ public class StoryFragments {
         // no story fragment with such ID found
         return null;
     }
-
 }

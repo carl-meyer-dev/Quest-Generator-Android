@@ -96,7 +96,7 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
                 new LovelyChoiceDialog(getContext())
                         .setTopColorRes(R.color.colorPrimary)
                         .setTitle(R.string.story_fragment)
-                        .setIcon(R.drawable.puzzle)
+                        .setIcon(R.drawable.puzzle_light)
                         .setMessage(R.string.choose_a_storyfragment)
                         .setItems(storyFragments, (position, motivation) -> {
                             // when a location is selected, set the location txt of the enemy and dismiss
@@ -114,12 +114,12 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
 
     private void setStoryFragments() {
 
-        storyFragments = new ArrayList<>();
+        storyFragments.clear();
         storyFragments.add("random");
         RealmResults<StoryFragment> storyFragmentsFromDB = realm.where(StoryFragment.class).findAll();
 
         for (StoryFragment sf : storyFragmentsFromDB) {
-            Log.d("Story fragments From DB", sf.getDescription());
+            Log.d("^^", sf.getDescription());
             storyFragments.add(sf.getDescription());
         }
     }
@@ -196,7 +196,6 @@ public class QuestGeneratorFragment extends Fragment implements ActionViewHolder
             questSteps = quest.root.subActions;
 
             setUpRecyclerView();
-
 
             showQuestDialog(quest);
 

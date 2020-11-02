@@ -25,12 +25,14 @@ import com.carlmeyer.questgeneratordemo.questgenerator.models.Motivation;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.NPC;
 import com.carlmeyer.questgeneratordemo.questgenerator.models.StoryFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.testfairy.TestFairy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TestFairy.begin(this, "SDK-xNBdPuva");
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,8 +116,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoadData", "Added Location to DB: " + l.getName());
             }
 
+        });
+
+        realm.executeTransaction(r -> {
             // Add all the Items from Data to the DB
-            idCounter = 1;
+            int idCounter = 1;
             for (Item i : data.getItems()) {
                 Item item = r.createObject(Item.class, idCounter);
                 item.setName(i.getName());
@@ -122,8 +128,10 @@ public class MainActivity extends AppCompatActivity {
                 idCounter++;
                 Log.d("LoadData", "Added Item to DB: " + i.getName());
             }
-            // Add all the Enemies from Data to the DB
-            idCounter = 1;
+        });
+        // Add all the Enemies from Data to the DB
+        realm.executeTransaction(r -> {
+            int idCounter = 1;
             for (Enemy e : data.getEnemies()) {
                 Log.d("LoadData", "Added Enemy to DB: " + e.getName());
                 Enemy enemy = r.createObject(Enemy.class, idCounter);
@@ -136,8 +144,10 @@ public class MainActivity extends AppCompatActivity {
                 idCounter++;
 
             }
-            // Add all the NPCs from Data to the DB
-            idCounter = 1;
+        });
+        // Add all the NPCs from Data to the DB
+        realm.executeTransaction(r -> {
+            int idCounter = 1;
             for (NPC n : data.getNpcs()) {
                 NPC npc = r.createObject(NPC.class, idCounter);
                 npc.setName(n.getName());
@@ -149,39 +159,46 @@ public class MainActivity extends AppCompatActivity {
                 idCounter++;
                 Log.d("LoadData", "Added NPC to DB: " + n.getName());
             }
-            // Add a list of motivations to the DB so we can easily access and retrieve them when adding or editing new story fragments
+        });
+        // Add a list of motivations to the DB so we can easily access and retrieve them when adding or editing new story fragments
+        realm.executeTransaction(r -> {
             Motives motives = new Motives();
-            idCounter = 1;
+            int idCounter = 1;
             for (String m : motives.getMotives()) {
                 Motivation motivation = r.createObject(Motivation.class, idCounter);
                 motivation.setMotivation(m);
                 Log.d("LoadData", "Added Motivation to DB: " + m);
                 idCounter++;
             }
-
-            // Get a reference to the Default Story Fragments that I have set up for the Quest Generator
+        });
+        // Get a reference to the Default Story Fragments that I have set up for the Quest Generator
+        realm.executeTransaction(r -> {
             StoryFragments storyFragments = new StoryFragments();
-            idCounter = 1;
+            int idCounter = 1;
             for (StoryFragment sf : storyFragments.getAllStoryFragments()) {
+                Log.d("++", "Creating Story Fragment in DB: " + sf.getDescription());
                 StoryFragment storyFragment = r.createObject(StoryFragment.class, idCounter);
                 storyFragment.setDescription(sf.getDescription());
                 storyFragment.setActions(sf.getActions());
                 // we need to grab all the configurations of the default fragment and add it to the story fragment
                 storyFragment.setDialogKeys(sf.dialogKeys);
                 storyFragment.setQuestDialog(sf.questDialog);
-                Motivation motivation = r.where(Motivation.class).equalTo("motivation",sf.getMotivation()).findFirst();
+                Motivation motivation = r.where(Motivation.class).equalTo("motivation", sf.getMotivation()).findFirst();
                 storyFragment.setMotivation(sf.getMotivation());
-                if(motivation != null){
-                    motivation.addStoryFragment(sf);
+                if (motivation != null) {
+                    motivation.addStoryFragment(storyFragment);
                 }
                 idCounter++;
                 Log.d("LoadData", "Added Story Fragment to DB: " + sf.getMotivation() + " : " + sf.getDescription());
             }
+        });
 
+        RealmResults<StoryFragment> storyFragments = realm.where(StoryFragment.class).findAll();
+        for (StoryFragment sf : storyFragments){
+            Log.d("--", sf.getId() + "\n" + sf.getDescription() + "\n" + sf.getMotivation() + "\n");
+        }
 
-
-
-
+        realm.executeTransaction(r -> {
             // Add a list of actions to the DB so we can easily access and retrieve them when adding or editing new story fragments
             Actions actions = new Actions();
             for (DBAction a : actions.getDBActions()) {
@@ -191,10 +208,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("LoadData", "Added Action to DB: " + a.getAction());
             }
 
-
-
-
         });
+
+
     }
 
     /**
