@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
         Realm.setDefaultConfiguration(config);
 //         Clear the Realm if the example was previously run.
         /* Enable the next if statement if you want to reset the DB each time you run the app */
-//        if (Realm.getDefaultConfiguration() != null) {
-//            Realm.deleteRealm(Realm.getDefaultConfiguration());
-//        }
+        if (Realm.getDefaultConfiguration() != null) {
+            Realm.deleteRealm(Realm.getDefaultConfiguration());
+        }
     }
 
     /**

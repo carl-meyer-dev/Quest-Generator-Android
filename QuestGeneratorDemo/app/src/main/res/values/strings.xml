@@ -145,4 +145,8 @@
     <string name="choose_motivation_tip">Choose the quest giver\'s motivation that best describes your quest.</string>
     <string name="quest_name_description">Give your quest a name that best describes that actions that need to be completed in order to finish the quest.</string>
     <string name="choose_an_option">Choose an option</string>
+    <string name="player_level">playerlevel</string>
+    <string name="player_experience">playerExperience</string>
+    <string name="player_loot">playerLoot</string>
+    <string name="player_gold">playerGold</string>
 </resources>

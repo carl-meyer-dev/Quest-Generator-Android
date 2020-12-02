@@ -30,7 +30,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLevel" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvActions"
@@ -91,4 +91,48 @@
         app:layout_constraintBottom_toTopOf="@+id/txtSelectStoryFragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txtSelectStoryFragment" />
+
+    <ProgressBar
+        android:id="@+id/pbLevel"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="100"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewKonfetti" />
+
+    <TextView
+        android:id="@+id/tvLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Level 1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbLevel" />
+
+    <TextView
+        android:id="@+id/tvExperience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="0/100 XP"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbLevel" />
+
+    <TextView
+        android:id="@+id/tvGold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0 gold"
+        app:layout_constraintEnd_toStartOf="@+id/tvExperience"
+        app:layout_constraintStart_toEndOf="@+id/tvLevel"
+        app:layout_constraintTop_toBottomOf="@+id/pbLevel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
